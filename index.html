@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Платформа Тестирования / HTML & CSS Professional</title>
-    <!-- Стабильный Tailwind CSS c анимациями -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -37,10 +36,8 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between antialiased selection:bg-indigo-500/30">
 
-    <!-- Топовая декоративная линия -->
     <div class="h-1.5 w-full bg-gradient-to-r from-violet-600 via-indigo-500 to-cyan-400"></div>
 
-    <!-- НАВИГАЦИЯ -->
     <nav class="border-b border-slate-900 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50 px-6 py-4">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3.5">
@@ -49,11 +46,10 @@
                 </div>
                 <div>
                     <span class="text-sm font-extrabold tracking-wider uppercase bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent">HQ Assessment</span>
-                    <div class="text-[11px] text-indigo-400 font-medium code-font tracking-tight">ENGINE v2.4.0</div>
+                    <div class="text-[11px] text-indigo-400 font-medium code-font tracking-tight">ENGINE v2.4.1</div>
                 </div>
             </div>
 
-            <!-- Живые виджеты сверху -->
             <div id="top-widgets" class="hidden items-center gap-4">
                 <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl px-3.5 py-1.5 flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
@@ -67,10 +63,8 @@
         </div>
     </nav>
 
-    <!-- КОНТЕНТ -->
     <main class="max-w-7xl w-full mx-auto p-4 sm:p-8 flex-grow flex items-center justify-center">
 
-        <!-- 1. СТАРТОВЫЙ ЭКРАН -->
         <div id="view-start" class="w-full max-w-xl bg-gradient-to-b from-slate-900/80 to-slate-900/40 border border-slate-800/60 rounded-3xl p-8 sm:p-12 text-center shadow-2xl relative overflow-hidden animate-fade-in">
             <div class="absolute -top-24 -left-24 w-48 h-48 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
             <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-violet-600/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -87,7 +81,7 @@
                 <p class="text-xs text-slate-300 mb-3">Вы ответили на <span id="resume-count" class="font-bold text-white">0</span> из 70 вопросов. Желаете продолжить?</p>
                 <div class="flex gap-2">
                     <button onclick="startQuiz(true)" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold rounded-lg transition cursor-pointer">Продолжить</button>
-                    <button onclick="resetSavedProgress()" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs text-slate-400 font-medium rounded-lg transition cursor-pointer">Сбросить и начать заново</button>
+                    <button onclick="resetSavedProgress()" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs text-slate-400 font-medium rounded-lg transition cursor-pointer">Сбросить</button>
                 </div>
             </div>
 
@@ -96,14 +90,11 @@
             </button>
         </div>
 
-        <!-- 2. ЭКРАН ТЕСТИРОВАНИЯ -->
         <div id="view-quiz" class="hidden w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-fade-in">
             
-            <!-- Левая колонка: Карта и Фильтры -->
             <div class="lg:col-span-4 bg-slate-900/40 border border-slate-900 rounded-2xl p-5 lg:sticky lg:top-28 backdrop-blur-md">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Навигатор теста</h3>
-                    <!-- Селектор фильтров -->
                     <div class="flex gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
                         <button onclick="setMatrixFilter('all')" id="filter-all" class="text-[10px] px-2 py-1 rounded font-bold transition cursor-pointer bg-slate-800 text-white">Все</button>
                         <button onclick="setMatrixFilter('done')" id="filter-done" class="text-[10px] px-2 py-1 rounded font-bold transition cursor-pointer text-slate-400 hover:text-white">Отв.</button>
@@ -112,34 +103,27 @@
                 </div>
 
                 <div id="matrix-grid" class="grid grid-cols-5 sm:grid-cols-7 lg:grid-cols-5 gap-2 max-h-[280px] overflow-y-auto pr-1">
-                    <!-- Генерация кнопок -->
-                </div>
+                    </div>
             </div>
 
-            <!-- Правая колонка: Вопрос и Опции -->
             <div class="lg:col-span-8 flex flex-col gap-5">
-                <!-- Прогресс-бар -->
                 <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden border border-slate-900">
                     <div id="main-progress-bar" class="h-full bg-gradient-to-r from-indigo-500 to-violet-500 w-0 transition-all duration-300"></div>
                 </div>
 
-                <!-- Карточка вопроса -->
                 <div class="bg-slate-900/50 border border-slate-900/80 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden min-h-[400px] flex flex-col justify-between">
-                    <div class="animate-slide-up" id="question-content-wrapper">
+                    <div id="question-content-wrapper">
                         <div class="flex items-center justify-between mb-5">
                             <span id="label-q-index" class="text-xs font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-lg">Вопрос 01 / 70</span>
                         </div>
 
                         <h2 id="text-question" class="text-lg sm:text-xl font-bold text-white mb-6 leading-snug">
-                            <!-- Текст вопроса -->
-                        </h2>
+                            </h2>
 
                         <div id="box-options" class="flex flex-col gap-3">
-                            <!-- Варианты ответов -->
-                        </div>
+                            </div>
                     </div>
 
-                    <!-- Панель управления -->
                     <div class="flex items-center justify-between gap-4 mt-8 pt-5 border-t border-slate-900">
                         <div class="flex gap-2">
                             <button onclick="navigateQuestion(-1)" id="ctrl-prev" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-20 disabled:pointer-events-none text-xs font-semibold rounded-xl border border-slate-800 transition cursor-pointer text-slate-300">
@@ -159,12 +143,9 @@
 
         </div>
 
-        <!-- 3. ЭКРАН РЕЗУЛЬТАТОВ -->
         <div id="view-results" class="hidden w-full max-w-4xl flex flex-col gap-8 animate-fade-in">
             
-            <!-- Сводный дашборд -->
             <div class="bg-slate-900/40 border border-slate-900 rounded-3xl p-6 sm:p-8 shadow-xl grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-                <!-- SVG кольцо прогресса -->
                 <div class="md:col-span-4 flex flex-col items-center justify-center py-2">
                     <div class="relative w-36 h-36 flex items-center justify-center">
                         <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
@@ -179,7 +160,6 @@
                     </div>
                 </div>
 
-                <!-- Текстовые метрики -->
                 <div class="md:col-span-5 space-y-3.5 border-y md:border-y-0 md:border-x border-slate-900 py-4 md:py-0 md:px-6">
                     <div>
                         <span class="text-xs text-slate-400 font-medium block mb-0.5">Точность ответов</span>
@@ -191,7 +171,6 @@
                     </div>
                 </div>
 
-                <!-- Вердикт -->
                 <div class="md:col-span-3 text-center md:text-left flex flex-col justify-between h-full py-1">
                     <div>
                         <h4 id="res-txt-status" class="text-lg font-bold text-white mb-1">Анализ завершен</h4>
@@ -203,26 +182,21 @@
                 </div>
             </div>
 
-            <!-- Аналитический листинг ошибок -->
             <div class="space-y-4">
                 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 pl-2">Аудит ответов</h3>
                 <div id="res-listing-container" class="space-y-3">
-                    <!-- Генерация разбора -->
-                </div>
+                    </div>
             </div>
 
         </div>
 
     </main>
 
-    <!-- ФУТЕР -->
     <footer class="border-t border-slate-900 bg-slate-950/50 py-4 px-6 text-center text-xs text-slate-500 code-font">
         Production-ready test-mesh bundle. No heavy frameworks. Pure stack performance.
     </footer>
 
-    <!-- СКРИПТ КОР-СИСТЕМЫ -->
     <script>
-        // Полная база из 70 проверенных вопросов HTML/CSS
         const database = [
             { id: 1, question: "Какой тег используется для создания гиперссылки в HTML?", options: ["<a>", "<link>", "<button>", "<href>", "<url>"], correct: 0 },
             { id: 2, question: "Какой атрибут используется для указания адреса веб-страницы в теге <a>?", options: ["src", "url", "href", "link", "address"], correct: 2 },
@@ -233,7 +207,7 @@
             { id: 7, question: "Как сделать текст жирным в HTML?", options: ["<bold>", "<strong>", "<b>", "<em>", "<fat>"], correct: 2 },
             { id: 8, question: "Как можно задать ширину элемента в CSS?", options: ["width: 200px;", "height: 200px;", "element-width: 200px;", "size: 200px;", "resize: 200px;"], correct: 0 },
             { id: 9, question: "Как задать стиль для всех абзацев на странице?", options: ["p { font-size: 16px; }", "p { size: 16px; }", "p: 16px { font-size; }", "text { p: 16px; }", "all p { font-size: 16px; }"], correct: 0 },
-            { id: 10, question: "Как вставить комментарий в CSS?", options: ["<!-- Это комментарий -->", "/* Это комментарий */", "// Это комментарий", "# Это комментарий", "%% Это комментарий %%"], correct: 1 },
+            { id: 10, question: "Как вставить комментарий в CSS?", options: ["", "/* Это комментарий */", "// Это комментарий", "# Это комментарий", "%% Это комментарий %%"], correct: 1 },
             { id: 11, question: "Какой атрибут используется для задания альтернативного текста для изображения?", options: ["alt", "src", "title", "image-text", "caption"], correct: 0 },
             { id: 12, question: "Какой тег используется для создания списка элементов в HTML?", options: ["<list>", "<ol>", "<ul>", "<li>", "<dl>"], correct: 2 },
             { id: 13, question: "Как задать цвет фона всей страницы с помощью CSS?", options: ["background-color: #FFFFFF;", "body { background-color: #FFFFFF; }", "background: #FFFFFF;", "color: #FFFFFF;", "page-background: #FFFFFF;"], correct: 1 },
@@ -259,14 +233,14 @@
             { id: 33, question: "Как задать прозрачность для элемента в CSS?", options: ["opacity: 0.5;", "transparency: 0.5;", "visibility: 0.5;", "background-opacity: 0.5;", "alpha: 0.5;"], correct: 0 },
             { id: 34, question: "Как задать горизонтальное выравнивание текста по центру?", options: ["text-align: center;", "align: center;", "horizontal-align: center;", "center-align: true;", "text: center;"], correct: 0 },
             { id: 35, question: "Как добавить подчеркивание для текста в HTML?", options: ["<underline>", "<u>", "<strike>", "<mark>", "<underlined>"], correct: 1 },
-            { id: 36, question: "Как задать тип списка в HTML (нумерованный или маркированный)?", options: ["<ol> для маркированного и <ul> для нумерованного", "<ul> для маркированного и <ol> для нумерованного", "<list> для маркированного и <ol> для нумерованного", "<unordered-list> и <ordered-list>", "<list> для обоих"], correct: 1 },
-            { id: 37, question: "Какую единицу измерения следует использовать для задания шрифта в процентах от родительского элемента?", options: ["%", "em", "rem", "pt", "px"], correct: 1 },
+            { id: 36, question: "Как задать тип списка в HTML?", options: ["<ol> для маркированного и <ul> для нумерованного", "<ul> для маркированного и <ol> для нумерованного", "<list> для маркированного и <ol> для нумерованного", "<unordered-list> и <ordered-list>", "<list> для обоих"], correct: 1 },
+            { id: 37, question: "Какую единицу измерения следует использовать для задания шрифта в процентах от родителя?", options: ["%", "em", "rem", "pt", "px"], correct: 1 },
             { id: 38, question: "Как задать одинаковый отступ для всех сторон элемента?", options: ["margin: 10px;", "padding: 10px;", "border: 10px;", "space: 10px;", "gap: 10px;"], correct: 0 },
             { id: 39, question: "Как сделать элементы страницы адаптивными для разных экранов с помощью CSS?", options: ["@media", "responsive", "flexbox", "scale", "viewport"], correct: 0 },
             { id: 40, question: "Как задать шрифт в виде курсивного?", options: ["font-style: italic;", "font-weight: italic;", "font-italic: true;", "text-style: italic;", "font: italic;"], correct: 0 },
             { id: 41, question: "Как сделать все изображения на странице ссылками?", options: ["<a href=\"...\"><img src=\"...\"></a>", "<img href=\"...\">", "<link><img></link>", "<a src=\"...\"><img></a>", "<a><img href=\"...\"></a>"], correct: 0 },
             { id: 42, question: "Как задать свойство для отображения элемента как инлайн-элемент?", options: ["display: inline;", "display: block;", "visibility: inline;", "inline: true;", "float: inline;"], correct: 0 },
-            { id: 43, question: "Как изменить цвет фона для всех ссылок на странице при наведении?", options: ["a:hover { background-color: red; }", "a:visited { background-color: red; }", "a:focus { background-color: red; }", "a:hover { color: red; }", "a:active { background-color: red; }"], correct: 0 },
+            { id: 43, question: "Как изменить цвет фона для всех ссылок при наведении?", options: ["a:hover { background-color: red; }", "a:visited { background-color: red; }", "a:focus { background-color: red; }", "a:hover { color: red; }", "a:active { background-color: red; }"], correct: 0 },
             { id: 44, question: "Как задать шрифт для текста с резервным вариантом?", options: ["font-family: Arial, sans-serif;", "font: Arial, sans-serif;", "text-font: Arial, sans-serif;", "font-type: Arial, sans-serif;", "font-family: sans-serif, Arial;"], correct: 0 },
             { id: 45, question: "Какой тег используется для создания раздела в HTML?", options: ["<section>", "<div>", "<article>", "<section-div>", "<block>"], correct: 0 },
             { id: 46, question: "Как в CSS задать фоновое изображение для элемента?", options: ["background-image: url('image.jpg');", "image-background: url('image.jpg');", "background: image('image.jpg');", "url-background: 'image.jpg';", "background-image: 'image.jpg';"], correct: 0 },
@@ -274,7 +248,7 @@
             { id: 48, question: "Как задать размер изображения в HTML?", options: ["width=\"200\" height=\"200\"", "width: 200px; height: 200px;", "img { width: 200px; height: 200px; }", "<img size=\"200px\">", "image { width: 200px; height: 200px; }"], correct: 0 },
             { id: 49, question: "Как включить шрифты Google в HTML?", options: ["<link href=\"https://fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">", "<script src=\"https://fonts.googleapis.com/css?family=Roboto\"></script>", "<font href=\"https://fonts.googleapis.com/css?family=Roboto\">", "<link href=\"https://fonts.com/css?family=Roboto\" rel=\"stylesheet\">", "<googlefont src=\"Roboto\">"], correct: 0 },
             { id: 50, question: "Как в CSS задать ширину границы для элемента?", options: ["border-width: 2px;", "border-size: 2px;", "width-border: 2px;", "border: width 2px;", "border-thickness: 2px;"], correct: 0 },
-            { id: 51, question: "Как в HTML добавить комментарий?", options: ["<!-- Это комментарий -->", "// Это комментарий", "/* Это комментарий */", "<!--- Это комментарий -->", "# Это комментарий"], correct: 0 },
+            { id: 51, question: "Как в HTML добавить комментарий?", options: ["", "// Это комментарий", "/* Это комментарий */", "", "# Это комментарий"], correct: 0 },
             { id: 52, question: "Как задать высоту элемента в CSS?", options: ["height: 200px;", "size: 200px;", "length: 200px;", "vertical: 200px;", "height: 200%;"], correct: 0 },
             { id: 53, question: "Как вставить текст в элемент div?", options: ["div { content: \"Hello\"; }", "<div>Hello</div>", "div:content(\"Hello\");", "div { text: \"Hello\"; }", "<div text=\"Hello\"></div>"], correct: 1 },
             { id: 54, question: "Как задать внешний отступ для всех элементов на странице?", options: ["* { margin: 10px; }", "* { padding: 10px; }", "all { margin: 10px; }", "all-elements { margin: 10px; }", "* { border: 10px; }"], correct: 0 },
@@ -285,7 +259,7 @@
             { id: 59, question: "Как задать стиль для тега <h1> в CSS?", options: ["h1 { font-size: 24px; }", "h1 { size: 24px; }", "h1 { font: 24px; }", "h1: 24px { size; }", "h1-style { size: 24px; }"], correct: 0 },
             { id: 60, question: "Как задать рамку вокруг элемента в CSS?", options: ["border: 1px solid black;", "frame: 1px solid black;", "border-style: solid;", "outline: 1px solid black;", "box-border: 1px solid black;"], correct: 0 },
             { id: 61, question: "Как задать размер шрифта для всех параграфов на странице?", options: ["p { font-size: 16px; }", "p { text-size: 16px; }", "p:all { font-size: 16px; }", "p { size: 16px; }", "p-font-size: 16px;"], correct: 0 },
-            { id: 62, question: "Как применить стиль к элементам с определенным идентификатором в CSS?", options: [".id { ... }", "#id { ... }", "id: element { ... }", "element: id { ... }", "id { ... }"], correct: 1 },
+            { id: 62, question: "Как применить стиль к элементам с определенным ID в CSS?", options: [".id { ... }", "#id { ... }", "id: element { ... }", "element: id { ... }", "id { ... }"], correct: 1 },
             { id: 63, question: "Как установить ширину таблицы в HTML?", options: ["<table width=\"500\">", "<table style=\"width: 500px;\">", "<table size=\"500\">", "<table style=\"size: 500px;\">", "table { width: 500px; }"], correct: 4 },
             { id: 64, question: "Как задать отступ между колонками в таблице?", options: ["cell-spacing: 10px;", "border-spacing: 10px;", "spacing: 10px;", "column-spacing: 10px;", "table-spacing: 10px;"], correct: 1 },
             { id: 65, question: "Как сделать текст жирным в HTML?", options: ["<strong>", "<bold>", "<b>", "<strong-text>", "<text-bold>"], correct: 0 },
@@ -300,12 +274,11 @@
             currentIdx: 0,
             answers: new Array(database.length).fill(null),
             timeSpent: 0,
-            matrixFilter: 'all' // all, done, todo
+            matrixFilter: 'all'
         };
 
         let timerToken = null;
 
-        // Инициализация при загрузке системы
         window.addEventListener('DOMContentLoaded', () => {
             checkStorageForResume();
         });
@@ -361,7 +334,7 @@
             timerToken = setInterval(() => {
                 state.timeSpent++;
                 updateTimerUI();
-                if (state.timeSpent % 5 === 0) saveToStorage(); // бекграунд сейв каждые 5 сек
+                if (state.timeSpent % 5 === 0) saveToStorage();
             }, 1000);
         }
 
@@ -378,7 +351,6 @@
             database.forEach((q, idx) => {
                 const isAnswered = state.answers[idx] !== null;
                 
-                // Фильтрация логики рендеринга слотов матрицы
                 if (state.matrixFilter === 'done' && !isAnswered) return;
                 if (state.matrixFilter === 'todo' && isAnswered) return;
 
@@ -386,7 +358,6 @@
                 cell.textContent = idx + 1;
                 cell.id = `matrix-cell-${idx}`;
                 
-                // Динамические базовые стили
                 let baseStyle = "p-2.5 rounded-xl text-xs font-bold font-mono border transition-all cursor-pointer text-center ";
                 
                 if (idx === state.currentIdx) {
@@ -402,7 +373,6 @@
                 grid.appendChild(cell);
             });
 
-            // Обновляем верхние микро-метрики
             const answeredTotal = state.answers.filter(a => a !== null).length;
             document.getElementById('widget-progress').textContent = `${answeredTotal}/${database.length}`;
             document.getElementById('main-progress-bar').style.width = `${(answeredTotal / database.length) * 100}%`;
@@ -429,10 +399,11 @@
 
         function renderActiveQuestion() {
             const container = document.getElementById('question-content-wrapper');
-            // Перезапуск анимации
+            
+            // Исправленный сброс и запуск анимации без рантайм ошибок
             container.classList.remove('animate-slide-up');
             void container.offsetWidth; 
-            container.addClassName = container.classList.add('animate-slide-up');
+            container.classList.add('animate-slide-up');
 
             const q = database[state.currentIdx];
             document.getElementById('label-q-index').textContent = `Вопрос ${String(state.currentIdx + 1).padStart(2, '0')} / ${database.length}`;
@@ -459,17 +430,16 @@
                 badge.className = `w-6 h-6 rounded-md text-[11px] font-bold code-font flex items-center justify-center transition-colors ${
                     isChecked ? 'bg-indigo-500 text-white' : 'bg-slate-900 text-slate-500 group-hover:bg-slate-800 group-hover:text-slate-400'
                 }`;
-                badge.textContent = String.fromCharCode(65 + idx); // A, B, C, D...
+                badge.textContent = String.fromCharCode(65 + idx);
 
                 const textNode = document.createElement('span');
                 textNode.className = "text-sm sm:text-base font-medium code-font";
-                textNode.textContent = opt; // Безопасно рендерит спецсимволы тегов
+                textNode.textContent = opt;
 
                 leftPack.appendChild(badge);
                 leftPack.appendChild(textNode);
                 optBtn.appendChild(leftPack);
 
-                // Радио тумблер справа
                 const radio = document.createElement('div');
                 radio.className = `w-4 h-4 rounded-full border flex items-center justify-center transition-all ${
                     isChecked ? 'border-indigo-500 bg-indigo-500' : 'border-slate-800 bg-transparent'
@@ -484,7 +454,6 @@
                 boxOptions.appendChild(optBtn);
             });
 
-            // Коррекция кнопок навигации
             document.getElementById('ctrl-prev').disabled = state.currentIdx === 0;
             document.getElementById('ctrl-next').textContent = state.currentIdx === database.length - 1 ? "В первый вопрос" : "Пропустить";
         }
@@ -495,14 +464,13 @@
             renderActiveQuestion();
             buildMatrix();
 
-            // Мягкий автопереход к следующему через 250мс
             setTimeout(() => {
                 if (state.currentIdx < database.length - 1) {
                     state.currentIdx++;
                     renderActiveQuestion();
                     buildMatrix();
                 }
-            }, 250);
+            }, 200);
         }
 
         function navigateQuestion(direction) {
@@ -532,7 +500,7 @@
 
         function compileFinalResults() {
             if(timerToken) clearInterval(timerToken);
-            localStorage.removeItem('hq_test_state'); // Очищаем кеш, тест успешно сдан
+            localStorage.removeItem('hq_test_state');
 
             document.getElementById('view-quiz').classList.add('hidden');
             document.getElementById('top-widgets').classList.add('hidden');
@@ -545,14 +513,12 @@
 
             const percent = Math.round((correctTotal / database.length) * 100);
 
-            // Рендер SVG кольца
             const circle = document.getElementById('res-svg-circle');
             const radius = circle.r.baseVal.value;
-            const circumference = 2 * Math.PI * radius; // ~251.2
+            const circumference = 2 * Math.PI * radius;
             const offset = circumference - (percent / 100) * circumference;
             circle.style.strokeDashoffset = offset;
 
-            // Рендер текстовых данных
             document.getElementById('res-txt-score').textContent = correctTotal;
             document.getElementById('res-txt-percent').textContent = `${percent}%`;
 
@@ -560,7 +526,6 @@
             const s = (state.timeSpent % 60).toString().padStart(2, '0');
             document.getElementById('res-txt-time').textContent = `${m}м : ${s}с`;
 
-            // Текстовая градация результатов
             const statusEl = document.getElementById('res-txt-status');
             if (percent >= 85) {
                 statusEl.textContent = "Senior / Architect Grade 🎉";
@@ -573,7 +538,6 @@
                 statusEl.className = "text-lg font-bold text-rose-400 mb-1";
             }
 
-            // Листинг ошибок
             renderAuditListing();
         }
 
@@ -587,7 +551,7 @@
 
                 const wrapper = document.createElement('div');
                 wrapper.className = `p-5 rounded-2xl border transition-all ${
-                    isCorrect ? 'bg-emerald-950/10 border-emerald-950 text-slate-300' : 'bg-rose-950/10 border-rose-950 text-slate-300'
+                    isCorrect ? 'bg-emerald-950/10 border-emerald-950/30 text-slate-300' : 'bg-rose-950/10 border-rose-950/30 text-slate-300'
                 }`;
 
                 const topRow = document.createElement('div');
@@ -601,13 +565,12 @@
                 statusBadge.className = `text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md ${
                     isCorrect ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                 }`;
-                statusBadge.textContent = isCorrect ? "Право" : "Ошибка";
+                statusBadge.textContent = isCorrect ? "Правильно" : "Ошибка";
 
                 topRow.appendChild(qTitle);
                 topRow.appendChild(statusBadge);
                 wrapper.appendChild(topRow);
 
-                // Детали ответов
                 const detailsBox = document.createElement('div');
                 detailsBox.className = "space-y-1.5 text-xs sm:text-sm font-mono text-slate-400 border-l-2 pl-3 " + (isCorrect ? "border-emerald-800" : "border-rose-900");
 
@@ -617,7 +580,7 @@
 
                 const lineUser = document.createElement('p');
                 if (userAns === null) {
-                    lineUser.innerHTML = `<span class="text-amber-500 font-bold">Получено:</span> <span class="italic text-slate-600">Вопрос был пропущен</span>`;
+                    lineUser.innerHTML = `<span class="text-amber-500 font-bold">Получено:</span> <span class="italic text-slate-600">Вопрос пропущен</span>`;
                 } else {
                     lineUser.innerHTML = `<span class="${isCorrect ? 'text-emerald-500' : 'text-rose-500'} font-bold">Получено:</span> <code class="${isCorrect ? 'text-slate-200' : 'text-slate-400 line-through'}">${escapeHtml(q.options[userAns])}</code>`;
                 }
