@@ -1,197 +1,239 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интерактивный Тест: HTML & CSS</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Платформа Тестирования / HTML & CSS Professional</title>
+    <!-- Стабильный Tailwind CSS c анимациями -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 950: '#0b0f19' }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'slide-up': 'slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(12px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Кастомный скроллбар для сетки вопросов */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(30, 41, 59, 0.5);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.5);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(99, 102, 241, 0.8);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: #0b0f19; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between antialiased selection:bg-indigo-500/30">
 
-    <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50 px-4 py-4 shadow-lg">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <div class="p-2.5 bg-indigo-600/20 text-indigo-400 rounded-xl border border-indigo-500/30 shadow-inner">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+    <!-- Топовая декоративная линия -->
+    <div class="h-1.5 w-full bg-gradient-to-r from-violet-600 via-indigo-500 to-cyan-400"></div>
+
+    <!-- НАВИГАЦИЯ -->
+    <nav class="border-b border-slate-900 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3.5">
+                <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Интерактивный Тест</h1>
-                    <p class="text-xs text-slate-400 font-medium">Стандарты разработки: HTML5 & CSS3</p>
+                    <span class="text-sm font-extrabold tracking-wider uppercase bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent">HQ Assessment</span>
+                    <div class="text-[11px] text-indigo-400 font-medium code-font tracking-tight">ENGINE v2.4.0</div>
                 </div>
             </div>
-            
-            <div id="live-metrics" class="hidden flex items-center gap-4 sm:gap-6 text-sm bg-slate-950/40 px-4 py-2 rounded-2xl border border-slate-800">
-                <div class="flex items-center gap-2">
-                    <span class="text-slate-400">Прогресс:</span>
-                    <span id="metric-progress" class="font-semibold text-indigo-400">0/0</span>
+
+            <!-- Живые виджеты сверху -->
+            <div id="top-widgets" class="hidden items-center gap-4">
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl px-3.5 py-1.5 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+                    <span class="text-xs text-slate-400 font-medium font-mono" id="widget-progress">0/70</span>
                 </div>
-                <div class="w-px h-4 bg-slate-800"></div>
-                <div class="flex items-center gap-2">
-                    <span class="text-slate-400">Время:</span>
-                    <span id="metric-timer" class="font-mono font-semibold text-amber-400">00:00</span>
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl px-3.5 py-1.5 flex items-center gap-2">
+                    <svg class="w-3.5 h-3.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span class="text-xs text-amber-400 font-bold font-mono" id="widget-timer">00:00</span>
                 </div>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="max-w-7xl w-full mx-auto p-4 sm:p-6 flex-grow flex items-center justify-center">
-        
-        <div id="start-screen" class="w-full max-w-2xl bg-slate-800/40 backdrop-blur-md border border-slate-700/60 rounded-3xl p-6 sm:p-10 text-center shadow-2xl transition-all duration-300 transform">
-            <span class="inline-block px-4 py-1.5 bg-indigo-500/10 text-indigo-400 text-xs font-semibold tracking-wider uppercase rounded-full mb-4 border border-indigo-500/20">Подготовка к сертификации</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4 leading-tight">Проверьте свои знания HTML & CSS</h2>
-            <p class="text-slate-300 text-base mb-8 max-w-md mx-auto leading-relaxed">
-                Интерактивный тест, содержащий базу из 70 провалидированных вопросов. Проверьте понимание семантики, свойств стилизации, селекторов и адаптивной верстки.
-            </p>
+    <!-- КОНТЕНТ -->
+    <main class="max-w-7xl w-full mx-auto p-4 sm:p-8 flex-grow flex items-center justify-center">
+
+        <!-- 1. СТАРТОВЫЙ ЭКРАН -->
+        <div id="view-start" class="w-full max-w-xl bg-gradient-to-b from-slate-900/80 to-slate-900/40 border border-slate-800/60 rounded-3xl p-8 sm:p-12 text-center shadow-2xl relative overflow-hidden animate-fade-in">
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-violet-600/10 rounded-full blur-3xl pointer-events-none"></div>
             
-            <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto mb-8 text-left text-sm">
-                <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-800">
-                    <p class="text-slate-400 text-xs mb-1">Всего вопросов</p>
-                    <p id="start-total-questions" class="text-xl font-bold text-white">70</p>
-                </div>
-                <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-800">
-                    <p class="text-slate-400 text-xs mb-1">Режим прохождения</p>
-                    <p class="text-xl font-bold text-emerald-400">Без спешки</p>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-4">
+                Комплексный тест:<br><span class="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">HTML5 & CSS3 Architecture</span>
+            </h1>
+            <p class="text-slate-400 text-sm sm:text-base mb-8 max-w-sm mx-auto leading-relaxed">
+                Профессиональная база из 70 вопросов для проверки знаний семантики, специфичности селекторов, флексов, гридов и продвинутых CSS-свойств.
+            </p>
+
+            <div id="resume-banner" class="hidden bg-indigo-950/40 border border-indigo-500/30 rounded-2xl p-4 mb-6 text-left animate-slide-up">
+                <div class="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-1">Найден незавершенный тест</div>
+                <p class="text-xs text-slate-300 mb-3">Вы ответили на <span id="resume-count" class="font-bold text-white">0</span> из 70 вопросов. Желаете продолжить?</p>
+                <div class="flex gap-2">
+                    <button onclick="startQuiz(true)" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold rounded-lg transition cursor-pointer">Продолжить</button>
+                    <button onclick="resetSavedProgress()" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs text-slate-400 font-medium rounded-lg transition cursor-pointer">Сбросить и начать заново</button>
                 </div>
             </div>
 
-            <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-500 active:scale-98 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition-all cursor-pointer">
-                Начать тестирование
+            <button id="btn-fresh-start" onclick="startQuiz(false)" class="px-10 py-4 bg-white hover:bg-slate-100 text-slate-950 font-bold rounded-xl shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer text-sm">
+                Запустить тестирование
             </button>
         </div>
 
-        <div id="quiz-screen" class="hidden w-full grid grid-cols-1 lg:grid-cols-4 gap-6 items-start transition-all duration-300">
+        <!-- 2. ЭКРАН ТЕСТИРОВАНИЯ -->
+        <div id="view-quiz" class="hidden w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-fade-in">
             
-            <div class="lg:col-span-1 bg-slate-900/50 border border-slate-800 rounded-2xl p-4 shadow-md lg:sticky lg:top-24">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Карта вопросов</h3>
-                <div id="question-matrix" class="grid grid-cols-5 gap-2 max-h-[320px] overflow-y-auto pr-1">
+            <!-- Левая колонка: Карта и Фильтры -->
+            <div class="lg:col-span-4 bg-slate-900/40 border border-slate-900 rounded-2xl p-5 lg:sticky lg:top-28 backdrop-blur-md">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Навигатор теста</h3>
+                    <!-- Селектор фильтров -->
+                    <div class="flex gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+                        <button onclick="setMatrixFilter('all')" id="filter-all" class="text-[10px] px-2 py-1 rounded font-bold transition cursor-pointer bg-slate-800 text-white">Все</button>
+                        <button onclick="setMatrixFilter('done')" id="filter-done" class="text-[10px] px-2 py-1 rounded font-bold transition cursor-pointer text-slate-400 hover:text-white">Отв.</button>
+                        <button onclick="setMatrixFilter('todo')" id="filter-todo" class="text-[10px] px-2 py-1 rounded font-bold transition cursor-pointer text-slate-400 hover:text-white">Проп.</button>
                     </div>
-                <div class="mt-4 pt-3 border-t border-slate-800 grid grid-cols-2 gap-2 text-xs text-slate-400">
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-2.5 h-2.5 bg-slate-800 rounded-md border border-slate-700"></span> Текущий
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-2.5 h-2.5 bg-indigo-600 rounded-md"></span> Отвечен
-                    </div>
+                </div>
+
+                <div id="matrix-grid" class="grid grid-cols-5 sm:grid-cols-7 lg:grid-cols-5 gap-2 max-h-[280px] overflow-y-auto pr-1">
+                    <!-- Генерация кнопок -->
                 </div>
             </div>
 
-            <div class="lg:col-span-3 flex flex-col gap-4">
-                
-                <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
-                    <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-0 transition-all duration-300"></div>
+            <!-- Правая колонка: Вопрос и Опции -->
+            <div class="lg:col-span-8 flex flex-col gap-5">
+                <!-- Прогресс-бар -->
+                <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden border border-slate-900">
+                    <div id="main-progress-bar" class="h-full bg-gradient-to-r from-indigo-500 to-violet-500 w-0 transition-all duration-300"></div>
                 </div>
 
-                <div class="bg-slate-800/40 backdrop-blur-md border border-slate-700/60 rounded-3xl p-6 sm:p-8 shadow-2xl">
-                    <div class="flex items-center justify-between mb-4">
-                        <span id="question-number-tag" class="px-3 py-1 bg-slate-900/60 border border-slate-700 text-xs font-semibold rounded-lg text-slate-300">Вопрос 1 из 70</span>
-                    </div>
-                    
-                    <h2 id="question-text" class="text-lg sm:text-xl font-semibold text-white mb-6 leading-relaxed">
-                        Загрузка вопроса...
-                    </h2>
-
-                    <div id="options-container" class="flex flex-col gap-3.5 mb-8">
+                <!-- Карточка вопроса -->
+                <div class="bg-slate-900/50 border border-slate-900/80 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden min-h-[400px] flex flex-col justify-between">
+                    <div class="animate-slide-up" id="question-content-wrapper">
+                        <div class="flex items-center justify-between mb-5">
+                            <span id="label-q-index" class="text-xs font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-lg">Вопрос 01 / 70</span>
                         </div>
 
-                    <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-800/60">
-                        <div class="flex items-center gap-2">
-                            <button onclick="prevQuestion()" id="btn-prev" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 text-sm font-medium rounded-xl border border-slate-700 transition cursor-pointer">
+                        <h2 id="text-question" class="text-lg sm:text-xl font-bold text-white mb-6 leading-snug">
+                            <!-- Текст вопроса -->
+                        </h2>
+
+                        <div id="box-options" class="flex flex-col gap-3">
+                            <!-- Варианты ответов -->
+                        </div>
+                    </div>
+
+                    <!-- Панель управления -->
+                    <div class="flex items-center justify-between gap-4 mt-8 pt-5 border-t border-slate-900">
+                        <div class="flex gap-2">
+                            <button onclick="navigateQuestion(-1)" id="ctrl-prev" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-20 disabled:pointer-events-none text-xs font-semibold rounded-xl border border-slate-800 transition cursor-pointer text-slate-300">
                                 Назад
                             </button>
-                            <button onclick="nextQuestion()" id="btn-next" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 text-sm font-medium rounded-xl border border-slate-700 transition cursor-pointer">
+                            <button onclick="navigateQuestion(1)" id="ctrl-next" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-xs font-semibold rounded-xl border border-slate-800 transition cursor-pointer text-indigo-400">
                                 Пропустить
                             </button>
                         </div>
-                        
-                        <button onclick="confirmFinish()" class="px-6 py-2.5 bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white text-sm font-semibold rounded-xl border border-rose-500/30 transition cursor-pointer">
-                            Завершить тест
+
+                        <button onclick="triggerFinishConfirmation()" class="px-5 py-2 bg-rose-950/30 hover:bg-rose-900/50 text-rose-400 text-xs font-bold rounded-xl border border-rose-900/30 transition cursor-pointer">
+                            Завершить досрочно
                         </button>
                     </div>
-
                 </div>
             </div>
+
         </div>
 
-        <div id="results-screen" class="hidden w-full max-w-4xl flex flex-col gap-6 transition-all duration-300">
+        <!-- 3. ЭКРАН РЕЗУЛЬТАТОВ -->
+        <div id="view-results" class="hidden w-full max-w-4xl flex flex-col gap-8 animate-fade-in">
             
-            <div class="bg-slate-800/40 backdrop-blur-md border border-slate-700/60 rounded-3xl p-6 sm:p-8 shadow-2xl grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                <div class="text-center md:border-r md:border-slate-800 py-4">
-                    <p class="text-slate-400 text-sm font-medium mb-1">Ваш результат</p>
-                    <div class="relative inline-flex items-center justify-center mb-2">
-                        <span id="result-score" class="text-5xl font-black text-white">0</span>
-                        <span id="result-total-slashes" class="text-xl text-slate-500 ml-1">/ 70</span>
+            <!-- Сводный дашборд -->
+            <div class="bg-slate-900/40 border border-slate-900 rounded-3xl p-6 sm:p-8 shadow-xl grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <!-- SVG кольцо прогресса -->
+                <div class="md:col-span-4 flex flex-col items-center justify-center py-2">
+                    <div class="relative w-36 h-36 flex items-center justify-center">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" stroke="#1e293b" stroke-width="8" fill="transparent" />
+                            <circle id="res-svg-circle" cx="50" cy="50" r="40" stroke="#6366f1" stroke-width="8" fill="transparent" 
+                                    stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" class="transition-all duration-1000 ease-out" />
+                        </svg>
+                        <div class="absolute text-center">
+                            <span id="res-txt-score" class="text-3xl font-black text-white">0</span>
+                            <span class="text-slate-500 text-xs block mt-0.5">из 70 верных</span>
+                        </div>
                     </div>
-                    <p id="result-percentage" class="text-lg font-bold text-indigo-400">0%</p>
-                </div>
-                
-                <div class="text-center md:border-r md:border-slate-800 py-4">
-                    <p class="text-slate-400 text-sm font-medium mb-2">Затраченное время</p>
-                    <p id="result-time" class="text-3xl font-mono font-bold text-amber-400">00:00</p>
-                    <p class="text-xs text-slate-500 mt-1">минут : секунд</p>
                 </div>
 
-                <div class="text-center py-4 px-2">
-                    <p id="result-status-title" class="text-xl font-bold text-white mb-2">Тест завершен!</p>
-                    <p id="result-status-desc" class="text-slate-300 text-sm leading-relaxed">Вы можете изучить подробный отчет по ошибкам ниже.</p>
-                    <button onclick="restartQuiz()" class="mt-4 px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg transition shadow-md cursor-pointer">
-                        Пройти заново
+                <!-- Текстовые метрики -->
+                <div class="md:col-span-5 space-y-3.5 border-y md:border-y-0 md:border-x border-slate-900 py-4 md:py-0 md:px-6">
+                    <div>
+                        <span class="text-xs text-slate-400 font-medium block mb-0.5">Точность ответов</span>
+                        <span id="res-txt-percent" class="text-2xl font-extrabold text-indigo-400">0%</span>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 font-medium block mb-0.5">Общее время сессии</span>
+                        <span id="res-txt-time" class="text-xl font-mono font-bold text-amber-400">00:00</span>
+                    </div>
+                </div>
+
+                <!-- Вердикт -->
+                <div class="md:col-span-3 text-center md:text-left flex flex-col justify-between h-full py-1">
+                    <div>
+                        <h4 id="res-txt-status" class="text-lg font-bold text-white mb-1">Анализ завершен</h4>
+                        <p id="res-txt-desc" class="text-xs text-slate-400 leading-relaxed">Ниже сформирован детальный аудит по каждому вопросу.</p>
+                    </div>
+                    <button onclick="restartTest()" class="mt-4 w-full py-2.5 bg-white hover:bg-slate-100 text-slate-950 text-xs font-bold rounded-xl transition cursor-pointer shadow-md">
+                        Пройти повторно
                     </button>
                 </div>
             </div>
 
-            <div class="bg-slate-900/40 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-xl">
-                <h3 class="text-lg font-bold text-white mb-4">Подробный анализ ответов</h3>
-                <div id="answers-review-container" class="flex flex-col gap-4">
-                    </div>
+            <!-- Аналитический листинг ошибок -->
+            <div class="space-y-4">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 pl-2">Аудит ответов</h3>
+                <div id="res-listing-container" class="space-y-3">
+                    <!-- Генерация разбора -->
+                </div>
             </div>
-            
+
         </div>
 
     </main>
 
-    <footer class="border-t border-slate-800/80 bg-slate-950/40 py-4 px-4 text-center text-xs text-slate-500 font-medium">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p>© 2026 Интерактивная база тестирования HTML/CSS.</p>
-            <p>Готово к публикации на GitHub Pages</p>
-        </div>
+    <!-- ФУТЕР -->
+    <footer class="border-t border-slate-900 bg-slate-950/50 py-4 px-6 text-center text-xs text-slate-500 code-font">
+        Production-ready test-mesh bundle. No heavy frameworks. Pure stack performance.
     </footer>
 
+    <!-- СКРИПТ КОР-СИСТЕМЫ -->
     <script>
-        // База данных тестов из файла "Тест 200 html css без ответов.doc" (70 ключевых вопросов с ответами)
-        const questionsData = [
+        // Полная база из 70 проверенных вопросов HTML/CSS
+        const database = [
             { id: 1, question: "Какой тег используется для создания гиперссылки в HTML?", options: ["<a>", "<link>", "<button>", "<href>", "<url>"], correct: 0 },
             { id: 2, question: "Какой атрибут используется для указания адреса веб-страницы в теге <a>?", options: ["src", "url", "href", "link", "address"], correct: 2 },
             { id: 3, question: "Как в CSS задать красный цвет фона для элемента?", options: ["background-color: red;", "color: red;", "bg-color: red;", "background: red;", "text-color: red;"], correct: 0 },
             { id: 4, question: "Какой тег используется для вставки изображения в HTML?", options: ["<img>", "<picture>", "<image>", "<src>", "<figure>"], correct: 0 },
             { id: 5, question: "Как задать размер шрифта в CSS?", options: ["font-size: 12px;", "font-size: 12pt;", "text-size: 12px;", "size: 12px;", "font: 12px;"], correct: 0 },
             { id: 6, question: "Какое свойство в CSS используется для изменения цвета текста?", options: ["text-color", "font-color", "color", "text-style", "text-background"], correct: 2 },
-            { id: 7, question: "Как сделать text жирным в HTML?", options: ["<bold>", "<strong>", "<b>", "<em>", "<fat>"], correct: 2 },
+            { id: 7, question: "Как сделать текст жирным в HTML?", options: ["<bold>", "<strong>", "<b>", "<em>", "<fat>"], correct: 2 },
             { id: 8, question: "Как можно задать ширину элемента в CSS?", options: ["width: 200px;", "height: 200px;", "element-width: 200px;", "size: 200px;", "resize: 200px;"], correct: 0 },
             { id: 9, question: "Как задать стиль для всех абзацев на странице?", options: ["p { font-size: 16px; }", "p { size: 16px; }", "p: 16px { font-size; }", "text { p: 16px; }", "all p { font-size: 16px; }"], correct: 0 },
-            { id: 10, question: "Как вставить комментарий в CSS?", options: ["", "/* Это комментарий */", "// Это комментарий", "# Это комментарий", "%% Это комментарий %%"], correct: 1 },
+            { id: 10, question: "Как вставить комментарий в CSS?", options: ["<!-- Это комментарий -->", "/* Это комментарий */", "// Это комментарий", "# Это комментарий", "%% Это комментарий %%"], correct: 1 },
             { id: 11, question: "Какой атрибут используется для задания альтернативного текста для изображения?", options: ["alt", "src", "title", "image-text", "caption"], correct: 0 },
             { id: 12, question: "Какой тег используется для создания списка элементов в HTML?", options: ["<list>", "<ol>", "<ul>", "<li>", "<dl>"], correct: 2 },
             { id: 13, question: "Как задать цвет фона всей страницы с помощью CSS?", options: ["background-color: #FFFFFF;", "body { background-color: #FFFFFF; }", "background: #FFFFFF;", "color: #FFFFFF;", "page-background: #FFFFFF;"], correct: 1 },
@@ -232,7 +274,7 @@
             { id: 48, question: "Как задать размер изображения в HTML?", options: ["width=\"200\" height=\"200\"", "width: 200px; height: 200px;", "img { width: 200px; height: 200px; }", "<img size=\"200px\">", "image { width: 200px; height: 200px; }"], correct: 0 },
             { id: 49, question: "Как включить шрифты Google в HTML?", options: ["<link href=\"https://fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">", "<script src=\"https://fonts.googleapis.com/css?family=Roboto\"></script>", "<font href=\"https://fonts.googleapis.com/css?family=Roboto\">", "<link href=\"https://fonts.com/css?family=Roboto\" rel=\"stylesheet\">", "<googlefont src=\"Roboto\">"], correct: 0 },
             { id: 50, question: "Как в CSS задать ширину границы для элемента?", options: ["border-width: 2px;", "border-size: 2px;", "width-border: 2px;", "border: width 2px;", "border-thickness: 2px;"], correct: 0 },
-            { id: 51, question: "Как в HTML добавить комментарий?", options: ["", "// Это комментарий", "/* Это комментарий */", "", "# Это комментарий"], correct: 0 },
+            { id: 51, question: "Как в HTML добавить комментарий?", options: ["<!-- Это комментарий -->", "// Это комментарий", "/* Это комментарий */", "<!--- Это комментарий -->", "# Это комментарий"], correct: 0 },
             { id: 52, question: "Как задать высоту элемента в CSS?", options: ["height: 200px;", "size: 200px;", "length: 200px;", "vertical: 200px;", "height: 200%;"], correct: 0 },
             { id: 53, question: "Как вставить текст в элемент div?", options: ["div { content: \"Hello\"; }", "<div>Hello</div>", "div:content(\"Hello\");", "div { text: \"Hello\"; }", "<div text=\"Hello\"></div>"], correct: 1 },
             { id: 54, question: "Как задать внешний отступ для всех элементов на странице?", options: ["* { margin: 10px; }", "* { padding: 10px; }", "all { margin: 10px; }", "all-elements { margin: 10px; }", "* { border: 10px; }"], correct: 0 },
@@ -254,303 +296,346 @@
             { id: 70, question: "Как установить фоновое изображение в CSS, которое будет повторяться?", options: ["background-repeat: repeat;", "background-image: repeat;", "background-repeat: true;", "background: repeat;", "background-tiling: repeat;"], correct: 0 }
         ];
 
-        let currentQuestionIndex = 0;
-        let userAnswers = new Array(questionsData.length).fill(null);
-        let timerInterval = null;
-        let timeElapsed = 0;
+        let state = {
+            currentIdx: 0,
+            answers: new Array(database.length).fill(null),
+            timeSpent: 0,
+            matrixFilter: 'all' // all, done, todo
+        };
 
-        // Порог инициализации общего счетчика на стартовом экране
-        document.getElementById('start-total-questions').textContent = questionsData.length;
+        let timerToken = null;
 
-        function startQuiz() {
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('quiz-screen').classList.remove('hidden');
-            document.getElementById('live-metrics').classList.remove('flex');
-            document.getElementById('live-metrics').classList.add('flex');
-            
-            // Запуск таймера
-            timeElapsed = 0;
-            updateTimerDisplay();
-            timerInterval = setInterval(() => {
-                timeElapsed++;
-                updateTimerDisplay();
+        // Инициализация при загрузке системы
+        window.addEventListener('DOMContentLoaded', () => {
+            checkStorageForResume();
+        });
+
+        function checkStorageForResume() {
+            const cached = localStorage.getItem('hq_test_state');
+            if (cached) {
+                try {
+                    const parsed = JSON.parse(cached);
+                    const filledCount = parsed.answers.filter(a => a !== null).length;
+                    if (filledCount > 0 && filledCount < database.length) {
+                        document.getElementById('resume-banner').classList.remove('hidden');
+                        document.getElementById('resume-count').textContent = filledCount;
+                    }
+                } catch(e) {
+                    localStorage.removeItem('hq_test_state');
+                }
+            }
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('hq_test_state', JSON.stringify(state));
+        }
+
+        function resetSavedProgress() {
+            localStorage.removeItem('hq_test_state');
+            document.getElementById('resume-banner').classList.add('hidden');
+        }
+
+        function startQuiz(resume = false) {
+            if (resume) {
+                const cached = localStorage.getItem('hq_test_state');
+                if (cached) state = JSON.parse(cached);
+            } else {
+                state.currentIdx = 0;
+                state.answers = new Array(database.length).fill(null);
+                state.timeSpent = 0;
+            }
+
+            document.getElementById('view-start').classList.add('hidden');
+            document.getElementById('view-quiz').classList.remove('hidden');
+            document.getElementById('top-widgets').classList.remove('hidden');
+            document.getElementById('top-widgets').classList.add('flex');
+
+            buildMatrix();
+            renderActiveQuestion();
+            runTimer();
+        }
+
+        function runTimer() {
+            if(timerToken) clearInterval(timerToken);
+            updateTimerUI();
+            timerToken = setInterval(() => {
+                state.timeSpent++;
+                updateTimerUI();
+                if (state.timeSpent % 5 === 0) saveToStorage(); // бекграунд сейв каждые 5 сек
             }, 1000);
-
-            initMatrix();
-            showQuestion(0);
         }
 
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timeElapsed / 60);
-            const seconds = timeElapsed % 60;
-            const formatted = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            document.getElementById('metric-timer').textContent = formatted;
+        function updateTimerUI() {
+            const m = Math.floor(state.timeSpent / 60).toString().padStart(2, '0');
+            const s = (state.timeSpent % 60).toString().padStart(2, '0');
+            document.getElementById('widget-timer').textContent = `${m}:${s}`;
         }
 
-        function initMatrix() {
-            const matrixContainer = document.getElementById('question-matrix');
-            matrixContainer.innerHTML = '';
-            questionsData.forEach((q, idx) => {
-                const btn = document.createElement('button');
-                btn.id = `matrix-btn-${idx}`;
-                btn.textContent = idx + 1;
-                btn.className = "p-2.5 bg-slate-800 border border-slate-700/60 rounded-xl text-xs font-semibold text-center transition cursor-pointer hover:bg-slate-700/50";
-                btn.onclick = () => showQuestion(idx);
-                matrixContainer.appendChild(btn);
-            });
-            updateMatrixStatus();
-        }
+        function buildMatrix() {
+            const grid = document.getElementById('matrix-grid');
+            grid.innerHTML = '';
 
-        function updateMatrixStatus() {
-            questionsData.forEach((_, idx) => {
-                const btn = document.getElementById(`matrix-btn-${idx}`);
-                if (!btn) return;
+            database.forEach((q, idx) => {
+                const isAnswered = state.answers[idx] !== null;
+                
+                // Фильтрация логики рендеринга слотов матрицы
+                if (state.matrixFilter === 'done' && !isAnswered) return;
+                if (state.matrixFilter === 'todo' && isAnswered) return;
 
-                // Базовые стили сброса
-                btn.className = "p-2.5 rounded-xl text-xs font-bold text-center transition cursor-pointer border ";
-
-                if (idx === currentQuestionIndex) {
-                    // Текущий вопрос
-                    btn.className += "bg-slate-900 border-indigo-500 text-indigo-400 ring-2 ring-indigo-500/20";
-                } else if (userAnswers[idx] !== null) {
-                    // Отвеченный вопрос
-                    btn.className += "bg-indigo-600 border-indigo-500 text-white shadow-md shadow-indigo-600/10";
+                const cell = document.createElement('button');
+                cell.textContent = idx + 1;
+                cell.id = `matrix-cell-${idx}`;
+                
+                // Динамические базовые стили
+                let baseStyle = "p-2.5 rounded-xl text-xs font-bold font-mono border transition-all cursor-pointer text-center ";
+                
+                if (idx === state.currentIdx) {
+                    baseStyle += "bg-indigo-600/10 border-indigo-500 text-indigo-400 ring-2 ring-indigo-500/20";
+                } else if (isAnswered) {
+                    baseStyle += "bg-indigo-600 border-indigo-600 text-white shadow-md shadow-indigo-600/10";
                 } else {
-                    // Не отвеченный вопрос
-                    btn.className += "bg-slate-800/40 border-slate-700/60 text-slate-400 hover:bg-slate-700/40 hover:text-slate-200";
+                    baseStyle += "bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200";
+                }
+
+                cell.className = baseStyle;
+                cell.onclick = () => jumpToQuestion(idx);
+                grid.appendChild(cell);
+            });
+
+            // Обновляем верхние микро-метрики
+            const answeredTotal = state.answers.filter(a => a !== null).length;
+            document.getElementById('widget-progress').textContent = `${answeredTotal}/${database.length}`;
+            document.getElementById('main-progress-bar').style.width = `${(answeredTotal / database.length) * 100}%`;
+        }
+
+        function setMatrixFilter(filterMode) {
+            state.matrixFilter = filterMode;
+            ['all', 'done', 'todo'].forEach(f => {
+                const el = document.getElementById(`filter-${f}`);
+                if (f === filterMode) {
+                    el.className = "text-[10px] px-2 py-1 rounded font-bold transition cursor-pointer bg-slate-800 text-white";
+                } else {
+                    el.className = "text-[10px] px-2 py-1 rounded font-bold transition cursor-pointer text-slate-400 hover:text-white";
                 }
             });
-
-            // Обновление верхнего счетчика
-            const answeredCount = userAnswers.filter(a => a !== null).length;
-            document.getElementById('metric-progress').textContent = `${answeredCount}/${questionsData.length}`;
-            
-            // Обновление прогресс-бара
-            const percent = (answeredCount / questionsData.length) * 100;
-            document.getElementById('progress-bar').style.width = `${percent}%`;
+            buildMatrix();
         }
 
-        function showQuestion(index) {
-            currentQuestionIndex = index;
-            const qData = questionsData[index];
-            
-            // Обновление метаинформации о вопросе
-            document.getElementById('question-number-tag').textContent = `Вопрос ${index + 1} из ${questionsData.length}`;
-            
-            // Безопасная вставка текста вопроса (предотвращает ломание разметки из-за HTML-тегов)
-            document.getElementById('question-text').textContent = qData.question;
+        function jumpToQuestion(idx) {
+            state.currentIdx = idx;
+            renderActiveQuestion();
+            buildMatrix();
+        }
 
-            // Заполнение контейнера вариантов ответов
-            const container = document.getElementById('options-container');
-            container.innerHTML = '';
+        function renderActiveQuestion() {
+            const container = document.getElementById('question-content-wrapper');
+            // Перезапуск анимации
+            container.classList.remove('animate-slide-up');
+            void container.offsetWidth; 
+            container.addClassName = container.classList.add('animate-slide-up');
 
-            qData.options.forEach((option, idx) => {
-                const isSelected = userAnswers[index] === idx;
+            const q = database[state.currentIdx];
+            document.getElementById('label-q-index').textContent = `Вопрос ${String(state.currentIdx + 1).padStart(2, '0')} / ${database.length}`;
+            document.getElementById('text-question').textContent = q.question;
+
+            const boxOptions = document.getElementById('box-options');
+            boxOptions.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const isChecked = state.answers[state.currentIdx] === idx;
                 
-                const optionBtn = document.createElement('button');
-                optionBtn.className = `w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between cursor-pointer group ${
-                    isSelected 
-                    ? 'bg-indigo-600/10 border-indigo-500 text-white shadow-lg' 
-                    : 'bg-slate-900/40 border-slate-800 text-slate-300 hover:bg-slate-800/40 hover:border-slate-700'
+                const optBtn = document.createElement('button');
+                optBtn.className = `w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between cursor-pointer group active:scale-[0.99] ${
+                    isChecked 
+                    ? 'bg-indigo-600/10 border-indigo-500/80 text-white shadow-lg' 
+                    : 'bg-slate-950/40 border-slate-900 text-slate-300 hover:bg-slate-900/40 hover:border-slate-800'
                 }`;
-                
-                optionBtn.onclick = () => selectOption(idx);
+                optBtn.onclick = () => selectOption(idx);
 
-                // Создаем обертку с буквами вариантов (a, b, c, d, e)
-                const prefix = String.fromCharCode(97 + idx); // 97 - это код 'a'
-                
-                const textWrapper = document.createElement('div');
-                textWrapper.className = "flex items-center gap-3";
-                
+                const leftPack = document.createElement('div');
+                leftPack.className = "flex items-center gap-3.5";
+
                 const badge = document.createElement('span');
-                badge.className = `w-6 h-6 flex items-center justify-center text-xs font-bold rounded-md ${
-                    isSelected ? 'bg-indigo-500 text-white' : 'bg-slate-800 text-slate-400 group-hover:bg-slate-700'
+                badge.className = `w-6 h-6 rounded-md text-[11px] font-bold code-font flex items-center justify-center transition-colors ${
+                    isChecked ? 'bg-indigo-500 text-white' : 'bg-slate-900 text-slate-500 group-hover:bg-slate-800 group-hover:text-slate-400'
                 }`;
-                badge.textContent = prefix;
+                badge.textContent = String.fromCharCode(65 + idx); // A, B, C, D...
 
-                const contentSpan = document.createElement('span');
-                contentSpan.className = "font-medium text-sm sm:text-base";
-                contentSpan.textContent = option; // безопасный рендеринг строк наподобие <a>
+                const textNode = document.createElement('span');
+                textNode.className = "text-sm sm:text-base font-medium code-font";
+                textNode.textContent = opt; // Безопасно рендерит спецсимволы тегов
 
-                textWrapper.appendChild(badge);
-                textWrapper.appendChild(contentSpan);
-                optionBtn.appendChild(textWrapper);
+                leftPack.appendChild(badge);
+                leftPack.appendChild(textNode);
+                optBtn.appendChild(leftPack);
 
-                // Радио-индикатор справа
-                const radioCircle = document.createElement('div');
-                radioCircle.className = `w-4 h-4 rounded-full border flex items-center justify-center ${
-                    isSelected ? 'border-indigo-500 bg-indigo-500' : 'border-slate-700'
+                // Радио тумблер справа
+                const radio = document.createElement('div');
+                radio.className = `w-4 h-4 rounded-full border flex items-center justify-center transition-all ${
+                    isChecked ? 'border-indigo-500 bg-indigo-500' : 'border-slate-800 bg-transparent'
                 }`;
-                if (isSelected) {
-                    const innerDot = document.createElement('div');
-                    innerDot.className = "w-1.5 h-1.5 bg-white rounded-full";
-                    radioCircle.appendChild(innerDot);
+                if(isChecked) {
+                    const dot = document.createElement('div');
+                    dot.className = "w-1.5 h-1.5 bg-white rounded-full";
+                    radio.appendChild(dot);
                 }
-                optionBtn.appendChild(radioCircle);
+                optBtn.appendChild(radio);
 
-                container.appendChild(optionBtn);
+                boxOptions.appendChild(optBtn);
             });
 
-            // Корректировка кнопок управления Назад / Вперед
-            document.getElementById('btn-prev').disabled = index === 0;
-            document.getElementById('btn-next').textContent = index === questionsData.length - 1 ? 'В начало' : 'Пропустить';
-
-            updateMatrixStatus();
+            // Коррекция кнопок навигации
+            document.getElementById('ctrl-prev').disabled = state.currentIdx === 0;
+            document.getElementById('ctrl-next').textContent = state.currentIdx === database.length - 1 ? "В первый вопрос" : "Пропустить";
         }
 
-        function selectOption(optionIdx) {
-            userAnswers[currentQuestionIndex] = optionIdx;
-            
-            // Перерисовываем варианты для отклика интерфейса
-            showQuestion(currentQuestionIndex);
+        function selectOption(optIdx) {
+            state.answers[state.currentIdx] = optIdx;
+            saveToStorage();
+            renderActiveQuestion();
+            buildMatrix();
 
-            // Автоматический переход к следующему вопросу через 300мс для плавности
+            // Мягкий автопереход к следующему через 250мс
             setTimeout(() => {
-                if (currentQuestionIndex < questionsData.length - 1) {
-                    showQuestion(currentQuestionIndex + 1);
+                if (state.currentIdx < database.length - 1) {
+                    state.currentIdx++;
+                    renderActiveQuestion();
+                    buildMatrix();
                 }
-            }, 300);
+            }, 250);
         }
 
-        function nextQuestion() {
-            if (currentQuestionIndex < questionsData.length - 1) {
-                showQuestion(currentQuestionIndex + 1);
-            } else {
-                showQuestion(0); // зацикливание в начало
-            }
-        }
-
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
-                showQuestion(currentQuestionIndex - 1);
-            }
-        }
-
-        function confirmFinish() {
-            const unanswered = userAnswers.filter(a => a === null).length;
-            let msg = "Вы уверены, что хотите завершить тестирование?";
-            if (unanswered > 0) {
-                msg = `У вас осталось ${unanswered} неотвеченных вопросов. Всё равно завершить тест?`;
-            }
-            if (confirm(msg)) {
-                calculateResults();
-            }
-        }
-
-        function calculateResults() {
-            clearInterval(timerInterval);
-
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('live-metrics').classList.add('hidden');
-            document.getElementById('results-screen').classList.remove('hidden');
-
-            // Расчет метрик
-            let correctCount = 0;
-            questionsData.forEach((q, idx) => {
-                if (userAnswers[idx] === q.correct) {
-                    correctCount++;
+        function navigateQuestion(direction) {
+            if (direction === 1) {
+                if (state.currentIdx < database.length - 1) {
+                    state.currentIdx++;
+                } else {
+                    state.currentIdx = 0;
                 }
+            } else if (direction === -1) {
+                if (state.currentIdx > 0) state.currentIdx--;
+            }
+            renderActiveQuestion();
+            buildMatrix();
+        }
+
+        function triggerFinishConfirmation() {
+            const left = state.answers.filter(a => a === null).length;
+            const promptStr = left > 0 
+                ? `Вы не ответили на ${left} вопросов. Всё равно завершить сессию тестирования?`
+                : `Вы ответили на все вопросы. Сгенерировать финальный аудит знаний?`;
+            
+            if(confirm(promptStr)) {
+                compileFinalResults();
+            }
+        }
+
+        function compileFinalResults() {
+            if(timerToken) clearInterval(timerToken);
+            localStorage.removeItem('hq_test_state'); // Очищаем кеш, тест успешно сдан
+
+            document.getElementById('view-quiz').classList.add('hidden');
+            document.getElementById('top-widgets').classList.add('hidden');
+            document.getElementById('view-results').classList.remove('hidden');
+
+            let correctTotal = 0;
+            database.forEach((q, idx) => {
+                if(state.answers[idx] === q.correct) correctTotal++;
             });
 
-            const scorePercent = Math.round((correctCount / questionsData.length) * 100);
-            
-            // Вывод главной сводки
-            document.getElementById('result-score').textContent = correctCount;
-            document.getElementById('result-total-slashes').textContent = `/ ${questionsData.length}`;
-            document.getElementById('result-percentage').textContent = `${scorePercent}%`;
+            const percent = Math.round((correctTotal / database.length) * 100);
 
-            // Вывод финального времени
-            const minutes = Math.floor(timeElapsed / 60);
-            const seconds = timeElapsed % 60;
-            document.getElementById('result-time').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            // Рендер SVG кольца
+            const circle = document.getElementById('res-svg-circle');
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius; // ~251.2
+            const offset = circumference - (percent / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
 
-            // Градация оценки
-            const titleNode = document.getElementById('result-status-title');
-            const descNode = document.getElementById('result-status-desc');
-            if (scorePercent >= 85) {
-                titleNode.textContent = "Отличный результат! 🎉";
-                titleNode.className = "text-xl font-bold text-emerald-400 mb-2";
-                descNode.textContent = "Вы великолепно владеете спецификацией HTML и правилами каскадных таблиц стилей.";
-            } else if (scorePercent >= 60) {
-                titleNode.textContent = "Хороший результат! 👍";
-                titleNode.className = "text-xl font-bold text-indigo-400 mb-2";
-                descNode.textContent = "У вас крепкие базовые знания, но есть темы, которые стоит повторить.";
+            // Рендер текстовых данных
+            document.getElementById('res-txt-score').textContent = correctTotal;
+            document.getElementById('res-txt-percent').textContent = `${percent}%`;
+
+            const m = Math.floor(state.timeSpent / 60).toString().padStart(2, '0');
+            const s = (state.timeSpent % 60).toString().padStart(2, '0');
+            document.getElementById('res-txt-time').textContent = `${m}м : ${s}с`;
+
+            // Текстовая градация результатов
+            const statusEl = document.getElementById('res-txt-status');
+            if (percent >= 85) {
+                statusEl.textContent = "Senior / Architect Grade 🎉";
+                statusEl.className = "text-lg font-bold text-emerald-400 mb-1";
+            } else if (percent >= 60) {
+                statusEl.textContent = "Middle Developer Grade 👍";
+                statusEl.className = "text-lg font-bold text-indigo-400 mb-1";
             } else {
-                titleNode.textContent = "Нужно подучить 📚";
-                titleNode.className = "text-xl font-bold text-rose-400 mb-2";
-                descNode.textContent = "Рекомендуем ознакомиться с разбором ваших ошибок ниже и пройти тест повторно.";
+                statusEl.textContent = "Junior / Entry Grade 📚";
+                statusEl.className = "text-lg font-bold text-rose-400 mb-1";
             }
 
-            // Рендеринг детального разбора ответов
-            buildReviewList();
+            // Листинг ошибок
+            renderAuditListing();
         }
 
-        function buildReviewList() {
-            const container = document.getElementById('answers-review-container');
+        function renderAuditListing() {
+            const container = document.getElementById('res-listing-container');
             container.innerHTML = '';
 
-            questionsData.forEach((q, idx) => {
-                const userAnsIdx = userAnswers[idx];
-                const isCorrect = userAnsIdx === q.correct;
+            database.forEach((q, idx) => {
+                const userAns = state.answers[idx];
+                const isCorrect = userAns === q.correct;
 
-                const itemDiv = document.createElement('div');
-                itemDiv.className = `p-5 rounded-2xl border ${
-                    isCorrect ? 'bg-emerald-950/20 border-emerald-900/50' : 'bg-rose-950/20 border-rose-900/50'
+                const wrapper = document.createElement('div');
+                wrapper.className = `p-5 rounded-2xl border transition-all ${
+                    isCorrect ? 'bg-emerald-950/10 border-emerald-950 text-slate-300' : 'bg-rose-950/10 border-rose-950 text-slate-300'
                 }`;
 
-                // Заголовок вопроса
-                const header = document.createElement('div');
-                header.className = "flex items-start justify-between gap-4 mb-3";
-                
+                const topRow = document.createElement('div');
+                topRow.className = "flex items-start justify-between gap-4 mb-3.5";
+
                 const qTitle = document.createElement('h4');
-                qTitle.className = "font-medium text-sm sm:text-base text-slate-100";
+                qTitle.className = "font-bold text-sm sm:text-base text-slate-100 leading-snug";
                 qTitle.textContent = `${idx + 1}. ${q.question}`;
-                
+
                 const statusBadge = document.createElement('span');
-                statusBadge.className = `px-2.5 py-1 text-xs font-semibold rounded-md ${
-                    isCorrect ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'
+                statusBadge.className = `text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md ${
+                    isCorrect ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                 }`;
-                statusBadge.textContent = isCorrect ? 'Верно' : 'Ошибка';
+                statusBadge.textContent = isCorrect ? "Право" : "Ошибка";
 
-                header.appendChild(qTitle);
-                header.appendChild(statusBadge);
-                itemDiv.appendChild(header);
+                topRow.appendChild(qTitle);
+                topRow.appendChild(statusBadge);
+                wrapper.appendChild(topRow);
 
-                // Вывод блоков ответов
-                const infoBody = document.createElement('div');
-                infoBody.className = "text-xs sm:text-sm flex flex-col gap-1.5 text-slate-400 font-mono";
+                // Детали ответов
+                const detailsBox = document.createElement('div');
+                detailsBox.className = "space-y-1.5 text-xs sm:text-sm font-mono text-slate-400 border-l-2 pl-3 " + (isCorrect ? "border-emerald-800" : "border-rose-900");
 
-                // Правильный ответ
-                const correctLine = document.createElement('p');
-                correctLine.innerHTML = `<span class="text-emerald-400 font-semibold">Правильный ответ:</span> `;
-                const cSpan = document.createElement('span');
-                cSpan.textContent = q.options[q.correct];
-                cSpan.className = "text-slate-200";
-                correctLine.appendChild(cSpan);
-                infoBody.appendChild(correctLine);
+                const lineCorrect = document.createElement('p');
+                lineCorrect.innerHTML = `<span class="text-emerald-500 font-bold">Ожидалось:</span> <code class="text-slate-200">${escapeHtml(q.options[q.correct])}</code>`;
+                detailsBox.appendChild(lineCorrect);
 
-                // Ответ пользователя
-                const userLine = document.createElement('p');
-                if (userAnsIdx === null) {
-                    userLine.innerHTML = `<span class="text-amber-400 font-semibold">Ваш ответ:</span> <span class="italic text-slate-500">Вопрос был пропущен</span>`;
+                const lineUser = document.createElement('p');
+                if (userAns === null) {
+                    lineUser.innerHTML = `<span class="text-amber-500 font-bold">Получено:</span> <span class="italic text-slate-600">Вопрос был пропущен</span>`;
                 } else {
-                    userLine.innerHTML = `<span class="${isCorrect ? 'text-emerald-400' : 'text-rose-400'} font-semibold">Ваш ответ:</span> `;
-                    const uSpan = document.createElement('span');
-                    uSpan.textContent = q.options[userAnsIdx];
-                    uSpan.className = isCorrect ? "text-slate-200" : "text-slate-300 line-through";
-                    userLine.appendChild(uSpan);
+                    lineUser.innerHTML = `<span class="${isCorrect ? 'text-emerald-500' : 'text-rose-500'} font-bold">Получено:</span> <code class="${isCorrect ? 'text-slate-200' : 'text-slate-400 line-through'}">${escapeHtml(q.options[userAns])}</code>`;
                 }
-                infoBody.appendChild(userLine);
+                detailsBox.appendChild(lineUser);
 
-                itemDiv.appendChild(infoBody);
-                container.appendChild(itemDiv);
+                wrapper.appendChild(detailsBox);
+                container.appendChild(wrapper);
             });
         }
 
-        function restartQuiz() {
-            userAnswers = new Array(questionsData.length).fill(null);
-            document.getElementById('results-screen').classList.add('hidden');
-            startQuiz();
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        function restartTest() {
+            document.getElementById('view-results').classList.add('hidden');
+            document.getElementById('view-start').classList.remove('hidden');
+            checkStorageForResume();
         }
     </script>
 </body>
