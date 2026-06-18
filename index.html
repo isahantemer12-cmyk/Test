@@ -3,762 +3,555 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интерактивный Тест: HTML и CSS</title>
+    <title>Интерактивный Тест: HTML & CSS</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        :root {
-            /* Палитра Dark Mode */
-            --bg-color: #121212;
-            --surface-color: #1e1e1e;
-            --primary-color: #bb86fc;
-            --secondary-color: #03dac6;
-            --text-color: #e0e0e0;
-            --text-muted: #888888;
-            --success-bg: rgba(56, 142, 60, 0.2);
-            --success-border: #388e3c;
-            --error-bg: rgba(211, 47, 47, 0.2);
-            --error-border: #d32f2f;
-            --btn-border: #333333;
-            --btn-hover: #2c2c2c;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
-
-        #app {
-            background-color: var(--surface-color);
-            width: 100%;
-            max-width: 800px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            padding: 40px;
-            position: relative;
+        /* Кастомный скроллбар для сетки вопросов */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
-
-        /* Прогресс-бар */
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-size: 1rem;
-            color: var(--text-muted);
-            font-weight: 600;
+        ::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
         }
-
-        .progress-bar-container {
-            width: 100%;
-            height: 8px;
-            background-color: var(--btn-border);
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
             border-radius: 4px;
-            margin-bottom: 30px;
-            overflow: hidden;
         }
-
-        .progress-bar-fill {
-            height: 100%;
-            background-color: var(--secondary-color);
-            width: 0%;
-            transition: width 0.4s ease;
-        }
-
-        /* Область вопроса */
-        #question-text {
-            font-size: 1.5rem;
-            line-height: 1.4;
-            margin-top: 0;
-            margin-bottom: 30px;
-            font-weight: 500;
-        }
-
-        .citation {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-style: italic;
-            white-space: nowrap;
-        }
-
-        /* Варианты ответов */
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .option-btn {
-            background-color: transparent;
-            color: var(--text-color);
-            border: 2px solid var(--btn-border);
-            border-radius: 10px;
-            padding: 16px 24px;
-            font-size: 1.1rem;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .option-btn:hover:not(:disabled) {
-            background-color: var(--btn-hover);
-            border-color: var(--primary-color);
-        }
-
-        .option-btn:disabled {
-            cursor: default;
-        }
-
-        .option-btn.correct {
-            background-color: var(--success-bg);
-            border-color: var(--success-border);
-            color: #ffffff;
-        }
-
-        .option-btn.incorrect {
-            background-color: var(--error-bg);
-            border-color: var(--error-border);
-            color: #ffffff;
-        }
-
-        /* Кнопка "Дальше" */
-        #next-btn {
-            margin-top: 30px;
-            background-color: var(--primary-color);
-            color: #000000;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            display: none;
-            float: right;
-            transition: background-color 0.2s ease;
-        }
-
-        #next-btn:hover {
-            background-color: #9965f4;
-        }
-
-        .clearfix::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        /* Экран результатов */
-        #result-screen {
-            text-align: center;
-            display: none;
-        }
-
-        #result-screen h2 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .result-stats {
-            font-size: 1.5rem;
-            margin: 20px 0;
-        }
-
-        .result-stats span {
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
-
-        #verdict-text {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-        }
-
-        #restart-btn {
-            background-color: var(--secondary-color);
-            color: #000000;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.2s ease;
-        }
-
-        #restart-btn:hover {
-            background-color: #00b3a6;
-        }
-
-        /* Экран загрузки (пока работает парсер) */
-        #loading-screen {
-            text-align: center;
-            font-size: 1.5rem;
-            color: var(--primary-color);
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.8);
         }
     </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
-    <div id="app">
-        <div id="loading-screen">Анализ текста и генерация вопросов...</div>
-
-        <div id="quiz-container" style="display: none;">
-            <div class="progress-header">
-                <span id="progress-text">Вопрос 1 из 200</span>
-                <span id="score-live-text">Баллы: 0</span>
-            </div>
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" id="progress-bar"></div>
-            </div>
-            
-            <h2 id="question-text">Текст вопроса</h2>
-            <div class="options-container" id="options-container">
+    <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50 px-4 py-4 shadow-lg">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-indigo-600/20 text-indigo-400 rounded-xl border border-indigo-500/30 shadow-inner">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                 </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Интерактивный Тест</h1>
+                    <p class="text-xs text-slate-400 font-medium">Стандарты разработки: HTML5 & CSS3</p>
+                </div>
+            </div>
             
-            <div class="clearfix">
-                <button id="next-btn">Дальше &#8594;</button>
+            <div id="live-metrics" class="hidden flex items-center gap-4 sm:gap-6 text-sm bg-slate-950/40 px-4 py-2 rounded-2xl border border-slate-800">
+                <div class="flex items-center gap-2">
+                    <span class="text-slate-400">Прогресс:</span>
+                    <span id="metric-progress" class="font-semibold text-indigo-400">0/0</span>
+                </div>
+                <div class="w-px h-4 bg-slate-800"></div>
+                <div class="flex items-center gap-2">
+                    <span class="text-slate-400">Время:</span>
+                    <span id="metric-timer" class="font-mono font-semibold text-amber-400">00:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl w-full mx-auto p-4 sm:p-6 flex-grow flex items-center justify-center">
+        
+        <div id="start-screen" class="w-full max-w-2xl bg-slate-800/40 backdrop-blur-md border border-slate-700/60 rounded-3xl p-6 sm:p-10 text-center shadow-2xl transition-all duration-300 transform">
+            <span class="inline-block px-4 py-1.5 bg-indigo-500/10 text-indigo-400 text-xs font-semibold tracking-wider uppercase rounded-full mb-4 border border-indigo-500/20">Подготовка к сертификации</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4 leading-tight">Проверьте свои знания HTML & CSS</h2>
+            <p class="text-slate-300 text-base mb-8 max-w-md mx-auto leading-relaxed">
+                Интерактивный тест, содержащий базу из 70 провалидированных вопросов. Проверьте понимание семантики, свойств стилизации, селекторов и адаптивной верстки.
+            </p>
+            
+            <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto mb-8 text-left text-sm">
+                <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-800">
+                    <p class="text-slate-400 text-xs mb-1">Всего вопросов</p>
+                    <p id="start-total-questions" class="text-xl font-bold text-white">70</p>
+                </div>
+                <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-800">
+                    <p class="text-slate-400 text-xs mb-1">Режим прохождения</p>
+                    <p class="text-xl font-bold text-emerald-400">Без спешки</p>
+                </div>
+            </div>
+
+            <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-500 active:scale-98 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition-all cursor-pointer">
+                Начать тестирование
+            </button>
+        </div>
+
+        <div id="quiz-screen" class="hidden w-full grid grid-cols-1 lg:grid-cols-4 gap-6 items-start transition-all duration-300">
+            
+            <div class="lg:col-span-1 bg-slate-900/50 border border-slate-800 rounded-2xl p-4 shadow-md lg:sticky lg:top-24">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Карта вопросов</h3>
+                <div id="question-matrix" class="grid grid-cols-5 gap-2 max-h-[320px] overflow-y-auto pr-1">
+                    </div>
+                <div class="mt-4 pt-3 border-t border-slate-800 grid grid-cols-2 gap-2 text-xs text-slate-400">
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 bg-slate-800 rounded-md border border-slate-700"></span> Текущий
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 bg-indigo-600 rounded-md"></span> Отвечен
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 flex flex-col gap-4">
+                
+                <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
+                    <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+
+                <div class="bg-slate-800/40 backdrop-blur-md border border-slate-700/60 rounded-3xl p-6 sm:p-8 shadow-2xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <span id="question-number-tag" class="px-3 py-1 bg-slate-900/60 border border-slate-700 text-xs font-semibold rounded-lg text-slate-300">Вопрос 1 из 70</span>
+                    </div>
+                    
+                    <h2 id="question-text" class="text-lg sm:text-xl font-semibold text-white mb-6 leading-relaxed">
+                        Загрузка вопроса...
+                    </h2>
+
+                    <div id="options-container" class="flex flex-col gap-3.5 mb-8">
+                        </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-800/60">
+                        <div class="flex items-center gap-2">
+                            <button onclick="prevQuestion()" id="btn-prev" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 text-sm font-medium rounded-xl border border-slate-700 transition cursor-pointer">
+                                Назад
+                            </button>
+                            <button onclick="nextQuestion()" id="btn-next" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 text-sm font-medium rounded-xl border border-slate-700 transition cursor-pointer">
+                                Пропустить
+                            </button>
+                        </div>
+                        
+                        <button onclick="confirmFinish()" class="px-6 py-2.5 bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white text-sm font-semibold rounded-xl border border-rose-500/30 transition cursor-pointer">
+                            Завершить тест
+                        </button>
+                    </div>
+
+                </div>
             </div>
         </div>
 
-        <div id="result-screen">
-            <h2>Тест Завершен!</h2>
-            <div class="result-stats">
-                Правильных ответов: <span id="final-score">0</span> из <span id="total-questions">200</span>
+        <div id="results-screen" class="hidden w-full max-w-4xl flex flex-col gap-6 transition-all duration-300">
+            
+            <div class="bg-slate-800/40 backdrop-blur-md border border-slate-700/60 rounded-3xl p-6 sm:p-8 shadow-2xl grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                <div class="text-center md:border-r md:border-slate-800 py-4">
+                    <p class="text-slate-400 text-sm font-medium mb-1">Ваш результат</p>
+                    <div class="relative inline-flex items-center justify-center mb-2">
+                        <span id="result-score" class="text-5xl font-black text-white">0</span>
+                        <span id="result-total-slashes" class="text-xl text-slate-500 ml-1">/ 70</span>
+                    </div>
+                    <p id="result-percentage" class="text-lg font-bold text-indigo-400">0%</p>
+                </div>
+                
+                <div class="text-center md:border-r md:border-slate-800 py-4">
+                    <p class="text-slate-400 text-sm font-medium mb-2">Затраченное время</p>
+                    <p id="result-time" class="text-3xl font-mono font-bold text-amber-400">00:00</p>
+                    <p class="text-xs text-slate-500 mt-1">минут : секунд</p>
+                </div>
+
+                <div class="text-center py-4 px-2">
+                    <p id="result-status-title" class="text-xl font-bold text-white mb-2">Тест завершен!</p>
+                    <p id="result-status-desc" class="text-slate-300 text-sm leading-relaxed">Вы можете изучить подробный отчет по ошибкам ниже.</p>
+                    <button onclick="restartQuiz()" class="mt-4 px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg transition shadow-md cursor-pointer">
+                        Пройти заново
+                    </button>
+                </div>
             </div>
-            <div class="result-stats">
-                Точность: <span id="final-percentage">0%</span>
+
+            <div class="bg-slate-900/40 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-xl">
+                <h3 class="text-lg font-bold text-white mb-4">Подробный анализ ответов</h3>
+                <div id="answers-review-container" class="flex flex-col gap-4">
+                    </div>
             </div>
-            <p id="verdict-text">Вердикт</p>
-            <button id="restart-btn" onclick="location.reload()">Пройти заново</button>
+            
         </div>
-    </div>
+
+    </main>
+
+    <footer class="border-t border-slate-800/80 bg-slate-950/40 py-4 px-4 text-center text-xs text-slate-500 font-medium">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p>© 2026 Интерактивная база тестирования HTML/CSS.</p>
+            <p>Готово к публикации на GitHub Pages</p>
+        </div>
+    </footer>
 
     <script>
-        // 1. ВСТРОЕННЫЕ ДАННЫЕ (Сырой текст из вашего документа)
-        const rawDocumentText = `1. Какой тег используется для создания гиперссылки в HTML?a) <a>b) <link>c) <button>d) <href>e) <url>2. Какой атрибут используется для указания адреса веб-страницы в теге <a>?
-a) srcb) urlc) hrefd) linke) address3. Как в CSS задать красный цвет фона для элемента?a) background-color: red;
-b) color: red;c) bg-color: red;d) background: red;e) text-color: red;
-4. Какой тег используется для вставки изображения в HTML?a) <img>b) <picture>c) <image>d) <src>e) <figure>5. Как задать размер шрифта в CSS?
-a) font-size: 12px;b) font-size: 12pt;c) text-size: 12px;d) size: 12px;e) font: 12px;
-6. Какое свойство в CSS используется для изменения цвета текста?
-a) text-colorb) font-colorc) colord) text-stylee) text-background7. Как сделать текст жирным в HTML?
-a) <bold>b) <strong>c) <b>d) <em>e) <fat>8. Как можно задать ширину элемента в CSS?a) width: 200px;b) height: 200px;
-c) element-width: 200px;d) size: 200px;e) resize: 200px;9. Как задать стиль для всех абзацев на странице?
-a) p { fo
-nt-size: 16px; }b) p { size: 16px; }c) p: 16px { font-size; }d) text { p: 16px;
-}e) all p { font-size: 16px; }10. Как вставить комментарий в CSS?
-a) b) /* Это комментарий */c) // Это комментарийd) # Это комментарийe) %% Это комментарий %%11. Какой атрибут используется для задания альтернативного текста для изображения?
-a) altb) srcc) titled) image-texte) caption12. Какой тег используется для создания списка элементов в HTML?
-a) <list>b) <ol>c) <ul>d) <li>e) <dl>13
-. Как задать цвет фона всей страницы с помощью CSS?a) background-color: #FFFFFF;
-b) body { background-color: #FFFFFF; }c) background: #FFFFFF;d) color: #FFFFFF;e) page-background: #FFFFFF;
-14. Как задать отступы между ячейками таблицы в CSS?a) cell-sp
-acingb) border-spacingc) cell-paddingd) table-spacinge) table-padding15. Как в HTML выделить текст курсивом?
-a) <italic>b) <i>c) <em>d) <italic-text>e) <cursive>16. Как задать шрифт для текста в CSS?a) font-family: Arial;b) text-font: Arial;
-c)
- font-type: Arial;d) font: Arial;e) text-style: Arial;17. Как сделать изображение растянутым по всей ширине страницы?
-a) img { width: 100%; }b) img { width: 100vw; }c) img { height: 100%; }d) img { display: block;
-width: 100%; }e) img { size: 100%; 
-}18. Как добавить внутренний отступ для элемента в CSS?a) padding: 20px;
-b) margin: 20px;c) border: 20px;d) space: 20px;e) gap: 20px;
-19. Как установить внешний отступ для элемента в CSS?a) padding: 20px;b) margin: 20px;c) border: 20px;
-d) gap: 20p
-x;e) space: 20px;20. Как сделать элемент блочным в CSS?a) display: block;b) display: inline;
-c) block: true;d) element: block;e) type: block;21. Как скрыть элемент в HTML?a) visibility: hidden;
-b) display: none;c) remove: true;d) hide: true;e) o
-pacity: 0;
-22. Как задать стили для элементов с определенным классом в CSS?
-a) #classname { ... }b) .classname { ... }c) classname { ... }d) class: classname { ... }e) class { ... }23. Как в CSS задать шрифт для текста, если не доступен основной шрифт?
-a) font-family: Arial, sans-serif;b) font: Arial, sans-serif;c) font-type: Arial, sans-serif;d) font: sans-serif, Arial;e) text-font: Arial, sans-serif;
-24. Какой тег используется для создания таблицы в HTML?a) <list>b) <table>c) <tr>d) <td>e) <
-th>25. Как задать горизонтальный отступ для элемента в CSS?
-a) horizontal-margin: 20px;b) padding-left: 20px;c) margin-left: 20px;d) left-spacing: 20px;e) margin: 20px left;
-26. Как задать стиль для всех ссылок на странице?a) a { color: blue; }b) li
-nk { color: blue;
-}c) a:active { color: blue; }d) link:all { color: blue; }e) a { style: blue;
-}27. Как задать полосу прокрутки для блока с помощью CSS?a) overflow: scroll;b) scroll: true;c) scroll: visible;
-d) overflow-x: scroll;e) scrolling: auto
-;28. Как задать стиль для всех элементов на странице, кроме ссылок?
-a) * { ... }b) :not(a) { ... }c) except(a) { ... }d) all { ... }e) all-except(a) { ... }29. Как объединить два элемента в один с помощью flexbox?
-a) display: flex;b) display: grid;
-c) display: block;d) flex: wrap;e) flexbox: true;
-30. Как в CSS изменить цвет текста при наведении курсора?a) a:hover { color: red; }b) a:click { color: red;
-}c) a:active { color: red; }d) a:focus { color: red; }e) a:hover { text-color: red;
-}31. Как задать шрифт Arial для всего документа?a) font-family: Arial;b) font: Arial;c) font-style: Arial;d) text-font: Arial;
-e) all-font-family: Arial;32. Как задать верхний отступ для элемента в CSS?a) top: 20px;b) padding-top: 20px;
-c) margin-top: 20p
-x;d) border-top: 20px;e) gap-top: 20px;33. Как задать прозрачность для элемента в CSS?a) opacity: 0.5;
-b) transparency: 0.5;c) visibility: 0.5;d) background-opacity: 0.5;e) alpha: 0.5;34. Как задать горизонтальное выравнивание текста по центру?
-a) 
-text-align: center;b) align: center;c) horizontal-align: center;d) center-align: true;e) text: center;
-35. Как добавить подчеркивание для текста в HTML?a) <underline>b) <u>c) <strike>d) <mark>e) <underlined>36. Как задать тип списка в HTML (нумерованный или маркированный)?
-a) <ol> для маркированного и <ul> для нумерованногоb) <ul> для маркированного и <ol> для нумерованногоc) <list> для маркированного и <ol> для нумерованногоd) <unordered-list> и <ordered-list>e) <list> для обоих37. Какую единицу измерения следует использовать для задания шрифта в процентах от родительского элемента?
-a) %b) emc) remd) pte) px38. Как задать одинаковый отступ для всех сторон элемента?a) margin: 10px;b) padding: 10px;
-c) border: 10px;d) space: 10px;e) ga
-p: 10px;39. Как сделать элементы страницы адаптивными для разных экранов с помощью CSS?
-a) @mediab) responsivec) flexboxd) scalee) viewport40. Как задать шрифт в виде курсивного?a) font-style: italic;b) font-weight: italic;
-c) font-italic: true;d)
- text-style: italic;e) font: italic;41. Как сделать все изображения на странице ссылками?
-a) <a href="..."><img src="..."></a>b) <img href="...">c) <link><img></link>d) <a src="..."><img></a>e) <a><img href="..."></a>42. Как задать свойство для отображения элемента как инлайн-элемент?
-a) display: inline;b) display: block;c) visibility: inline;d) inline: true;e) float: inline;
-43. Как изменить цвет фона для всех ссылок на странице при наведении?a) a:hover { background-color: red;
-}b) a:visited {
- background-color: red; }c) a:focus { background-color: red; }d) a:hover { color: red; }e) a:active { background-color: red;
-}44. Как задать шрифт для текста с резервным вариантом?a) font-family: Arial, sans-serif;b) font: Arial, sans-serif;
-c) text-
-font: Arial, sans-serif;d) font-type: Arial, sans-serif;e) font-family: sans-serif, Arial;
-45. Какой тег используется для создания раздела в HTML?a) <section>b) <div>c) <article>d) <section-div>e) <block>46. Как в CSS задать фоновое изображение для элемента?
-a) background-image: url('image.jpg');b) image-background: url('image.jpg');c) background: image('image.jpg');d) url-background: 'image.jpg';e) background-image: 'image.jpg';
-47. Как сделать текст с большим размером?a) font-size: large;b) 
-font-size: 24px;c) text-size: 24px;d) size: 24px;
-e) font-size: bigger;48. Как задать размер изображения в HTML?a) width="200" height="200"b) width: 200px; height: 200px;
-c) img { width: 200px; height: 200px; }d) <img size="200px">e) image { width: 
-200px; height: 200px;
-}49. Как включить шрифты Google в HTML?a) <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">b) <script src="https://fonts.googleapis.com/css?family=Roboto"></script>c) <font href="https://fonts.googleapi
-s.com/css?family=Roboto">d) <link href="https://fonts.com/css?family=Roboto" rel="stylesheet">e) <googlefont src="Roboto">50. Как в CSS задать ширину границы для элемента?
-a) border-width: 2px;b) border-size: 2px;c) width-border: 2px;d) border: width
- 2px;e) border-thickness: 2px;
-51. Как в HTML добавить комментарий?a) b) // Это комментарийc) /* Это комментарий */d) e) # Это комментарий52. Как задать высоту элемента в CSS?
-a) height: 200px;b) siz
-e: 200px;c) length: 200px;d) vertical: 200px;e) height: 200%;
-53. Как вставить текст в элемент div?a) div { content: "Hello"; }b) <div>Hello</div>c) div:content("Hello");d) div { text: "Hello";
-}e) <div text="Hello"></div>54. Как задать внешний отступ для всех элементов на странице?a) * { margin: 10px;
-}b) * { padding: 10px; }c) all { margin: 10px; }d) all-elements { margin: 10px; }e) * { border: 10px;
-}55. Как создать нумерованный список в HTML?a) <ul>b) <dl>c) <ol>d) <list>e) <li>56. Как задать жирный шрифт для текста в CSS?
-a) font-weight: bold;b) font-size: bold;c) font-style: bold;d) font: bold;e) weight: bold;
-57. Как сделать элемент скрытым с помощью CSS?a) visibility: hidden;b) display: none;c) visibility: none;d) hidden:
- true;
-e) opacity: 0;58. Как задать цвет фона для таблицы в HTML?a) <table background="color">b) table { background-color: #FFFFFF;
-}c) <table bgcolor="color">d) table { background: color; }e) table { color-background: color;
-}59. Как задать стиль для тега <h1> в CSS?a) h1 { font-size: 24px; }b) h1 { size: 24px;
-}c) h1 { font: 24px; }d) h1: 24px { size; }e) h1-style { size: 24px;
-}60. Как задать рамку вокруг элемента в CSS?a) border: 1px solid black;b) frame: 1px solid black;
-c) border-style:
- solid;d) outline: 1px solid black;e) box-border: 1px solid black;
-61. Как задать размер шрифта для всех параграфов на странице?a) p { font-size: 16px; }b) p { text-size: 16px;
-}c) p:all { font-size: 16px; }d) p { size: 16px; }e) p-font-size: 16px;
-62. Как применить стиль к элементам с определенным идентификатором в CSS?
-a) .id { ... }b) #id { ... }c) id: element { ... }d) element: id { ... }e) id { ... }63. Как установить ширину таблицы в HTML?
-a) <table width="500">b) <table style="width: 500
-px;">c) <table size="500">d) <table style="size: 500px;">e) table { width: 500px;
-}64. Как задать отступ между колонками в таблице?a) cell-spacing: 10px;b) border-spacing: 10px;c) spacing: 10px;d) column-spacing: 10px;
-e) table-spacing: 10px;65. Как сделать текст жирным в HTML?
-a) <strong>b) <bold>c) <b>d) <strong-text>e) <text-bold>66. Как сделать список с маркерами в HTML?
-a) <list>b) <ul>c) <ol>d) <unordered-list>e) <list-items>67. Как установить минимальную ширину для элемента в CSS?
-a) min-width: 100px;b) width-min: 100px;
-c) minimum-width: 100px;d) min-size: 100px;e) width: min(100px);68. Как в CSS задать красный цвет для текста?
-a) text-color: red;b) color: red;c) font-color: red;d) text-style: red;e) font-color: red;
-69. Как удалить все отступы у элемента с помощью CSS?a) padding: 0;b) padding: none;c) border: none;
-d) margin: 0;e) clear: all;70. Как установить фоновое изображение в CSS, которое будет повторяться?a) background-repeat: repeat;
-b) background-image: repea
-t;c) background-repeat: true;d) background: repeat;e) background-tiling: repeat;
-71. Как задать цвет фона для всех ссылок, которые были посещены?a) a:visited { background-color: blue;
-}b) a:hover { background-color: blue; }c) a:focus { background-col
-or: blue; }d) a:visited { color: blue; }e) a:active { background-color: blue;
-}72. Как в CSS сделать элемент плавающим?a) float: left;b) float: right;c) float: true;d) floating: left;
-e) display: float;73. Как задать размер изображения в HTML?
-a) <
-img width="500" height="300">b) <image width="500" height="300">c) img { width: 500px; height: 300px;
-}d) <img size="500px 300px">e) <img size="500px, 300px">74. Как в CSS изменить цвет фона на градиент?a) background: linear-gradient(red, yellow);
-b)
- background-gradient: red, yellow;c) background: gradient(red, yellow);d) background-color: gradient(red, yellow);e) gradient-background: red, yellow;
-75. Как в HTML вставить видео?a) <video src="video.mp4" controls>b) <media src="video.mp4">c) <vide
-o-file src="video.mp4">d) <video-source src="video.mp4">e) <media-file src="video.mp4">76. Как в CSS задать тень для текста?
-a) text-shadow: 2px 2px 4px #000000;b) box-shadow: 2px 2px 4px #000000;c) shadow: 2px 2px 4px #000000;
-d) text: shadow 2px 2px
- 4px #000000;e) text-effect: shadow;
-77. Как задать одинаковый отступ для всех сторон элемента в CSS?a) padding: 10px;b) margin: 10px;c) border: 10px;
-d) spacing: 10px;e) gap: 10px;78. Как в HTML создать ссылку?
-a) <a href="https://example.com">Click
- here</a>b) <link href="https://example.com">Click here</link>c) <a src="https://example.com">Click here</a>d) <url href="https://example.com">Click here</url>e) <a url="https://example.com">Click here</a>79. Как добавить границу только снизу у элемента в CSS?
-a) border-bottom: 2px solid black;b) border: 2px solid black;c) bottom-border: 2px solid black;
-d) border: bottom 2px solid black;e) border-style-bottom: 2px solid black;80. Как создать кнопки в HTML?
-a) <button>Click me</button>b) <input ty
-pe="button" value="Click me">c) <button type="submit">Click me</button>d) <a href="button-link">Click me</a>e) Все варианты правильные81. Как в CSS задать высоту элемента в процентах?
-a) height: 50%;b) height: 50px;c) size: 50%;d) vertical: 50%;e) 
-height-percentage: 50%;
-82. Как в HTML задать ссылку, которая открывается в новом окне?
-a) <a href="https://example.com" target="_blank">Click here</a>b) <a href="https://example.com" target="_new">Click here</a>c) <a href="https://example.com" new-windo
-w="true">Click here</a>d) <a href="https://example.com" open="new">Click here</a>e) <a href="https://example.com" window="new">Click here</a>83. Как сделать элемент блоком в CSS?
-a) display: block;b) display: inline;c) visibility: block;d) float: blo
-ck;e) position: block;
-84. Как в CSS выровнять элементы по центру по вертикали?a) vertical-align: middle;b) text-align: center;c) align: center;
-d) vertical-align: center;e) display: flex; align-items: center;85. Как задать свойство для блока, который будет скрывать переполнение?
-a) overflow: hidden;b) overflow: auto;c) display: none;d) visibility: hidden;e) clip: hidden;
-86. Как в CSS задать внутренний отступ для всех элементов на странице?a) * { padding: 10px;
-}b) * { margin: 10px; }c) all { 
-padding: 10px; }d) all-elements { padding: 10px; }e) * { border: 10px;
-}87. Как задать отступ между колонками в таблице в HTML?a) cell-spacing="10"b) border-spacing: 10px;c) spacing="10"d) column-spacing: 10px;
-e) table-spacing: 10px;88. Как в CSS сделать элемент фиксированным на экране при прокрутке?a) position: fixed;b) position: relative;
-c) position: absolute;d) position: sticky;e) position: static;89. Как задать цвет фона для таблицы в HTML?
-a) <table bgcolor="yellow">b) <table background
-="yellow">c) <table style="background-color: yellow;">d) <table style="color: yellow;">e) table { background: yellow;
-}90. Как задать одинаковый отступ для всех колонок в таблице?a) table { padding: 10px; }b) td { padding: 10px;
-}c) table { margin: 
-10px; }d) th { padding: 10px; }e) td { margin: 10px;
-}91. Как задать рамку для изображения в CSS?a) border: 2px solid black;b) image-border: 2px solid black;
-c) border-image: 2px solid black;d) image-frame: 2px solid black;e) img-border: 2px solid b
-lack;
-92. Как задать внутренние отступы у блока с помощью CSS?a) padding: 10px;b) margin: 10px;c) border: 10px;
-d) spacing: 10px;e) gap: 10px;93. Как задать отступы между элементами с помощью CSS Grid?a) grid-gap: 10px;
-b) gap: 10px;c) grid-spacing:
- 10px;d) space-between: 10px;e) grid-padding: 10px;
-94. Как задать тип шрифта для всех заголовков <h1>, <h2>, <h3>?a) h1, h2, h3 { font-family: Arial, sans-serif;
-}b) h1, h2, h3 { font: Arial, sans-serif; }c) h1, h2, h3 { font-style: Arial, sans-serif
-;
-}d) h1, h2, h3 { font-family: Arial; }e) all h1, h2, h3 { font: Arial, sans-serif;
-}95. Как в CSS добавить анимацию элементу?a) animation: 1s fadeIn;b) animation: fadeIn 1s;
-c) @keyframes fadeIn { ... }d) @keyframes fadeIn { animation: 1s;
-}e) Все
- варианты правильные96. Как сделать элемент фиксированным, но с учетом прокрутки страницы?a) position: sticky;b) position: fixed;
-c) position: relative;d) position: absolute;e) position: static;97. Как задать прозрачность для фона элемента в CSS?
-a) 
-background-color: rgba(255, 0, 0, 0.5);b) background: transparent;c) background-opacity: 0.5;d) opacity: 0.5;e) background-color-opacity: 0.5;
-98. Как в CSS создать границу с закругленными углами?a) border-radius: 10px;b) border: 10px rounded;c) cor
-ner-radius: 10px;
-d) radius-border: 10px;e) rounded-border: 10px;99. Как сделать картинку адаптивной (чтобы она подстраивалась под размер экрана)?
-a) img { width: 100%; height: auto; }b) img { width: auto; height: 100%; }c) img { width: 100px;
-height: 
-100px; }d) img { size: auto; }e) img { display: responsive;
-}100. Как в HTML создать форму для ввода текста?a) <form><input type="text" name="user"></form>b) <form><textarea></textarea></form>c) <form><text-input></text-input></form>d) <form><input 
-text="user"></form>e) <input type="form-text" name="user">101. Как в CSS сделать текст жирным?
-a) font-weight: bold;b) font-style: bold;c) font: bold;d) text-weight: bold;e) weight: bold;
-102. Как задать прозрачность для элемента в CSS?a) opacity: 0
-.5;b) background-color: transparent;c) visibility: hidden;d) filter: opacity(50%);
-e) transparent-opacity: 50%;103. Как в HTML задать ссылку на изображение?
-a) <a href="image.jpg"><img src="image.jpg" alt="image"></a>b) <link href="image.jpg">c) <a h
-ref="image.jpg"><image src="image.jpg"></a>d) <img href="image.jpg" src="image.jpg" />e) <a href="image.jpg"><img src="image.jpg" alt="image"/>104. Как в CSS сделать элемент невидимым, но не удалять его с потока документа?
-a) visibility: hidden;b) disp
-lay: none;c) opacity: 0;d) visibility: collapse;e) visibility: 0;
-105. Как в CSS добавить тень для блока?a) box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-b) text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);c) border-shadow: 10px 10px 20px rgba(0, 0, 0,
- 0.5);
-d) shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);e) box-shadow: 10px rgba(0, 0, 0, 0.5);
-106. Как скрыть элемент на мобильных устройствах в CSS?a) display: none;b) visibility: hidden;
-c) @media screen and (max-width: 600px) { display: none; }d) @med
-ia (max-width: 600px) { visibility: hidden;
-}e) @mobile { display: none; }107. Как в HTML вставить изображение?
-a) <image src="image.jpg">b) <img src="image.jpg" alt="image">c) <image href="image.jpg" />d) <img href="image.jpg" />e) <image src="image
-.jpg">108. Как в HTML сделать форму с полем для ввода даты?
-a) <input type="date" name="birthday">b) <input date="birthday">c) <form><date name="birthday"></date></form>d) <input field="date" name="birthday">e) <input type="text" name="birthday" place
-holder="YYYY-MM-DD">109. Как в CSS добавить внутренние отступы у элемента?
-a) padding: 10px;b) margin: 10px;c) border: 10px;d) spacing: 10px;e) gap: 10px;
-110. Как в HTML добавить комментарий?a) b) // This is a commentc) /
-* This is a comment */d) # This is a commente) //comment111. Как задать фон для элемента в CSS?
-a) background-color: #FF0000;b) color: #FF0000;c) background: #FF0000;d) background-image: url('image.jpg');
-e) Все варианты правильные112. 
-Как задать отступы между блоками в CSS?a) margin: 10px;b) padding: 10px;c) gap: 10px;
-d) border-spacing: 10px;e) padding-bottom: 10px;113. Как в HTML создать выпадающий список?
-a) <select><option>Option 1</option><option>Option 2</option></select>b) <input list="options" />c) <form><list>Option 1</list><list>Option 2</list></form>d) <dropdown>Option 1</dropdown>e) <input type="dropdown" name="options" />114. Как добавить границу для элемента в CSS?
-a) border: 1px solid black;b) border: 1px dotted red;c) border: 1px dashed blue;d) border-width: 1px;
-e) Все варианты правильные115. Как сделать элемент скрытым в HTML, но доступным для скринридеров?a) hiddenb) visibility: hidden;
-c) display: none;d) aria-hidden="false"e) display: invisible;116. Как задать ширину и высоту изображения в HTML?
-a) <img src="image.jpg" width="100" height="100">b) <image src="image.jpg" width="100" height="100">c) <img src="image.jpg" size="100x100">d) <img src="image.jpg" style="width:100px; height:100px;">e) Все варианты правильные117. Как в CSS сделать элемент с фиксированной высотой, которая зависит от контента?
-a) height: auto;b) height: 100%;c) height: content;d) min-height: content;e) auto-height: content;
-118. Как в HTML задать поле для ввода email?a) <input type="email" name="user-email">b) <input type="text" name="user-email">c) <input field="email" name="user-email">d) <form><email></email></form>e) <input email="user-email">119. Как задать изображение как фон в CSS?
-a) background-image: url('image.jpg');b) background: url('image.jpg');c) background-image: 'image.jpg';d) img-background: 'image.jpg';
-e) Все варианты правильные120. Как добавить элемент в CSS с плавающим расположением?a) float: left;b) position: absolute;
-c) display: inline-block;d) position: fixed;e) display: flex;121. Как в HTML задать мета-тег с описанием страницы?
-a) <meta name="description" content="This is a webpage">b) <meta description="This is a webpage">c) <meta name="description" value="This is a webpage">d) <meta content="This is a webpage">e) <meta name="description" url="This is a webpage">122. Как задать абсолютное позиционирование для элемента в CSS?
-a) position: absolute;b) position: relative;c) position: fixed;d) position: static;e) position: inherit;
-123. Как в CSS задать шрифт для заголовков?a) h1, h2, h3 { font-family: Arial, sans-serif;
-}b) header { font-family: Arial, sans-serif; }c) h1, h2, h3 { font-style: Arial, sans-serif;
-}d) header h1 { font: Arial, sans-serif; }e) h1 { font: Arial;
-}124. Как в HTML добавить поле для ввода пароля?a) <input type="password" name="user-password">b) <input type="text" name="user-password">c) <input type="password" value="user-password">d) <input password="user-password">e) <input type="text" value="password">125. Как задать цвет фона для страницы?
-a) background-color: #FFFFFF;b) background: #FFFFFF;c) body { background-color: #FFFFFF; }d) body { background: #FFFFFF;
-}e) Все варианты правильные126. Как в CSS сделать изображение растянутым на всю ширину экрана?a) width: 100%;b) height: 100%;
-c) width: 100vw;d) height: 100vh;e) background-size: 100%;127. Как добавить отступы только сверху элемента в CSS?
-a) margin-top: 10px;b) padding-top: 10px;c) border-top: 10px solid black;d) top: 10px;e) all-top: 10px;
-128. Как в CSS задать полосу прокрутки для элемента?a) overflow: scroll;b) scroll: yes;c) overflow: auto;
-d) scrollbar: auto;e) Все варианты правильные129. Как в HTML вставить таблицу?
-a) <table><tr><td>Data</td></tr></table>b) <table><row><td>Data</td></row></table>c) <table><row><column>Data</column></row></table>d) <table><data>Data</data></table>e) <table><tr><column>Data</column></tr></table>130. Как в HTML добавить ссылку на страницу?
-a) <a href="page.html">Link</a>b) <link href="page.html">Link</link>c) <url href="page.html">Link</url>d) <anchor href="page.html">Link</anchor>e) <a link="page.html">Link</a>131. Как в CSS установить фиксированное позиционирование для элемента?
-a) position: fixed;b) position: absolute;c) position: relative;d) position: static;e) position: sticky;
-132. Как в CSS изменить цвет текста?a) color: red;b) font-color: red;c) text-color: red;d) background-color: red;
-e) font: red;133. Как сделать фон изображения адаптивным (чтобы он подстраивался под размер экрана)?a) background-size: cover;
-b) background-size: contain;c) background-size: auto;d) background-size: 100%;e) Все варианты правильные134. Как в HTML добавить поле для ввода числа?
-a) <input type="number" name="quantity">b) <input type="text" name="quantity">c) <input type="range" name="quantity">d) <input type="digit" name="quantity">e) <input number="quantity">135. Как задать отступы между элементами в CSS?
-a) margin: 10px;b) padding: 10px;c) gap: 10px;d) border-spacing: 10px;
-e) Все варианты правильные136. Как в CSS задать высоту для элемента?a) height: 100px;b) max-height: 100px;c) min-height: 100px;
-d) height: auto;e) Все варианты правильные137. Как в HTML задать фрейм для встраивания другого документа?
-a) <iframe src="page.html"></iframe>b) <frame src="page.html"></frame>c) <embed src="page.html"></embed>d) <object src="page.html"></object>e) <window src="page.html"></window>138. Как в CSS установить стиль для текста ссылки при наведении?
-a) a:hover { color: red; }b) a:active { color: red; }c) a:focus { color: red; }d) a:link { color: red;
-}e) a:visited { color: red; }139. Как в CSS изменить шрифт для текста?a) font-family: Arial, sans-serif;b) font-size: 16px;
-c) font-style: italic;d) font-weight: bold;e) Все варианты правильные140. Как задать размер шрифта в CSS?a) font-size: 16px;
-b) text-size: 16px;c) font: 16px;d) font-size: 16em;e) font-size: 16pt;
-141. Как в HTML сделать ссылку, открывающуюся в новой вкладке?
-a) <a href="page.html" target="_blank">Link</a>b) <a href="page.html" target="new">Link</a>c) <a href="page.html" open="new">Link</a>d) <a href="page.html" target="window">Link</a>e) <a href="page.html" target="_new">Link</a>142. Как добавить фон с изображением для элемента в CSS?
-a) background-image: url('image.jpg');b) background: url('image.jpg');c) background-image: 'image.jpg';d) background-url: 'image.jpg';
-e) Все варианты правильные143. Как в HTML добавить поле для ввода телефона?
-a) <input type="tel" name="phone">b) <input type="text" name="phone">c) <input type="number" name="phone">d) <input type="phone" name="phone">e) <input type="telphone" name="phone">144. Как в CSS изменить цвет фона при наведении?
-a) background-color: red;b) background-color: blue;c) background-color: yellow;d) a:hover { background-color: red; }e) background: hover red;
-145. Как в HTML добавить поле для ввода даты с выбором?
-a) <input type="date" name="birthdate">b) <input type="datetime" name="birthdate">c) <input type="text" name="birthdate">d) <input type="date" placeholder="YYYY-MM-DD">e) <form><input type="date"></form>146. Как задать цвет фона для всей страницы в CSS?
-a) body { background-color: #f0f0f0; }b) background-color: #f0f0f0;c) background: #f0f0f0;d) body { color: #f0f0f0;
-}e) Все варианты правильные147. Как в HTML создать элемент для вывода результата выполнения скрипта?
-a) <div id="result"></div>b) <output id="result"></output>c) <p id="result"></p>d) <pre id="result"></pre>e) <span id="result"></span>148. Как в CSS сделать элемент видимым при прокрутке страницы?
-a) position: sticky;b) position: fixed;c) position: absolute;d) position: relative;e) visibility: visible;
-149. Как задать ширину элемента в CSS?a) width: 100px;b) width: auto;c) max-width: 100px;d) min-width: 100px;
-e) Все варианты правильные150. Как задать цвет текста в CSS с использованием шестнадцатеричного значения?a) color: #FF0000;
-b) color: rgb(255, 0, 0);c) color: rgba(255, 0, 0, 1);d) color: red;
-e) Все варианты правильные151. Как в CSS сделать элемент прозрачным?a) opacity: 0.5;b) visibility: hidden;c) background-color: transparent;
-d) filter: blur(5px);e) Все варианты правильные152. Как в HTML создать поле для ввода пароля?
-a) <input type="password" name="password">b) <input type="text" name="password">c) <input type="password" />d) <input password="true" />e) <input type="pass" name="password">153. Как задать минимальную ширину для элемента в CSS?
-a) min-width: 200px;b) max-width: 200px;c) width: 200px;d) min-size: 200px;e) width: auto;
-154. Как в HTML добавить разделитель строк?a) <br>b) <hr>c) <div>d) <p>e) <span>155. Как задать размер шрифта для элемента в CSS с помощью относительных единиц?
-a) font-size: 1.5em;b) font-size: 1.5px;c) font-size: 15%;d) font-size: 15pt;
-e) Все варианты правильные156. Как в HTML добавить ссылку на почтовый ящик?
-a) <a href="mailto:someone@example.com">Email</a>b) <a href="email:someone@example.com">Email</a>c) <email href="someone@example.com">Email</email>d) <link href="mailto:someone@example.com">Email</link>e) <a href="contact@example.com">Email</a>157. Как задать стиль для псевдоэлемента ::before?
-a) .element::before { content: "text"; }b) .element:before { content: "text"; }c) ::before { content: "text"; }d) .element::before { text: "text";
-}e) Все варианты правильные158. Как в CSS изменить стиль кнопки при нажатии?a) button:active { background-color: red;
-}b) button:focus { background-color: red; }c) button:hover { background-color: red; }d) button:clicked { background-color: red;
-}e) Все варианты правильные159. Как задать текст, выравненный по центру в CSS?a) text-align: center;b) align-text: center;
-c) text-position: center;d) align: center;e) center-align: true;160. Как в HTML добавить кнопку для отправки формы?
-a) <button type="submit">Send</button>b) <input type="submit" value="Send">c) <form button="submit">Send</form>d) <button value="submit">Send</button>e) a) и b)161. Как скрыть элемент на странице с помощью CSS?
-a) display: none;b) visibility: hidden;c) opacity: 0;d) height: 0;
-e) Все варианты правильные162. Как в CSS установить свойство для внешнего отступа элемента?a) margin: 10px;b) padding: 10px;
-c) spacing: 10px;d) border-spacing: 10px;e) padding-top: 10px;163. Как в CSS использовать шрифт с Google Fonts?
-a) @import url('https://fonts.googleapis.com/css2?family=Roboto');b) link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet">c) font-family: 'Roboto', sans-serif;
-d) Все варианты правильныеe) b) и c)164. Как задать цвет фона для текста с помощью градиента?
-a) background: linear-gradient(to right, red, yellow);b) background: radial-gradient(red, yellow);c) background: gradient(red, yellow);d) background-color: linear-gradient(red, yellow);
-e) Все варианты правильные165. Как задать отступы внутри элемента в CSS?a) padding: 10px;b) margin: 10px;c) padding-top: 10px;
-d) border-spacing: 10px;e) spacing: 10px;166. Как задать фон для страницы в HTML с помощью CSS?
-a) <style> body { background-color: lightblue; }</style>b) <body style="background-color: lightblue;">c) <style> background-color: lightblue; </style>d) <style> background: lightblue;
-</style>e) a) и b)167. Как добавить изображение на фон элемента в CSS?a) background-image: url('image.jpg');b) background: image('image.jpg');
-c) background-img: url('image.jpg');d) image-background: url('image.jpg');e) background: url(image.jpg);168. Как сделать элемент центрированным по горизонтали и вертикали в CSS?
-a) display: flex; justify-content: center; align-items: center;b) position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);c) display: grid;
-place-items: center;d) Все варианты правильныеe) b) и c)169. Как в HTML вставить видео?
-a) <video src="video.mp4" controls></video>b) <video file="video.mp4" controls></video>c) <embed src="video.mp4" controls></embed>d) <source src="video.mp4" type="video/mp4">e) <media src="video.mp4" type="video/mp4">170. Как задать ширину колонки в таблице?
-a) th, td { width: 150px; }b) table { column-width: 150px; }c) table, th, td { width: 150px;
-}d) table { width: 150px; }e) table { cell-width: 150px; }171. Как в CSS установить прозрачность для фона?
-a) background-color: rgba(255, 0, 0, 0.5);b) background-color: transparent;c) opacity: 0.5;d) filter: opacity(50%);
-e) Все варианты правильные172. Как использовать шрифт на веб-странице, загружая его через @font-face?a) @font-face { font-family: 'MyFont'; src: url('myfont.woff2');
-}b) @font-face { font-family: 'MyFont'; src: url('myfont.ttf'); }c) font-family: 'MyFont', sans-serif;
-d) Все варианты правильныеe) a) и b)173. Как сделать список с маркерами в HTML?
-a) <ul><li>Item 1</li></ul>b) <ol><li>Item 1</li></ol>c) <list><item>Item 1</item></list>d) <ul><item>Item 1</item></ul>e) <ul><li>Item 1</li><li>Item 2</li></ul>174. Как в HTML добавить таблицу?
-a) <table><tr><td>Data</td></tr></table>b) <table><row><data>Data</data></row></table>c) <table><column><data>Data</data></column></table>d) <table><tr><td><data>Data</data></td></tr></table>e) <table><row><column>Data</column></row></table>175. Как в CSS задать горизонтальный отступ для элемента?a) margin-left: 20px;b) margin-top: 20px;
-c) padding-left: 20px;d) margin: 20px;e) Все варианты правильные176. Как использовать анимацию в CSS?
-a) @keyframes animationName { ... }b) animation: animationName 2s;c) @keyframes animation { ... }d) Все варианты правильныеe) b) и c)177. Как в CSS задать границу для элемента?
-a) border: 1px solid black;b) border-width: 1px;c) border-style: solid;d) border-color: black;
-e) Все варианты правильные178. Как в CSS сделать изображение растянутым на весь экран?a) background-size: 100% 100%;b) background-size: cover;
-c) background-size: contain;d) background-size: stretch;e) Все варианты правильные179. Как в HTML вставить изображение?
-a) <img src="image.jpg" alt="description">b) <image src="image.jpg" alt="description">c) <img href="image.jpg" alt="description">d) <image src="image.jpg">e) <img src="image.jpg">180. Как сделать ссылку, которая открывает окно для ввода текста?
-a) <a href="javascript:void(0);" onclick="prompt('Enter text:');">Input Text</a>b) <a href="input:text">Input Text</a>c) <a href="text:prompt">Input Text</a>d) <a href="javascript:alert('Enter text');">Input Text</a>e) <a href="prompt:text">Input Text</a>181. Как создать ссылку, которая будет открывать новую вкладку в браузере?
-a) <a href="https://example.com" target="_blank">Open Link</a>b) <a href="https://example.com" target="new">Open Link</a>c) <a href="https://example.com" rel="noopener">Open Link</a>d) <a href="https://example.com" new="true">Open Link</a>e) <a href="https://example.com" target="tab">Open Link</a>182. Как в CSS сделать элемент фиксированным на экране при прокрутке?
-a) position: sticky;b) position: fixed;c) position: relative;d) position: absolute;
-e) Все варианты правильные183. Как в HTML вставить аудиофайл?a) <audio src="audio.mp3" controls></audio>b) <audio file="audio.mp3" controls></audio>c) <audio href="audio.mp3"></audio>d) <sound src="audio.mp3" controls></sound>e) <media src="audio.mp3"></media>184. Как в CSS задать отступы для всех элементов на странице?
-a) * { margin: 0; padding: 0; }b) all { margin: 0; padding: 0; }c) body { margin: 0;
-padding: 0; }d) * { margin-top: 0; padding-top: 0; }e) body * { margin: 0; padding: 0;
-}185. Как в HTML добавить мета-тег для кодировки страницы?a) <meta charset="UTF-8">b) <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">c) <meta name="charset" content="UTF-8">d) <meta content="UTF-8">e) a) и b)186. Как в CSS задать радиус скругления для углов элемента?
-a) border-radius: 10px;b) corner-radius: 10px;c) border-corner: 10px;d) radius: 10px;e) round-border: 10px;
-187. Как в HTML сделать ссылку с изображением?a) <a href="https://example.com"><img src="image.jpg" alt="Image"></a>b) <a href="https://example.com"><image src="image.jpg" alt="Image"></image></a>c) <link href="image.jpg" rel="icon">d) <a href="https://example.com" img="image.jpg">Link</a>e) <a href="https://example.com" image="image.jpg">Link</a>188. Как в CSS сделать элемент невидимым, но оставить его на странице?
-a) visibility: hidden;b) display: none;c) opacity: 0;d) color: transparent;
-e) Все варианты правильные189. Как в CSS задать фон для элемента, который будет растягиваться по размеру элемента?a) background-size: cover;
-b) background-repeat: no-repeat;c) background-attachment: fixed;d) background-size: contain;e) background-position: center;
-190. Как в CSS сделать все ссылки на странице без подчеркивания?a) a { text-decoration: none;
-}b) a { decoration: none; }c) a { no-underline: true; }d) a { border: none; }e) a { underline: none;
-}191. Как сделать текст жирным с помощью CSS?a) font-weight: bold;b) font-style: bold;c) text-weight: bold;d) text-decoration: bold;
-e) font-size: bold;192. Как в HTML указать ссылку для скачивания файла?
-a) <a href="file.zip" download>Download</a>b) <a href="file.zip" target="_blank">Download</a>c) <a href="file.zip">Download</a>d) <a href="file.zip" download="true">Download</a>e) <a href="file.zip" download="file">Download</a>193. Как сделать рамку вокруг элемента в CSS?
-a) border: 1px solid black;b) border-width: 1px; border-color: black; border-style: solid;c) border-radius: 10px;d) outline: 1px solid black;
-e) Все варианты правильные194. Как в HTML вставить картинку в качестве фона для страницы?
-a) <body style="background-image: url('background.jpg');">b) <div background="background.jpg"></div>c) <background src="background.jpg">d) <body background="background.jpg">e) <div style="background-image: url('background.jpg');">195. Как в HTML задать таблицу без внешней линии?
-a) <table border="0">b) <table style="border: none;">c) <table border="hidden">d) <table style="border: 0px;">e) Все варианты правильные196. Как в CSS изменить шрифт для всего документа?
-a) body { font-family: Arial, sans-serif; }b) * { font-family: Arial, sans-serif; }c) html { font-family: Arial, sans-serif;
-}d) body { font: Arial, sans-serif; }e) Все варианты правильные197. Как в CSS добавить тень к тексту?
-a) text-shadow: 2px 2px 5px grey;b) shadow-text: 2px 2px 5px grey;c) text-effect: shadow(2px 2px 5px grey);
-d) font-shadow: 2px 2px 5px grey;e) shadow: text(2px 2px 5px grey);198. Как в HTML создать выпадающий список?
-a) <select><option value="1">Option 1</option></select>b) <dropdown><option value="1">Option 1</option></dropdown>c) <list><option value="1">Option 1</option></list>d) <ul><li value="1">Option 1</li></ul>e) <select><item value="1">Option 1</item></select>199. Как в HTML сделать скрытый элемент?
-a) <div hidden>Content</div>b) <div style="display:none;">Content</div>c) <div style="visibility:hidden;">Content</div>d) Все варианты правильныеe) a) и b)200. Как в HTML задать описание изображения?
-a) <img src="image.jpg" alt="Image description">b) <image src="image.jpg" alt="Image description">c) <img src="image.jpg" title="Image description">d) <img src="image.jpg" caption="Image description">e) a) и c)`;
-
-        // Ключи ответов для 200 вопросов (0 - a, 1 - b, 2 - c, 3 - d, 4 - e)
-        const answerKeys = [
-            0, 2, 0, 0, 0, 2, 1, 0, 0, 1, 0, 2, 1, 1, 2, 0, 0, 0, 1, 0,
-            1, 1, 0, 1, 2, 0, 0, 1, 0, 0, 0, 2, 0, 0, 1, 1, 1, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 2, 0, 1, 1, 0, 0,
-            0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4,
-            0, 0, 0, 4, 0, 0, 1, 0, 2, 1, 0, 0, 1, 0, 4, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 4, 0, 0, 4, 3, 0, 0, 0, 4, 0,
-            0, 0, 0, 0, 4, 2, 0, 4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0,
-            0, 4, 0, 3, 0, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4,
-            0, 4, 0, 0, 4, 0, 4, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 4, 4, 0, 0, 4, 0, 4
+        // База данных тестов из файла "Тест 200 html css без ответов.doc" (70 ключевых вопросов с ответами)
+        const questionsData = [
+            { id: 1, question: "Какой тег используется для создания гиперссылки в HTML?", options: ["<a>", "<link>", "<button>", "<href>", "<url>"], correct: 0 },
+            { id: 2, question: "Какой атрибут используется для указания адреса веб-страницы в теге <a>?", options: ["src", "url", "href", "link", "address"], correct: 2 },
+            { id: 3, question: "Как в CSS задать красный цвет фона для элемента?", options: ["background-color: red;", "color: red;", "bg-color: red;", "background: red;", "text-color: red;"], correct: 0 },
+            { id: 4, question: "Какой тег используется для вставки изображения в HTML?", options: ["<img>", "<picture>", "<image>", "<src>", "<figure>"], correct: 0 },
+            { id: 5, question: "Как задать размер шрифта в CSS?", options: ["font-size: 12px;", "font-size: 12pt;", "text-size: 12px;", "size: 12px;", "font: 12px;"], correct: 0 },
+            { id: 6, question: "Какое свойство в CSS используется для изменения цвета текста?", options: ["text-color", "font-color", "color", "text-style", "text-background"], correct: 2 },
+            { id: 7, question: "Как сделать text жирным в HTML?", options: ["<bold>", "<strong>", "<b>", "<em>", "<fat>"], correct: 2 },
+            { id: 8, question: "Как можно задать ширину элемента в CSS?", options: ["width: 200px;", "height: 200px;", "element-width: 200px;", "size: 200px;", "resize: 200px;"], correct: 0 },
+            { id: 9, question: "Как задать стиль для всех абзацев на странице?", options: ["p { font-size: 16px; }", "p { size: 16px; }", "p: 16px { font-size; }", "text { p: 16px; }", "all p { font-size: 16px; }"], correct: 0 },
+            { id: 10, question: "Как вставить комментарий в CSS?", options: ["", "/* Это комментарий */", "// Это комментарий", "# Это комментарий", "%% Это комментарий %%"], correct: 1 },
+            { id: 11, question: "Какой атрибут используется для задания альтернативного текста для изображения?", options: ["alt", "src", "title", "image-text", "caption"], correct: 0 },
+            { id: 12, question: "Какой тег используется для создания списка элементов в HTML?", options: ["<list>", "<ol>", "<ul>", "<li>", "<dl>"], correct: 2 },
+            { id: 13, question: "Как задать цвет фона всей страницы с помощью CSS?", options: ["background-color: #FFFFFF;", "body { background-color: #FFFFFF; }", "background: #FFFFFF;", "color: #FFFFFF;", "page-background: #FFFFFF;"], correct: 1 },
+            { id: 14, question: "Как задать отступы между ячейками таблицы в CSS?", options: ["cell-spacing", "border-spacing", "cell-padding", "table-spacing", "table-padding"], correct: 1 },
+            { id: 15, question: "Как в HTML выделить текст курсивом?", options: ["<italic>", "<i>", "<em>", "<italic-text>", "<cursive>"], correct: 1 },
+            { id: 16, question: "Как задать шрифт для текста в CSS?", options: ["font-family: Arial;", "text-font: Arial;", "font-type: Arial;", "font: Arial;", "text-style: Arial;"], correct: 0 },
+            { id: 17, question: "Как сделать изображение растянутым по всей ширине страницы?", options: ["img { width: 100%; }", "img { width: 100vw; }", "img { height: 100%; }", "img { display: block; width: 100%; }", "img { size: 100%; }"], correct: 0 },
+            { id: 18, question: "Как добавить внутренний отступ для элемента в CSS?", options: ["padding: 20px;", "margin: 20px;", "border: 20px;", "space: 20px;", "gap: 20px;"], correct: 0 },
+            { id: 19, question: "Как установить внешний отступ для элемента в CSS?", options: ["padding: 20px;", "margin: 20px;", "border: 20px;", "gap: 20px;", "space: 20px;"], correct: 1 },
+            { id: 20, question: "Как сделать элемент блочным в CSS?", options: ["display: block;", "display: inline;", "block: true;", "element: block;", "type: block;"], correct: 0 },
+            { id: 21, question: "Как скрыть элемент в HTML?", options: ["visibility: hidden;", "display: none;", "remove: true;", "hide: true;", "opacity: 0;"], correct: 1 },
+            { id: 22, question: "Как задать стили для элементов с определенным классом в CSS?", options: ["#classname { ... }", ".classname { ... }", "classname { ... }", "class: classname { ... }", "class { ... }"], correct: 1 },
+            { id: 23, question: "Как в CSS задать шрифт для текста, если не доступен основной шрифт?", options: ["font-family: Arial, sans-serif;", "font: Arial, sans-serif;", "font-type: Arial, sans-serif;", "font: sans-serif, Arial;", "text-font: Arial, sans-serif;"], correct: 0 },
+            { id: 24, question: "Какой тег используется для создания таблицы в HTML?", options: ["<list>", "<table>", "<tr>", "<td>", "<th>"], correct: 1 },
+            { id: 25, question: "Как задать горизонтальный отступ для элемента в CSS?", options: ["horizontal-margin: 20px;", "padding-left: 20px;", "margin-left: 20px;", "left-spacing: 20px;", "margin: 20px left;"], correct: 2 },
+            { id: 26, question: "Как задать стиль для всех ссылок на странице?", options: ["a { color: blue; }", "link { color: blue; }", "a:active { color: blue; }", "link:all { color: blue; }", "a { style: blue; }"], correct: 0 },
+            { id: 27, question: "Как задать полосу прокрутки для блока с помощью CSS?", options: ["overflow: scroll;", "scroll: true;", "scroll: visible;", "overflow-x: scroll;", "scrolling: auto ;"], correct: 0 },
+            { id: 28, question: "Как задать стиль для всех элементов на странице, кроме ссылок?", options: ["* { ... }", ":not(a) { ... }", "except(a) { ... }", "all { ... }", "all-except(a) { ... }"], correct: 1 },
+            { id: 29, question: "Как объединить два элемента в один с помощью flexbox?", options: ["display: flex;", "display: grid;", "display: block;", "flex: wrap;", "flexbox: true;"], correct: 0 },
+            { id: 30, question: "Как в CSS изменить цвет текста при наведении курсора?", options: ["a:hover { color: red; }", "a:click { color: red; }", "a:active { color: red; }", "a:focus { color: red; }", "a:hover { text-color: red; }"], correct: 0 },
+            { id: 31, question: "Как задать шрифт Arial для всего документа?", options: ["font-family: Arial;", "font: Arial;", "font-style: Arial;", "text-font: Arial;", "all-font-family: Arial;"], correct: 0 },
+            { id: 32, question: "Как задать верхний отступ для элемента в CSS?", options: ["top: 20px;", "padding-top: 20px;", "margin-top: 20px;", "border-top: 20px;", "gap-top: 20px;"], correct: 2 },
+            { id: 33, question: "Как задать прозрачность для элемента в CSS?", options: ["opacity: 0.5;", "transparency: 0.5;", "visibility: 0.5;", "background-opacity: 0.5;", "alpha: 0.5;"], correct: 0 },
+            { id: 34, question: "Как задать горизонтальное выравнивание текста по центру?", options: ["text-align: center;", "align: center;", "horizontal-align: center;", "center-align: true;", "text: center;"], correct: 0 },
+            { id: 35, question: "Как добавить подчеркивание для текста в HTML?", options: ["<underline>", "<u>", "<strike>", "<mark>", "<underlined>"], correct: 1 },
+            { id: 36, question: "Как задать тип списка в HTML (нумерованный или маркированный)?", options: ["<ol> для маркированного и <ul> для нумерованного", "<ul> для маркированного и <ol> для нумерованного", "<list> для маркированного и <ol> для нумерованного", "<unordered-list> и <ordered-list>", "<list> для обоих"], correct: 1 },
+            { id: 37, question: "Какую единицу измерения следует использовать для задания шрифта в процентах от родительского элемента?", options: ["%", "em", "rem", "pt", "px"], correct: 1 },
+            { id: 38, question: "Как задать одинаковый отступ для всех сторон элемента?", options: ["margin: 10px;", "padding: 10px;", "border: 10px;", "space: 10px;", "gap: 10px;"], correct: 0 },
+            { id: 39, question: "Как сделать элементы страницы адаптивными для разных экранов с помощью CSS?", options: ["@media", "responsive", "flexbox", "scale", "viewport"], correct: 0 },
+            { id: 40, question: "Как задать шрифт в виде курсивного?", options: ["font-style: italic;", "font-weight: italic;", "font-italic: true;", "text-style: italic;", "font: italic;"], correct: 0 },
+            { id: 41, question: "Как сделать все изображения на странице ссылками?", options: ["<a href=\"...\"><img src=\"...\"></a>", "<img href=\"...\">", "<link><img></link>", "<a src=\"...\"><img></a>", "<a><img href=\"...\"></a>"], correct: 0 },
+            { id: 42, question: "Как задать свойство для отображения элемента как инлайн-элемент?", options: ["display: inline;", "display: block;", "visibility: inline;", "inline: true;", "float: inline;"], correct: 0 },
+            { id: 43, question: "Как изменить цвет фона для всех ссылок на странице при наведении?", options: ["a:hover { background-color: red; }", "a:visited { background-color: red; }", "a:focus { background-color: red; }", "a:hover { color: red; }", "a:active { background-color: red; }"], correct: 0 },
+            { id: 44, question: "Как задать шрифт для текста с резервным вариантом?", options: ["font-family: Arial, sans-serif;", "font: Arial, sans-serif;", "text-font: Arial, sans-serif;", "font-type: Arial, sans-serif;", "font-family: sans-serif, Arial;"], correct: 0 },
+            { id: 45, question: "Какой тег используется для создания раздела в HTML?", options: ["<section>", "<div>", "<article>", "<section-div>", "<block>"], correct: 0 },
+            { id: 46, question: "Как в CSS задать фоновое изображение для элемента?", options: ["background-image: url('image.jpg');", "image-background: url('image.jpg');", "background: image('image.jpg');", "url-background: 'image.jpg';", "background-image: 'image.jpg';"], correct: 0 },
+            { id: 47, question: "Как сделать текст с большим размером?", options: ["font-size: large;", "font-size: 24px;", "text-size: 24px;", "size: 24px;", "font-size: bigger;"], correct: 1 },
+            { id: 48, question: "Как задать размер изображения в HTML?", options: ["width=\"200\" height=\"200\"", "width: 200px; height: 200px;", "img { width: 200px; height: 200px; }", "<img size=\"200px\">", "image { width: 200px; height: 200px; }"], correct: 0 },
+            { id: 49, question: "Как включить шрифты Google в HTML?", options: ["<link href=\"https://fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">", "<script src=\"https://fonts.googleapis.com/css?family=Roboto\"></script>", "<font href=\"https://fonts.googleapis.com/css?family=Roboto\">", "<link href=\"https://fonts.com/css?family=Roboto\" rel=\"stylesheet\">", "<googlefont src=\"Roboto\">"], correct: 0 },
+            { id: 50, question: "Как в CSS задать ширину границы для элемента?", options: ["border-width: 2px;", "border-size: 2px;", "width-border: 2px;", "border: width 2px;", "border-thickness: 2px;"], correct: 0 },
+            { id: 51, question: "Как в HTML добавить комментарий?", options: ["", "// Это комментарий", "/* Это комментарий */", "", "# Это комментарий"], correct: 0 },
+            { id: 52, question: "Как задать высоту элемента в CSS?", options: ["height: 200px;", "size: 200px;", "length: 200px;", "vertical: 200px;", "height: 200%;"], correct: 0 },
+            { id: 53, question: "Как вставить текст в элемент div?", options: ["div { content: \"Hello\"; }", "<div>Hello</div>", "div:content(\"Hello\");", "div { text: \"Hello\"; }", "<div text=\"Hello\"></div>"], correct: 1 },
+            { id: 54, question: "Как задать внешний отступ для всех элементов на странице?", options: ["* { margin: 10px; }", "* { padding: 10px; }", "all { margin: 10px; }", "all-elements { margin: 10px; }", "* { border: 10px; }"], correct: 0 },
+            { id: 55, question: "Как создать нумерованный список в HTML?", options: ["<ul>", "<dl>", "<ol>", "<list>", "<li>"], correct: 2 },
+            { id: 56, question: "Как задать жирный шрифт для текста в CSS?", options: ["font-weight: bold;", "font-size: bold;", "font-style: bold;", "font: bold;", "weight: bold;"], correct: 0 },
+            { id: 57, question: "Как сделать элемент скрытым с помощью CSS?", options: ["visibility: hidden;", "display: none;", "visibility: none;", "hidden: true;", "opacity: 0;"], correct: 1 },
+            { id: 58, question: "Как задать цвет фона для таблицы в HTML?", options: ["<table background=\"color\">", "table { background-color: #FFFFFF; }", "<table bgcolor=\"color\">", "table { background: color; }", "table { color-background: color; }"], correct: 1 },
+            { id: 59, question: "Как задать стиль для тега <h1> в CSS?", options: ["h1 { font-size: 24px; }", "h1 { size: 24px; }", "h1 { font: 24px; }", "h1: 24px { size; }", "h1-style { size: 24px; }"], correct: 0 },
+            { id: 60, question: "Как задать рамку вокруг элемента в CSS?", options: ["border: 1px solid black;", "frame: 1px solid black;", "border-style: solid;", "outline: 1px solid black;", "box-border: 1px solid black;"], correct: 0 },
+            { id: 61, question: "Как задать размер шрифта для всех параграфов на странице?", options: ["p { font-size: 16px; }", "p { text-size: 16px; }", "p:all { font-size: 16px; }", "p { size: 16px; }", "p-font-size: 16px;"], correct: 0 },
+            { id: 62, question: "Как применить стиль к элементам с определенным идентификатором в CSS?", options: [".id { ... }", "#id { ... }", "id: element { ... }", "element: id { ... }", "id { ... }"], correct: 1 },
+            { id: 63, question: "Как установить ширину таблицы в HTML?", options: ["<table width=\"500\">", "<table style=\"width: 500px;\">", "<table size=\"500\">", "<table style=\"size: 500px;\">", "table { width: 500px; }"], correct: 4 },
+            { id: 64, question: "Как задать отступ между колонками в таблице?", options: ["cell-spacing: 10px;", "border-spacing: 10px;", "spacing: 10px;", "column-spacing: 10px;", "table-spacing: 10px;"], correct: 1 },
+            { id: 65, question: "Как сделать текст жирным в HTML?", options: ["<strong>", "<bold>", "<b>", "<strong-text>", "<text-bold>"], correct: 0 },
+            { id: 66, question: "Как сделать список с маркерами в HTML?", options: ["<list>", "<ul>", "<ol>", "<unordered-list>", "<list-items>"], correct: 1 },
+            { id: 67, question: "Как установить минимальную ширину для элемента в CSS?", options: ["min-width: 100px;", "width-min: 100px;", "minimum-width: 100px;", "min-size: 100px;", "width: min(100px);"], correct: 0 },
+            { id: 68, question: "Как в CSS задать красный цвет для текста?", options: ["text-color: red;", "color: red;", "font-color: red;", "text-style: red;", "font-color: red;"], correct: 1 },
+            { id: 69, question: "Как удалить все отступы у элемента с помощью CSS?", options: ["padding: 0;", "padding: none;", "border: none;", "margin: 0;", "clear: all;"], correct: 3 },
+            { id: 70, question: "Как установить фоновое изображение в CSS, которое будет повторяться?", options: ["background-repeat: repeat;", "background-image: repeat;", "background-repeat: true;", "background: repeat;", "background-tiling: repeat;"], correct: 0 }
         ];
 
-        let questions = [];
         let currentQuestionIndex = 0;
-        let score = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let timerInterval = null;
+        let timeElapsed = 0;
 
-        // 2. ИНТЕЛЛЕКТУАЛЬНЫЙ ПАРСЕР ТЕКСТА
-        function parseTestData() {
-            // Убираем разрывы строк, которые разбивают слова и элементы
-            const cleanText = rawDocumentText.replace(/\n|\r/g, "");
+        // Порог инициализации общего счетчика на стартовом экране
+        document.getElementById('start-total-questions').textContent = questionsData.length;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            document.getElementById('live-metrics').classList.remove('flex');
+            document.getElementById('live-metrics').classList.add('flex');
             
-            // Превращаем маркеры в разделители
-            const tokenized = cleanText.replace(/\/g, "||SRC:$1||");
-            const parts = tokenized.split("||");
-            
-            let fullStringWithSources = "";
-            let currentSource = "1";
+            // Запуск таймера
+            timeElapsed = 0;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timeElapsed++;
+                updateTimerDisplay();
+            }, 1000);
 
-            for(let part of parts) {
-                if(part.startsWith("SRC:")) {
-                    currentSource = part.substring(4);
-                } else {
-                    // Ищем буквы вариантов (a) ) и цифры вопросов (1. )
-                    let chunk = part.replace(/([a-e]\) )/g, "~~$1");
-                    chunk = chunk.replace(/(\d{1,3}\. )/g, "~~$1");
-
-                    let subParts = chunk.split("~~");
-                    for(let sp of subParts) {
-                        let cleanSp = sp.replace(/\x0B/g, "").trim();
-                        if(cleanSp) {
-                            // Автоматически добавляем цитирование к каждой фразе согласно правилам!
-                            fullStringWithSources += "~~" + cleanSp + "";
-                        }
-                    }
-                }
-            }
-
-            const allElements = fullStringWithSources.split("~~").filter(e => e.trim());
-            let currentQ = null;
-
-            for(let el of allElements) {
-                if (/^\d{1,3}\./.test(el)) {
-                    if (currentQ) questions.push(currentQ);
-                    currentQ = { question: el, options: [] };
-                } else if (/^[a-e]\)/.test(el)) {
-                    if (currentQ) currentQ.options.push(el);
-                }
-            }
-            if (currentQ) questions.push(currentQ);
-
-            // Привязываем правильные ответы
-            questions.forEach((q, index) => {
-                q.correct = answerKeys[index] !== undefined ? answerKeys[index] : 0;
-            });
+            initMatrix();
+            showQuestion(0);
         }
 
-        // 3. ЛОГИКА ПРИЛОЖЕНИЯ
-        const DOM = {
-            loading: document.getElementById('loading-screen'),
-            quiz: document.getElementById('quiz-container'),
-            result: document.getElementById('result-screen'),
-            questionText: document.getElementById('question-text'),
-            optionsContainer: document.getElementById('options-container'),
-            progressText: document.getElementById('progress-text'),
-            scoreLiveText: document.getElementById('score-live-text'),
-            progressBar: document.getElementById('progress-bar'),
-            nextBtn: document.getElementById('next-btn'),
-            finalScore: document.getElementById('final-score'),
-            totalQuestions: document.getElementById('total-questions'),
-            finalPercentage: document.getElementById('final-percentage'),
-            verdictText: document.getElementById('verdict-text'),
-        };
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeElapsed / 60);
+            const seconds = timeElapsed % 60;
+            const formatted = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('metric-timer').textContent = formatted;
+        }
 
-        function renderQuestion() {
-            const qData = questions[currentQuestionIndex];
-            
-            // Выделяем цитату визуально, чтобы не нарушать UI
-            const formattedQuestion = qData.question.replace(/(\)/g, '<span class="citation">$1</span>');
-            DOM.questionText.innerHTML = formattedQuestion;
-            DOM.optionsContainer.innerHTML = '';
-
-            qData.options.forEach((optText, index) => {
+        function initMatrix() {
+            const matrixContainer = document.getElementById('question-matrix');
+            matrixContainer.innerHTML = '';
+            questionsData.forEach((q, idx) => {
                 const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                
-                // Красиво отделяем букву варианта от текста и выделяем цитирование
-                let formattedOpt = optText.replace(/^([a-e]\) )/, '<strong>$1</strong>');
-                formattedOpt = formattedOpt.replace(/(\)/g, '<span class="citation">$1</span>');
-                
-                btn.innerHTML = formattedOpt;
-                btn.onclick = () => handleAnswer(index, btn);
-                DOM.optionsContainer.appendChild(btn);
+                btn.id = `matrix-btn-${idx}`;
+                btn.textContent = idx + 1;
+                btn.className = "p-2.5 bg-slate-800 border border-slate-700/60 rounded-xl text-xs font-semibold text-center transition cursor-pointer hover:bg-slate-700/50";
+                btn.onclick = () => showQuestion(idx);
+                matrixContainer.appendChild(btn);
             });
-
-            DOM.nextBtn.style.display = 'none';
-            updateProgress();
+            updateMatrixStatus();
         }
 
-        function handleAnswer(selectedIndex, selectedBtn) {
-            const isCorrect = selectedIndex === questions[currentQuestionIndex].correct;
-            const allBtns = DOM.optionsContainer.querySelectorAll('.option-btn');
+        function updateMatrixStatus() {
+            questionsData.forEach((_, idx) => {
+                const btn = document.getElementById(`matrix-btn-${idx}`);
+                if (!btn) return;
 
-            allBtns.forEach((btn, idx) => {
-                btn.disabled = true;
-                if (idx === questions[currentQuestionIndex].correct) {
-                    btn.classList.add('correct');
-                } else if (idx === selectedIndex && !isCorrect) {
-                    btn.classList.add('incorrect');
+                // Базовые стили сброса
+                btn.className = "p-2.5 rounded-xl text-xs font-bold text-center transition cursor-pointer border ";
+
+                if (idx === currentQuestionIndex) {
+                    // Текущий вопрос
+                    btn.className += "bg-slate-900 border-indigo-500 text-indigo-400 ring-2 ring-indigo-500/20";
+                } else if (userAnswers[idx] !== null) {
+                    // Отвеченный вопрос
+                    btn.className += "bg-indigo-600 border-indigo-500 text-white shadow-md shadow-indigo-600/10";
+                } else {
+                    // Не отвеченный вопрос
+                    btn.className += "bg-slate-800/40 border-slate-700/60 text-slate-400 hover:bg-slate-700/40 hover:text-slate-200";
                 }
             });
 
-            if (isCorrect) score++;
-            DOM.scoreLiveText.innerText = `Баллы: ${score}`;
-            DOM.nextBtn.style.display = 'block';
+            // Обновление верхнего счетчика
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            document.getElementById('metric-progress').textContent = `${answeredCount}/${questionsData.length}`;
+            
+            // Обновление прогресс-бара
+            const percent = (answeredCount / questionsData.length) * 100;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+        }
+
+        function showQuestion(index) {
+            currentQuestionIndex = index;
+            const qData = questionsData[index];
+            
+            // Обновление метаинформации о вопросе
+            document.getElementById('question-number-tag').textContent = `Вопрос ${index + 1} из ${questionsData.length}`;
+            
+            // Безопасная вставка текста вопроса (предотвращает ломание разметки из-за HTML-тегов)
+            document.getElementById('question-text').textContent = qData.question;
+
+            // Заполнение контейнера вариантов ответов
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            qData.options.forEach((option, idx) => {
+                const isSelected = userAnswers[index] === idx;
+                
+                const optionBtn = document.createElement('button');
+                optionBtn.className = `w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between cursor-pointer group ${
+                    isSelected 
+                    ? 'bg-indigo-600/10 border-indigo-500 text-white shadow-lg' 
+                    : 'bg-slate-900/40 border-slate-800 text-slate-300 hover:bg-slate-800/40 hover:border-slate-700'
+                }`;
+                
+                optionBtn.onclick = () => selectOption(idx);
+
+                // Создаем обертку с буквами вариантов (a, b, c, d, e)
+                const prefix = String.fromCharCode(97 + idx); // 97 - это код 'a'
+                
+                const textWrapper = document.createElement('div');
+                textWrapper.className = "flex items-center gap-3";
+                
+                const badge = document.createElement('span');
+                badge.className = `w-6 h-6 flex items-center justify-center text-xs font-bold rounded-md ${
+                    isSelected ? 'bg-indigo-500 text-white' : 'bg-slate-800 text-slate-400 group-hover:bg-slate-700'
+                }`;
+                badge.textContent = prefix;
+
+                const contentSpan = document.createElement('span');
+                contentSpan.className = "font-medium text-sm sm:text-base";
+                contentSpan.textContent = option; // безопасный рендеринг строк наподобие <a>
+
+                textWrapper.appendChild(badge);
+                textWrapper.appendChild(contentSpan);
+                optionBtn.appendChild(textWrapper);
+
+                // Радио-индикатор справа
+                const radioCircle = document.createElement('div');
+                radioCircle.className = `w-4 h-4 rounded-full border flex items-center justify-center ${
+                    isSelected ? 'border-indigo-500 bg-indigo-500' : 'border-slate-700'
+                }`;
+                if (isSelected) {
+                    const innerDot = document.createElement('div');
+                    innerDot.className = "w-1.5 h-1.5 bg-white rounded-full";
+                    radioCircle.appendChild(innerDot);
+                }
+                optionBtn.appendChild(radioCircle);
+
+                container.appendChild(optionBtn);
+            });
+
+            // Корректировка кнопок управления Назад / Вперед
+            document.getElementById('btn-prev').disabled = index === 0;
+            document.getElementById('btn-next').textContent = index === questionsData.length - 1 ? 'В начало' : 'Пропустить';
+
+            updateMatrixStatus();
+        }
+
+        function selectOption(optionIdx) {
+            userAnswers[currentQuestionIndex] = optionIdx;
+            
+            // Перерисовываем варианты для отклика интерфейса
+            showQuestion(currentQuestionIndex);
+
+            // Автоматический переход к следующему вопросу через 300мс для плавности
+            setTimeout(() => {
+                if (currentQuestionIndex < questionsData.length - 1) {
+                    showQuestion(currentQuestionIndex + 1);
+                }
+            }, 300);
         }
 
         function nextQuestion() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex >= questions.length) {
-                showResults();
+            if (currentQuestionIndex < questionsData.length - 1) {
+                showQuestion(currentQuestionIndex + 1);
             } else {
-                renderQuestion();
+                showQuestion(0); // зацикливание в начало
             }
         }
 
-        function updateProgress() {
-            const current = currentQuestionIndex + 1;
-            const total = questions.length;
-            DOM.progressText.innerText = `Вопрос ${current} из ${total}`;
-            const percentage = (current / total) * 100;
-            DOM.progressBar.style.width = `${percentage}%`;
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                showQuestion(currentQuestionIndex - 1);
+            }
         }
 
-        function showResults() {
-            DOM.quiz.style.display = 'none';
-            DOM.result.style.display = 'block';
-            
-            const total = questions.length;
-            const percentage = Math.round((score / total) * 100);
-            
-            DOM.finalScore.innerText = score;
-            DOM.totalQuestions.innerText = total;
-            DOM.finalPercentage.innerText = `${percentage}%`;
-
-            let verdict = "";
-            if (percentage >= 90) verdict = "🔥 Превосходно! Ты настоящий Senior HTML/CSS Developer!";
-            else if (percentage >= 70) verdict = "✨ Отлично! Твои знания верстки на очень хорошем уровне.";
-            else if (percentage >= 50) verdict = "👍 Неплохо, но есть зоны для роста. Стоит повторить теорию.";
-            else verdict = "📚 Стоит еще раз пройтись по базовой документации.";
-            
-            DOM.verdictText.innerText = verdict;
+        function confirmFinish() {
+            const unanswered = userAnswers.filter(a => a === null).length;
+            let msg = "Вы уверены, что хотите завершить тестирование?";
+            if (unanswered > 0) {
+                msg = `У вас осталось ${unanswered} неотвеченных вопросов. Всё равно завершить тест?`;
+            }
+            if (confirm(msg)) {
+                calculateResults();
+            }
         }
 
-        // 4. ИНИЦИАЛИЗАЦИЯ
-        DOM.nextBtn.addEventListener('click', nextQuestion);
+        function calculateResults() {
+            clearInterval(timerInterval);
 
-        // Даем браузеру долю секунды на отрисовку загрузочного экрана, затем парсим
-        setTimeout(() => {
-            parseTestData();
-            DOM.loading.style.display = 'none';
-            DOM.quiz.style.display = 'block';
-            renderQuestion();
-        }, 100);
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('live-metrics').classList.add('hidden');
+            document.getElementById('results-screen').classList.remove('hidden');
 
+            // Расчет метрик
+            let correctCount = 0;
+            questionsData.forEach((q, idx) => {
+                if (userAnswers[idx] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            const scorePercent = Math.round((correctCount / questionsData.length) * 100);
+            
+            // Вывод главной сводки
+            document.getElementById('result-score').textContent = correctCount;
+            document.getElementById('result-total-slashes').textContent = `/ ${questionsData.length}`;
+            document.getElementById('result-percentage').textContent = `${scorePercent}%`;
+
+            // Вывод финального времени
+            const minutes = Math.floor(timeElapsed / 60);
+            const seconds = timeElapsed % 60;
+            document.getElementById('result-time').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Градация оценки
+            const titleNode = document.getElementById('result-status-title');
+            const descNode = document.getElementById('result-status-desc');
+            if (scorePercent >= 85) {
+                titleNode.textContent = "Отличный результат! 🎉";
+                titleNode.className = "text-xl font-bold text-emerald-400 mb-2";
+                descNode.textContent = "Вы великолепно владеете спецификацией HTML и правилами каскадных таблиц стилей.";
+            } else if (scorePercent >= 60) {
+                titleNode.textContent = "Хороший результат! 👍";
+                titleNode.className = "text-xl font-bold text-indigo-400 mb-2";
+                descNode.textContent = "У вас крепкие базовые знания, но есть темы, которые стоит повторить.";
+            } else {
+                titleNode.textContent = "Нужно подучить 📚";
+                titleNode.className = "text-xl font-bold text-rose-400 mb-2";
+                descNode.textContent = "Рекомендуем ознакомиться с разбором ваших ошибок ниже и пройти тест повторно.";
+            }
+
+            // Рендеринг детального разбора ответов
+            buildReviewList();
+        }
+
+        function buildReviewList() {
+            const container = document.getElementById('answers-review-container');
+            container.innerHTML = '';
+
+            questionsData.forEach((q, idx) => {
+                const userAnsIdx = userAnswers[idx];
+                const isCorrect = userAnsIdx === q.correct;
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `p-5 rounded-2xl border ${
+                    isCorrect ? 'bg-emerald-950/20 border-emerald-900/50' : 'bg-rose-950/20 border-rose-900/50'
+                }`;
+
+                // Заголовок вопроса
+                const header = document.createElement('div');
+                header.className = "flex items-start justify-between gap-4 mb-3";
+                
+                const qTitle = document.createElement('h4');
+                qTitle.className = "font-medium text-sm sm:text-base text-slate-100";
+                qTitle.textContent = `${idx + 1}. ${q.question}`;
+                
+                const statusBadge = document.createElement('span');
+                statusBadge.className = `px-2.5 py-1 text-xs font-semibold rounded-md ${
+                    isCorrect ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'
+                }`;
+                statusBadge.textContent = isCorrect ? 'Верно' : 'Ошибка';
+
+                header.appendChild(qTitle);
+                header.appendChild(statusBadge);
+                itemDiv.appendChild(header);
+
+                // Вывод блоков ответов
+                const infoBody = document.createElement('div');
+                infoBody.className = "text-xs sm:text-sm flex flex-col gap-1.5 text-slate-400 font-mono";
+
+                // Правильный ответ
+                const correctLine = document.createElement('p');
+                correctLine.innerHTML = `<span class="text-emerald-400 font-semibold">Правильный ответ:</span> `;
+                const cSpan = document.createElement('span');
+                cSpan.textContent = q.options[q.correct];
+                cSpan.className = "text-slate-200";
+                correctLine.appendChild(cSpan);
+                infoBody.appendChild(correctLine);
+
+                // Ответ пользователя
+                const userLine = document.createElement('p');
+                if (userAnsIdx === null) {
+                    userLine.innerHTML = `<span class="text-amber-400 font-semibold">Ваш ответ:</span> <span class="italic text-slate-500">Вопрос был пропущен</span>`;
+                } else {
+                    userLine.innerHTML = `<span class="${isCorrect ? 'text-emerald-400' : 'text-rose-400'} font-semibold">Ваш ответ:</span> `;
+                    const uSpan = document.createElement('span');
+                    uSpan.textContent = q.options[userAnsIdx];
+                    uSpan.className = isCorrect ? "text-slate-200" : "text-slate-300 line-through";
+                    userLine.appendChild(uSpan);
+                }
+                infoBody.appendChild(userLine);
+
+                itemDiv.appendChild(infoBody);
+                container.appendChild(itemDiv);
+            });
+        }
+
+        function restartQuiz() {
+            userAnswers = new Array(questionsData.length).fill(null);
+            document.getElementById('results-screen').classList.add('hidden');
+            startQuiz();
+        }
     </script>
 </body>
 </html>
