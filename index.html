@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TemerShop // Curated Outfits & Streetwear</title>
+    <title>URBAN VIBE // Streetwear & Y2K Store</title>
     <style>
         :root {
             --bg-color: #08080a;
@@ -105,7 +105,7 @@
             border-bottom: 1px solid var(--border);
         }
         .hero h1 {
-            font-size: 3rem;
+            font-size.size: 3rem;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -114,7 +114,7 @@
         .hero p {
             color: var(--text-muted);
             font-size: 1.1rem;
-            max-width: 650px;
+            max-width: 600px;
             margin: 0 auto 2rem auto;
         }
 
@@ -153,7 +153,7 @@
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 2rem;
         }
 
@@ -174,7 +174,7 @@
 
         .product-img-container {
             width: 100%;
-            height: 380px;
+            height: 350px;
             position: relative;
             overflow: hidden;
             background: #111;
@@ -186,22 +186,21 @@
             transition: transform 0.5s;
         }
         .product-card:hover .product-img-container img {
-            transform: scale(1.03);
+            transform: scale(1.05);
         }
         .product-tag {
             position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(0,0,0,0.75);
-            backdrop-filter: blur(6px);
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
             color: var(--accent);
             border: 1px solid rgba(0,255,102,0.3);
             font-size: 0.75rem;
-            padding: 0.3rem 0.7rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 4px;
             text-transform: uppercase;
             font-family: var(--font-mono);
-            letter-spacing: 1px;
         }
 
         .product-info {
@@ -212,51 +211,32 @@
             justify-content: space-between;
         }
         .product-title {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 0.4rem;
-        }
-        .product-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 1.2rem;
-            line-height: 1.4;
-        }
-        .product-footer-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.2rem;
+            margin-bottom: 0.5rem;
         }
         .product-price {
             font-family: var(--font-mono);
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             color: var(--accent);
             font-weight: bold;
-        }
-        .product-size {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            background: rgba(255,255,255,0.05);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            font-family: var(--font-mono);
+            margin-bottom: 1rem;
         }
 
         .product-actions {
             display: flex;
-            gap: 0.6rem;
+            gap: 0.5rem;
         }
         .btn {
             flex: 1;
-            padding: 0.75rem;
+            padding: 0.7rem;
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
             text-align: center;
             border: none;
             transition: 0.3s;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
         .btn-outline {
             background: transparent;
@@ -274,7 +254,7 @@
             background: var(--accent-hover);
         }
 
-        /* CART SIDEBAR */
+        /* CART MODAL & SIDEBAR */
         .cart-sidebar {
             position: fixed;
             top: 0;
@@ -407,7 +387,7 @@
         }
 
         @media(max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
+            .hero h1 { font-size: 2rem; }
             .container { padding: 1rem; }
         }
     </style>
@@ -416,7 +396,7 @@
 
     <!-- HEADER -->
     <header>
-        <div class="logo">Temer<span>Shop</span></div>
+        <div class="logo">Urban<span>Vibe</span></div>
         <div class="nav-actions">
             <button class="cart-btn" onclick="toggleCart()">
                 🛒 Корзина <span class="cart-count" id="cart-count">0</span>
@@ -426,13 +406,15 @@
 
     <!-- HERO -->
     <section class="hero">
-        <h1>TemerShop Curated Outfits</h1>
-        <p>Готовые сбалансированные луки под ключ. Идеальные пропорции оверсайза, плотный премиум-деним, культовые зипки и детали, которые собирают взгляды на улице.</p>
+        <h1>Streetwear & Y2K Archive</h1>
+        <p>Премиальный выбор оверсайз кроя, тёмного денима и культовых силуэтов уличной моды.</p>
         
         <!-- FILTERS -->
         <div class="filters">
-            <button class="filter-btn active" onclick="filterProducts('all')">Все луки</button>
-            <button class="filter-btn" onclick="filterProducts('set')">Готовые аутфиты</button>
+            <button class="filter-btn active" onclick="filterProducts('all')">Все модели</button>
+            <button class="filter-btn" onclick="filterProducts('hoodie')">Худи & Зипки</button>
+            <button class="filter-btn" onclick="filterProducts('denim')">Джинсы & Брюки</button>
+            <button class="filter-btn" onclick="filterProducts('tee')">Лонгсливы & Тee</button>
         </div>
     </section>
 
@@ -465,17 +447,18 @@
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
-                <h3>TemerShop Store</h3>
-                <p>Премиальный стритвир и готовые лукбуки. Качественные ткани, идеальная посадка (S — 4XL).</p>
+                <h3>Urban Vibe Store</h3>
+                <p>Трендовый стритвир и Y2K одежда с доставкой. Качество премиум уровня, плотные ткани, идеальный оверсайз.</p>
             </div>
             <div class="footer-col">
-                <h3>Навигация</h3>
-                <a href="#" onclick="filterProducts('all')">Каталог комплектов</a>
-                <a href="https://wa.me/787001688620" target="_blank">Связаться с менеджером</a>
+                <h3>Категории</h3>
+                <a href="#" onclick="filterProducts('hoodie')">Худи и свитшоты</a>
+                <a href="#" onclick="filterProducts('denim')">Широкие джинсы (Baggy)</a>
+                <a href="#" onclick="filterProducts('tee')">Оверсайз футболки</a>
             </div>
             <div class="footer-col">
                 <h3>Контакты & Связь</h3>
-                <p>Быстрый заказ в WhatsApp:</p>
+                <p>Телефон / WhatsApp:</p>
                 <a href="https://wa.me/787001688620" class="whatsapp-link" target="_blank">
                     💬 Написать в WhatsApp
                 </a>
@@ -483,48 +466,67 @@
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2026 TemerShop. Все права защищены.
+            &copy; 2026 Urban Vibe. Все права защищены.
         </div>
     </footer>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Карточки точно по твоим трендовым скрин-аутфитам с крутыми креативными описаниями
+        // База данных товаров (популярная стритвир/Y2K одежда с качественными реальными фото)
         const products = [
             {
                 id: 1,
-                name: "Look #01: Clean Street Vibe",
-                category: "set",
-                price: 48500,
-                tag: "Best Choice",
-                size: "S — 4XL",
-                desc: "Идеальный баланс между классикой и уличным стилем. В комплекте: фирменная серая зипка в стиле Polo, чистая белая рубашка под многослойность, массивный ремень с акцентной пряжкой, глубокие черные baggy-джинсы и культовые кроссовки в серо-белой гамме.",
-                image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80"
+                name: "Dark Baggy Denim Y2K",
+                category: "denim",
+                price: 28500,
+                tag: "Bestseller",
+                image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80"
             },
             {
                 id: 2,
-                name: "Look #02: Dark Gradient & Art",
-                category: "set",
-                price: 52000,
-                tag: "Must Have",
-                size: "S — 4XL",
-                desc: "Глубокая ночная эстетика. Центральный элемент лука — плотный темно-синий оверсайз-свитер с градиентным арт-принтом, дополненный базовым белым лонгсливом, графитовым вареным денимом свободного кроя и премиум-кедами.",
-                image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=800&q=80"
+                name: "Oversize Heavyweight Zip-Hoodie",
+                category: "hoodie",
+                price: 32000,
+                tag: "Trending",
+                image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80"
             },
             {
                 id: 3,
-                name: "Look #03: Heavy Monochrome Raw",
-                category: "set",
-                price: 46000,
-                tag: "New Drop",
-                size: "S — 4XL",
-                desc: "Строгий оверсайз силуэт для тех, кто ценит фактуру ткани. Сбалансированный ансамбль из мягкого текстурного свитшота, контрастного белого слоя и темных вареных джинсов с винтажным эффектом потертости.",
+                name: "Graphic Long-Sleeve Cyber",
+                category: "tee",
+                price: 18500,
+                tag: "New",
+                image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 4,
+                name: "Cargo Technical Pants Black",
+                category: "denim",
+                price: 29900,
+                tag: "Hot",
+                image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 5,
+                name: "Vintage Acid Wash Hoodie",
+                category: "hoodie",
+                price: 31000,
+                tag: "Limited",
                 image: "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 6,
+                name: "Boxy Fit Minimalist Tee",
+                category: "tee",
+                price: 14500,
+                tag: "Essential",
+                image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80"
             }
         ];
 
         let cart = [];
 
+        // Отрисовка товаров
         function renderProducts(items) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
@@ -539,18 +541,12 @@
                     </div>
                     <div class="product-info">
                         <div>
-                            <div class="product-footer-row">
-                                <h3 class="product-title">${product.name}</h3>
-                                <span class="product-size">${product.size}</span>
-                            </div>
-                            <p class="product-desc">${product.desc}</p>
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price">${product.price.toLocaleString()} ₸</div>
                         </div>
-                        <div>
-                            <div class="product-price" style="margin-bottom: 1rem;">${product.price.toLocaleString()} ₸</div>
-                            <div class="product-actions">
-                                <button class="btn btn-outline" onclick="quickWhatsAppOrder('${product.name}', ${product.price})">Быстрый заказ</button>
-                                <button class="btn btn-primary" onclick="addToCart(${product.id})">В корзину</button>
-                            </div>
+                        <div class="product-actions">
+                            <button class="btn btn-outline" onclick="quickWhatsAppOrder('${product.name}', ${product.price})">Быстрый заказ</button>
+                            <button class="btn btn-primary" onclick="addToCart(${product.id})">В корзину</button>
                         </div>
                     </div>
                 `;
@@ -558,6 +554,7 @@
             });
         }
 
+        // Фильтрация товаров
         function filterProducts(category) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
@@ -570,6 +567,7 @@
             }
         }
 
+        // Управление корзиной
         function toggleCart() {
             const sidebar = document.getElementById('cart-sidebar');
             sidebar.classList.toggle('open');
@@ -620,13 +618,14 @@
             totalPriceElem.innerText = total.toLocaleString() + ` ₸`;
         }
 
+        // Оформление заказа в WhatsApp с использованием номера 87001688620
         function checkoutWhatsApp() {
             if(cart.length === 0) {
                 alert('Ваша корзина пуста!');
                 return;
             }
 
-            let message = "Здравствуйте! Хочу оформить заказ в TemerShop:%0A";
+            let message = "Здравствуйте! Хочу оформить заказ:%0A";
             let total = 0;
 
             cart.forEach((item, i) => {
@@ -636,16 +635,19 @@
 
             message += `%0A*Общая сумма:* ${total.toLocaleString()} ₸`;
 
+            // Прямая ссылка на ваш WhatsApp
             const phone = "787001688620";
             window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
         }
 
+        // Быстрый заказ одной кнопки
         function quickWhatsAppOrder(productName, price) {
-            const message = `Здравствуйте! Хочу заказать лук из TemerShop:%0A*${productName}* — ${price.toLocaleString()} ₸`;
+            const message = `Здравствуйте! Хочу купить товар вне корзины:%0A*${productName}* — ${price.toLocaleString()} ₸`;
             const phone = "787001688620";
             window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
         }
 
+        // Инициализация при загрузке
         renderProducts(products);
     </script>
 </body>
