@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URBAN VIBE // Streetwear & Y2K Store</title>
+    <title>TemerShop // Streetwear & Lookbooks</title>
     <style>
         :root {
             --bg-color: #08080a;
@@ -105,7 +105,7 @@
             border-bottom: 1px solid var(--border);
         }
         .hero h1 {
-            font-size.size: 3rem;
+            font-size: 3rem;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -174,7 +174,7 @@
 
         .product-img-container {
             width: 100%;
-            height: 350px;
+            height: 320px;
             position: relative;
             overflow: hidden;
             background: #111;
@@ -213,7 +213,12 @@
         .product-title {
             font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
+        }
+        .product-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
         }
         .product-price {
             font-family: var(--font-mono);
@@ -254,7 +259,7 @@
             background: var(--accent-hover);
         }
 
-        /* CART MODAL & SIDEBAR */
+        /* CART SIDEBAR */
         .cart-sidebar {
             position: fixed;
             top: 0;
@@ -396,7 +401,7 @@
 
     <!-- HEADER -->
     <header>
-        <div class="logo">Urban<span>Vibe</span></div>
+        <div class="logo">Temer<span>Shop</span></div>
         <div class="nav-actions">
             <button class="cart-btn" onclick="toggleCart()">
                 🛒 Корзина <span class="cart-count" id="cart-count">0</span>
@@ -406,15 +411,15 @@
 
     <!-- HERO -->
     <section class="hero">
-        <h1>Streetwear & Y2K Archive</h1>
-        <p>Премиальный выбор оверсайз кроя, тёмного денима и культовых силуэтов уличной моды.</p>
+        <h1>TemerShop Lookbooks</h1>
+        <p>Готовые современные аутфиты: зипки Polo, вареный деним, оверсайз свитера и трендовые кроссовки.</p>
         
         <!-- FILTERS -->
         <div class="filters">
-            <button class="filter-btn active" onclick="filterProducts('all')">Все модели</button>
-            <button class="filter-btn" onclick="filterProducts('hoodie')">Худи & Зипки</button>
-            <button class="filter-btn" onclick="filterProducts('denim')">Джинсы & Брюки</button>
-            <button class="filter-btn" onclick="filterProducts('tee')">Лонгсливы & Тee</button>
+            <button class="filter-btn active" onclick="filterProducts('all')">Все луки</button>
+            <button class="filter-btn" onclick="filterProducts('look')">Готовые комплекты</button>
+            <button class="filter-btn" onclick="filterProducts('hoodie')">Зипки & Свитера</button>
+            <button class="filter-btn" onclick="filterProducts('denim')">Широкие джинсы</button>
         </div>
     </section>
 
@@ -447,18 +452,18 @@
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
-                <h3>Urban Vibe Store</h3>
-                <p>Трендовый стритвир и Y2K одежда с доставкой. Качество премиум уровня, плотные ткани, идеальный оверсайз.</p>
+                <h3>TemerShop Store</h3>
+                <p>Топовые трендовые луки в стиле Instagram/Telegram магазинов. Размеры от S до 4XL.</p>
             </div>
             <div class="footer-col">
                 <h3>Категории</h3>
-                <a href="#" onclick="filterProducts('hoodie')">Худи и свитшоты</a>
-                <a href="#" onclick="filterProducts('denim')">Широкие джинсы (Baggy)</a>
-                <a href="#" onclick="filterProducts('tee')">Оверсайз футболки</a>
+                <a href="#" onclick="filterProducts('look')">Готовые аутфиты</a>
+                <a href="#" onclick="filterProducts('hoodie')">Худи и зипки Polo</a>
+                <a href="#" onclick="filterProducts('denim')">Джинсы и карго</a>
             </div>
             <div class="footer-col">
                 <h3>Контакты & Связь</h3>
-                <p>Телефон / WhatsApp:</p>
+                <p>WhatsApp для заказа:</p>
                 <a href="https://wa.me/787001688620" class="whatsapp-link" target="_blank">
                     💬 Написать в WhatsApp
                 </a>
@@ -466,67 +471,72 @@
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2026 Urban Vibe. Все права защищены.
+            &copy; 2026 TemerShop. Все права защищены.
         </div>
     </footer>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // База данных товаров (популярная стритвир/Y2K одежда с качественными реальными фото)
+        // Обновленная база под актуальные тренды и лукбуки из скринов
         const products = [
             {
                 id: 1,
-                name: "Dark Baggy Denim Y2K",
-                category: "denim",
-                price: 28500,
-                tag: "Bestseller",
-                image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80"
-            },
-            {
-                id: 2,
-                name: "Oversize Heavyweight Zip-Hoodie",
-                category: "hoodie",
-                price: 32000,
-                tag: "Trending",
+                name: "Комплект №1: Зипка Polo + Рубашка + Baggy + Кроссы",
+                category: "look",
+                price: 45000,
+                tag: "Hit Look",
+                desc: "Серые зип-худи Polo, классическая белая рубашка, черные широкие джинсы, ремень с пряжкой и кроссовки.",
                 image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80"
             },
             {
-                id: 3,
-                name: "Graphic Long-Sleeve Cyber",
-                category: "tee",
-                price: 18500,
-                tag: "New",
+                id: 2,
+                name: "Комплект №2: Свитер с графикой + База + Тёмный деним",
+                category: "look",
+                price: 42000,
+                tag: "Bestseller",
+                desc: "Темный объемный свитер с арт-принтом, белый оверсайз лонгслив, вареные джинсы и Dunks.",
                 image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=800&q=80"
             },
             {
-                id: 4,
-                name: "Cargo Technical Pants Black",
-                category: "denim",
-                price: 29900,
-                tag: "Hot",
-                image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80"
-            },
-            {
-                id: 5,
-                name: "Vintage Acid Wash Hoodie",
-                category: "hoodie",
-                price: 31000,
-                tag: "Limited",
+                id: 3,
+                name: "Комплект №3: Серый свитшот + Градиентный деним",
+                category: "look",
+                price: 39500,
+                tag: "New Trend",
+                desc: "Базовый серый свитшот оверсайз, белая футболка снизу, черные вареные джинсы прямого широкого кроя.",
                 image: "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=800&q=80"
             },
             {
-                id: 6,
-                name: "Boxy Fit Minimalist Tee",
-                category: "tee",
-                price: 14500,
+                id: 4,
+                name: "Зип-худи Polo Ralph Lauren (Gray)",
+                category: "hoodie",
+                price: 24000,
+                tag: "Top Item",
+                desc: "Плотный футер, фирменная вышивка, идеальный капюшон и посадка.",
+                image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 5,
+                name: "Широкие черные джинсы Baggy Fit",
+                category: "denim",
+                price: 22000,
                 tag: "Essential",
-                image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80"
+                desc: "Плотный деним, глубокий черный цвет, качественная фурнитура.",
+                image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 6,
+                name: "Свитер оверсайз с принтом Silhouette",
+                category: "hoodie",
+                price: 23500,
+                tag: "Limited",
+                desc: "Мягкий премиальный трикотаж, стильный брендовый дизайн.",
+                image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=800&q=80"
             }
         ];
 
         let cart = [];
 
-        // Отрисовка товаров
         function renderProducts(items) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
@@ -542,6 +552,7 @@
                     <div class="product-info">
                         <div>
                             <h3 class="product-title">${product.name}</h3>
+                            <p class="product-desc">${product.desc}</p>
                             <div class="product-price">${product.price.toLocaleString()} ₸</div>
                         </div>
                         <div class="product-actions">
@@ -554,7 +565,6 @@
             });
         }
 
-        // Фильтрация товаров
         function filterProducts(category) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
@@ -567,7 +577,6 @@
             }
         }
 
-        // Управление корзиной
         function toggleCart() {
             const sidebar = document.getElementById('cart-sidebar');
             sidebar.classList.toggle('open');
@@ -618,14 +627,13 @@
             totalPriceElem.innerText = total.toLocaleString() + ` ₸`;
         }
 
-        // Оформление заказа в WhatsApp с использованием номера 87001688620
         function checkoutWhatsApp() {
             if(cart.length === 0) {
                 alert('Ваша корзина пуста!');
                 return;
             }
 
-            let message = "Здравствуйте! Хочу оформить заказ:%0A";
+            let message = "Здравствуйте! Хочу сделать заказ в TemerShop:%0A";
             let total = 0;
 
             cart.forEach((item, i) => {
@@ -635,19 +643,16 @@
 
             message += `%0A*Общая сумма:* ${total.toLocaleString()} ₸`;
 
-            // Прямая ссылка на ваш WhatsApp
             const phone = "787001688620";
             window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
         }
 
-        // Быстрый заказ одной кнопки
         function quickWhatsAppOrder(productName, price) {
-            const message = `Здравствуйте! Хочу купить товар вне корзины:%0A*${productName}* — ${price.toLocaleString()} ₸`;
+            const message = `Здравствуйте! Хочу заказать товар из TemerShop:%0A*${productName}* — ${price.toLocaleString()} ₸`;
             const phone = "787001688620";
             window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
         }
 
-        // Инициализация при загрузке
         renderProducts(products);
     </script>
 </body>
