@@ -3,23 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Темирлан // Developer & Lifestyle Hub</title>
+    <title>URBAN VIBE // Streetwear & Y2K Store</title>
     <style>
-        /* ==========================================
-           CSS VARIABLES & RESET
-        ========================================== */
         :root {
-            --bg-color: #050505;
-            --panel-bg: rgba(20, 20, 22, 0.65);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --accent-1: #6d28d9; /* Deep Purple */
-            --accent-2: #10b981; /* Emerald / Cyber Green */
-            --text-main: #f3f4f6;
+            --bg-color: #08080a;
+            --panel-bg: #121216;
+            --card-bg: #18181d;
+            --accent: #00ff66;
+            --accent-hover: #00cc52;
+            --text-main: #f3f3f6;
             --text-muted: #9ca3af;
+            --border: rgba(255, 255, 255, 0.08);
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             --font-mono: 'Courier New', Courier, monospace;
-            --font-sans: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            --glitch-color1: #0ff;
-            --glitch-color2: #f0f;
         }
 
         * {
@@ -31,633 +27,628 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: var(--font-sans);
+            font-family: var(--font-main);
             overflow-x: hidden;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
-        ::-webkit-scrollbar-thumb { background: var(--accent-1); border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent-2); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-        /* ==========================================
-           BACKGROUND CANVAS
-        ========================================== */
-        #particle-canvas {
+        /* HEADER & NAVIGATION */
+        header {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            opacity: 0.4;
+            width: 100%;
+            background: rgba(8, 8, 10, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
         }
 
-        /* ==========================================
-           TYPOGRAPHY & GLITCH EFFECT
-        ========================================== */
-        .glitch-wrapper {
-            position: relative;
-            font-size: 3rem;
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            font-family: var(--font-mono);
+        }
+        .logo span { color: var(--accent); }
+
+        .nav-actions {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .cart-btn {
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.3s;
+        }
+        .cart-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .cart-count {
+            background: var(--accent);
+            color: #000;
+            font-size: 0.75rem;
+            padding: 0.1rem 0.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            margin-top: 80px;
+            padding: 5rem 2rem;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(0,255,102,0.03) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        .hero h1 {
+            font-size.size: 3rem;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.2rem;
-            margin-bottom: 0.5rem;
-            display: inline-block;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
         }
 
-        .glitch {
-            position: relative;
-            color: var(--text-main);
-            z-index: 1;
+        /* FILTER TABS */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            padding: 0 1rem;
+        }
+        .filter-btn {
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--text-main);
+            color: #000;
+            border-color: var(--text-main);
+            font-weight: 600;
         }
 
-        .glitch::before, .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-color);
-        }
-
-        .glitch::before {
-            left: 2px;
-            text-shadow: -2px 0 var(--glitch-color1);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
-            z-index: -1;
-        }
-
-        .glitch::after {
-            left: -2px;
-            text-shadow: -2px 0 var(--glitch-color2);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim2 5s infinite linear alternate-reverse;
-            z-index: -2;
-        }
-
-        @keyframes glitch-anim {
-            0% { clip: rect(13px, 9999px, 86px, 0); }
-            5% { clip: rect(74px, 9999px, 14px, 0); }
-            10% { clip: rect(32px, 9999px, 92px, 0); }
-            15% { clip: rect(89px, 9999px, 13px, 0); }
-            20% { clip: rect(12px, 9999px, 84px, 0); }
-            25% { clip: rect(62px, 9999px, 18px, 0); }
-            30% { clip: rect(34px, 9999px, 52px, 0); }
-            100% { clip: rect(54px, 9999px, 21px, 0); }
-        }
-        @keyframes glitch-anim2 {
-            0% { clip: rect(65px, 9999px, 12px, 0); }
-            5% { clip: rect(12px, 9999px, 89px, 0); }
-            10% { clip: rect(85px, 9999px, 23px, 0); }
-            15% { clip: rect(23px, 9999px, 76px, 0); }
-            20% { clip: rect(98px, 9999px, 34px, 0); }
-            25% { clip: rect(45px, 9999px, 87px, 0); }
-            30% { clip: rect(12px, 9999px, 45px, 0); }
-            100% { clip: rect(87px, 9999px, 12px, 0); }
-        }
-
-        /* ==========================================
-           LAYOUT & GLASSMORPHISM
-        ========================================== */
+        /* CATALOG GRID */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 4rem;
-            padding: 4rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .subtitle {
-            font-family: var(--font-mono);
-            color: var(--accent-2);
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-        }
-
-        .dashboard-grid {
+        .products-grid {
             display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
         }
 
-        .panel {
-            background: var(--panel-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
         }
-
-        .panel:hover {
+        .product-card:hover {
             transform: translateY(-5px);
-            border-color: var(--accent-1);
-            box-shadow: 0 10px 30px rgba(109, 40, 217, 0.2);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 255, 102, 0.1);
         }
 
-        .panel-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 0.5rem;
+        .product-img-container {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            overflow: hidden;
+            background: #111;
         }
-
-        .panel-title i {
-            color: var(--accent-2);
+        .product-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
         }
-
-        /* ==========================================
-           GRID PLACEMENT (ADAPTIVE)
-        ========================================== */
-        .profile-card { grid-column: span 4; }
-        .terminal-card { grid-column: span 8; }
-        .stats-card-1 { grid-column: span 4; }
-        .stats-card-2 { grid-column: span 4; }
-        .stats-card-3 { grid-column: span 4; }
-        .tech-stack { grid-column: span 12; }
-
-        @media (max-width: 1024px) {
-            .profile-card { grid-column: span 12; }
-            .terminal-card { grid-column: span 12; }
-            .stats-card-1, .stats-card-2, .stats-card-3 { grid-column: span 6; }
+        .product-card:hover .product-img-container img {
+            transform: scale(1.05);
         }
-
-        @media (max-width: 768px) {
-            .stats-card-1, .stats-card-2, .stats-card-3 { grid-column: span 12; }
-            .glitch-wrapper { font-size: 2rem; }
-            .container { padding: 1rem; }
-        }
-
-        /* ==========================================
-           SPECIFIC COMPONENTS
-        ========================================== */
-        /* Terminal */
-        .terminal {
-            background: #000;
-            border-radius: 8px;
-            padding: 1rem;
+        .product-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            color: var(--accent);
+            border: 1px solid rgba(0,255,102,0.3);
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            text-transform: uppercase;
             font-family: var(--font-mono);
-            font-size: 0.9rem;
-            height: 250px;
-            overflow-y: auto;
-            border: 1px solid #333;
-            box-shadow: inset 0 0 15px rgba(16, 185, 129, 0.1);
         }
-        .term-line { margin-bottom: 0.5rem; }
-        .term-prompt { color: var(--accent-2); margin-right: 0.5rem; }
-        .term-text { color: #d1d5db; }
-        .cursor {
-            display: inline-block;
-            width: 8px;
-            height: 15px;
-            background: var(--accent-2);
-            animation: blink 1s step-end infinite;
-            vertical-align: middle;
-        }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Skills Tags */
-        .skills-container {
+        .product-info {
+            padding: 1.5rem;
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-top: 1rem;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
         }
-        .skill-tag {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            transition: all 0.3s;
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .product-price {
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn {
+            flex: 1;
+            padding: 0.7rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+        .btn-outline:hover {
+            border-color: var(--text-main);
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        /* CART MODAL & SIDEBAR */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: var(--panel-bg);
+            border-left: 1px solid var(--border);
+            z-index: 1000;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+            transition: right 0.4s cubic-bezier(0.1, 0.9, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+        }
+        .cart-sidebar.open { right: 0; }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .close-cart {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
             cursor: pointer;
         }
-        .skill-tag:hover {
-            background: var(--accent-1);
-            color: white;
-            border-color: var(--accent-1);
+        .close-cart:hover { color: var(--text-main); }
+
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .cart-item-details h4 { font-size: 0.95rem; margin-bottom: 0.2rem; }
+        .cart-item-details span { font-family: var(--font-mono); color: var(--accent); font-size: 0.85rem; }
+        
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ff4d4d;
+            cursor: pointer;
+            font-size: 0.9rem;
         }
 
-        /* Stat numbers */
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--text-main);
-            margin: 0.5rem 0;
-            font-family: var(--font-mono);
+        .cart-footer {
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            margin-top: 1rem;
         }
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .cart-total span:last-child {
+            font-family: var(--font-mono);
+            color: var(--accent);
+        }
+
+        /* FOOTER & CONTACTS */
+        footer {
+            background: var(--panel-bg);
+            border-top: 1px solid var(--border);
+            padding: 4rem 2rem 2rem 2rem;
+            margin-top: 5rem;
+        }
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        .footer-col h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+        .footer-col p, .footer-col a {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        .footer-col a:hover { color: var(--accent); }
+        
+        .whatsapp-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #25d366;
+            color: #000 !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        .whatsapp-link:hover { background: #20ba5a; color: #000 !important; }
 
-        /* Custom Charts Container */
-        .chart-container {
-            width: 100%;
-            height: 150px;
-            margin-top: 1rem;
-            position: relative;
-        }
-        canvas.custom-chart {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Progress Bars */
-        .progress-wrapper {
-            margin-bottom: 1rem;
-        }
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            color: var(--text-muted);
             font-size: 0.85rem;
-            margin-bottom: 0.3rem;
         }
-        .progress-bar-bg {
-            background: rgba(255,255,255,0.1);
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-            border-radius: 4px;
-            width: 0%;
-            transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+        @media(max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .container { padding: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Background Particle Canvas -->
-    <canvas id="particle-canvas"></canvas>
+    <!-- HEADER -->
+    <header>
+        <div class="logo">Urban<span>Vibe</span></div>
+        <div class="nav-actions">
+            <button class="cart-btn" onclick="toggleCart()">
+                🛒 Корзина <span class="cart-count" id="cart-count">0</span>
+            </button>
+        </div>
+    </header>
 
-    <div class="container">
-        <!-- HEADER -->
-        <header>
-            <div class="glitch-wrapper">
-                <div class="glitch" data-text="ТЕМИРЛАН // HUB">ТЕМИРЛАН // HUB</div>
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Streetwear & Y2K Archive</h1>
+        <p>Премиальный выбор оверсайз кроя, тёмного денима и культовых силуэтов уличной моды.</p>
+        
+        <!-- FILTERS -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterProducts('all')">Все модели</button>
+            <button class="filter-btn" onclick="filterProducts('hoodie')">Худи & Зипки</button>
+            <button class="filter-btn" onclick="filterProducts('denim')">Джинсы & Брюки</button>
+            <button class="filter-btn" onclick="filterProducts('tee')">Лонгсливы & Тee</button>
+        </div>
+    </section>
+
+    <!-- CATALOG -->
+    <main class="container">
+        <div class="products-grid" id="product-grid">
+            <!-- Динамически рендерится через JS -->
+        </div>
+    </main>
+
+    <!-- CART SIDEBAR -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Ваша корзина</h3>
+            <button class="close-cart" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            <p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">Корзина пуста</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Итого:</span>
+                <span id="cart-total-price">0 ₸</span>
             </div>
-            <div class="subtitle">Software Engineering & Vibe Coding</div>
-        </header>
-
-        <!-- MAIN DASHBOARD -->
-        <main class="dashboard-grid">
-            
-            <!-- PROFILE PANEL -->
-            <section class="panel profile-card">
-                <h2 class="panel-title">Системный статус</h2>
-                <div style="margin-top: 1rem;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span style="color: var(--text-muted);">Локация:</span>
-                        <span>Павлодар, KZ</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span style="color: var(--text-muted);">Специальность:</span>
-                        <span>Разработка ПО</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span style="color: var(--text-muted);">Архитектура:</span>
-                        <span>C#, React, JS, AI</span>
-                    </div>
-                </div>
-                
-                <h3 style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">ЭНЕРГИЯ / ФИЗО</h3>
-                <div class="progress-wrapper" style="margin-top: 0.8rem;">
-                    <div class="progress-label"><span>Турник / Брусья</span><span>Высокий</span></div>
-                    <div class="progress-bar-bg"><div class="progress-bar-fill" data-width="85%"></div></div>
-                </div>
-                <div class="progress-wrapper">
-                    <div class="progress-label"><span>Гантели (Свободные веса)</span><span>Стабильный</span></div>
-                    <div class="progress-bar-bg"><div class="progress-bar-fill" data-width="70%"></div></div>
-                </div>
-            </section>
-
-            <!-- TERMINAL PANEL -->
-            <section class="panel terminal-card">
-                <h2 class="panel-title">Терминал интеграций (Telegram / AI Bots)</h2>
-                <div class="terminal" id="terminal-output">
-                    <!-- JS will inject typewriter text here -->
-                </div>
-            </section>
-
-            <!-- CHESS STATS -->
-            <section class="panel stats-card-1">
-                <h2 class="panel-title">Шахматы (Chess.com)</h2>
-                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                    <div>
-                        <div class="stat-label">Blitz Rating</div>
-                        <div class="stat-value counter" data-target="1154">0</div>
-                    </div>
-                    <div>
-                        <div class="stat-label">Bullet Rating</div>
-                        <div class="stat-value counter" style="color: var(--accent-2);" data-target="1312">0</div>
-                    </div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="chess-chart" class="custom-chart"></canvas>
-                </div>
-            </section>
-
-            <!-- SHOOTING STATS -->
-            <section class="panel stats-card-2">
-                <h2 class="panel-title">Стрельба (ВП-60)</h2>
-                <div>
-                    <div class="stat-label">Дисциплина: Пневм. винтовка 10м</div>
-                    <div class="stat-value">Target</div>
-                </div>
-                <div class="chart-container" style="display: flex; justify-content: center; align-items: center; margin-top: 1rem;">
-                    <!-- Custom SVG Target -->
-                    <svg width="120" height="120" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="48" fill="#fff" stroke="#111" stroke-width="2"/>
-                        <circle cx="50" cy="50" r="38" fill="#fff" stroke="#111" stroke-width="2"/>
-                        <circle cx="50" cy="50" r="28" fill="#111"/>
-                        <circle cx="50" cy="50" r="18" fill="#111" stroke="#fff" stroke-width="1"/>
-                        <circle cx="50" cy="50" r="8" fill="#111" stroke="#fff" stroke-width="1"/>
-                        <circle cx="50" cy="50" r="2" fill="#fff"/>
-                        <!-- Bullet holes -->
-                        <circle cx="52" cy="48" r="3" fill="rgba(16, 185, 129, 0.8)"/>
-                        <circle cx="47" cy="55" r="3" fill="rgba(16, 185, 129, 0.8)"/>
-                        <circle cx="49" cy="51" r="3" fill="rgba(16, 185, 129, 0.8)"/>
-                    </svg>
-                </div>
-                <p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">Стойка, биомеханика, концентрация.</p>
-            </section>
-
-            <!-- MEDIA & LIFESTYLE -->
-            <section class="panel stats-card-3">
-                <h2 class="panel-title">Vibe & Media</h2>
-                <div style="margin-top: 1rem;">
-                    <div style="margin-bottom: 1rem;">
-                        <span class="stat-label">Эстетика:</span>
-                        <p style="font-weight: 500;">Y2K, Streetwear, Dark Baggy Denim</p>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <span class="stat-label">Кинематограф:</span>
-                        <p style="font-size: 0.9rem;">Тайны Смолвиля, Пацаны, 5:32, Marvel Cinematic, Осенние хорроры.</p>
-                    </div>
-                    <div>
-                        <span class="stat-label">Спорт:</span>
-                        <p style="font-size: 0.9rem;">UFC (Islam Makhachev), Chelsea F.C.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TECH STACK -->
-            <section class="panel tech-stack">
-                <h2 class="panel-title">Стек разработки & API</h2>
-                <div class="skills-container">
-                    <div class="skill-tag">C# / .NET</div>
-                    <div class="skill-tag">JavaScript (ES6+)</div>
-                    <div class="skill-tag">Node.js / Express</div>
-                    <div class="skill-tag">React.js</div>
-                    <div class="skill-tag">Python</div>
-                    <div class="skill-tag">Telegram Bot API</div>
-                    <div class="skill-tag">Groq API</div>
-                    <div class="skill-tag">OpenRouter</div>
-                    <div class="skill-tag">Tavily</div>
-                    <div class="skill-tag">Responsive Design</div>
-                    <div class="skill-tag">Vibe Coding</div>
-                </div>
-            </section>
-        </main>
+            <button class="btn btn-primary" style="width: 100%; margin-bottom: 0.5rem;" onclick="checkoutWhatsApp()">Оформить заказ в WhatsApp</button>
+        </div>
     </div>
 
-    <!-- ==========================================
-         JAVASCRIPT LOGIC
-    ========================================== -->
+    <!-- FOOTER WITH CONTACTS -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>Urban Vibe Store</h3>
+                <p>Трендовый стритвир и Y2K одежда с доставкой. Качество премиум уровня, плотные ткани, идеальный оверсайз.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Категории</h3>
+                <a href="#" onclick="filterProducts('hoodie')">Худи и свитшоты</a>
+                <a href="#" onclick="filterProducts('denim')">Широкие джинсы (Baggy)</a>
+                <a href="#" onclick="filterProducts('tee')">Оверсайз футболки</a>
+            </div>
+            <div class="footer-col">
+                <h3>Контакты & Связь</h3>
+                <p>Телефон / WhatsApp:</p>
+                <a href="https://wa.me/787001688620" class="whatsapp-link" target="_blank">
+                    💬 Написать в WhatsApp
+                </a>
+                <p style="margin-top: 0.8rem; font-family: var(--font-mono); color: var(--text-main);">+7 (700) 168-86-20</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Urban Vibe. Все права защищены.
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- 1. Background Particle System (Canvas) ---
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = Math.random() * 2;
-                this.color = Math.random() > 0.5 ? '#6d28d9' : '#10b981';
+        // База данных товаров (популярная стритвир/Y2K одежда с качественными реальными фото)
+        const products = [
+            {
+                id: 1,
+                name: "Dark Baggy Denim Y2K",
+                category: "denim",
+                price: 28500,
+                tag: "Bestseller",
+                image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 2,
+                name: "Oversize Heavyweight Zip-Hoodie",
+                category: "hoodie",
+                price: 32000,
+                tag: "Trending",
+                image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 3,
+                name: "Graphic Long-Sleeve Cyber",
+                category: "tee",
+                price: 18500,
+                tag: "New",
+                image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 4,
+                name: "Cargo Technical Pants Black",
+                category: "denim",
+                price: 29900,
+                tag: "Hot",
+                image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 5,
+                name: "Vintage Acid Wash Hoodie",
+                category: "hoodie",
+                price: 31000,
+                tag: "Limited",
+                image: "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 6,
+                name: "Boxy Fit Minimalist Tee",
+                category: "tee",
+                price: 14500,
+                tag: "Essential",
+                image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80"
             }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > width) this.vx = -this.vx;
-                if (this.y < 0 || this.y > height) this.vy = -this.vy;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < 100; i++) {
-            particles.push(new Particle());
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, width, height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-                // Connect nearby particles
-                for (let j = i; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 100) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - dist/1000})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-
-        // --- 2. Typewriter Effect in Terminal ---
-        const terminalText = [
-            "> Инициализация системного окружения...",
-            "> Загрузка модулей C# и React...",
-            "> Подключение к API Groq и OpenRouter... [OK]",
-            "> Проверка Webhook Telegram Bot... [OK]",
-            "> Запуск режима Vibe Coding...",
-            "> Компиляция успешна. Добро пожаловать, Темирлан."
         ];
-        const termContainer = document.getElementById('terminal-output');
-        let lineIndex = 0;
-        let charIndex = 0;
 
-        function typeWriter() {
-            if (lineIndex < terminalText.length) {
-                if (charIndex === 0) {
-                    const lineDiv = document.createElement('div');
-                    lineDiv.className = 'term-line';
-                    lineDiv.innerHTML = `<span class="term-prompt">root@hub:~$</span><span class="term-text" id="line-${lineIndex}"></span>`;
-                    termContainer.appendChild(lineDiv);
-                }
-                
-                const currentLine = document.getElementById(`line-${lineIndex}`);
-                if (charIndex < terminalText[lineIndex].length) {
-                    currentLine.innerHTML += terminalText[lineIndex].charAt(charIndex);
-                    charIndex++;
-                    setTimeout(typeWriter, 30 + Math.random() * 50); // random typing speed
-                } else {
-                    lineIndex++;
-                    charIndex = 0;
-                    setTimeout(typeWriter, 500); // pause between lines
-                }
-            } else {
-                // Add cursor at the end
-                const cursorDiv = document.createElement('div');
-                cursorDiv.innerHTML = `<span class="term-prompt">root@hub:~$</span><span class="cursor"></span>`;
-                termContainer.appendChild(cursorDiv);
-            }
-            termContainer.scrollTop = termContainer.scrollHeight;
-        }
-        setTimeout(typeWriter, 1000);
+        let cart = [];
 
-        // --- 3. Number Counter Animation ---
-        const counters = document.querySelectorAll('.counter');
-        const speed = 200; 
-        
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                const inc = target / speed;
-                
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + inc);
-                    setTimeout(updateCount, 10);
-                } else {
-                    counter.innerText = target;
-                }
-            };
-            // Start counter animation slightly delayed
-            setTimeout(updateCount, 500);
-        });
-
-        // --- 4. Animate Progress Bars ---
-        window.addEventListener('load', () => {
-            const progressBars = document.querySelectorAll('.progress-bar-fill');
-            progressBars.forEach(bar => {
-                const width = bar.getAttribute('data-width');
-                bar.style.width = width;
+        // Отрисовка товаров
+        function renderProducts(items) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+            
+            items.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-img-container">
+                        <span class="product-tag">${product.tag}</span>
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price">${product.price.toLocaleString()} ₸</div>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-outline" onclick="quickWhatsAppOrder('${product.name}', ${product.price})">Быстрый заказ</button>
+                            <button class="btn btn-primary" onclick="addToCart(${product.id})">В корзину</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
             });
-        });
-
-        // --- 5. Custom Chess Chart Engine (Canvas API without libraries) ---
-        const chartCanvas = document.getElementById('chess-chart');
-        if(chartCanvas) {
-            const cCtx = chartCanvas.getContext('2d');
-            // Mock data points for rating progression over time
-            const dataPoints = [800, 850, 920, 900, 1050, 1020, 1100, 1130, 1154];
-            
-            function drawChart() {
-                // Set canvas internal resolution
-                chartCanvas.width = chartCanvas.parentElement.clientWidth;
-                chartCanvas.height = chartCanvas.parentElement.clientHeight;
-                
-                const w = chartCanvas.width;
-                const h = chartCanvas.height;
-                const padding = 10;
-                
-                const maxVal = Math.max(...dataPoints) + 50;
-                const minVal = Math.min(...dataPoints) - 50;
-                const xStep = (w - padding * 2) / (dataPoints.length - 1);
-                
-                // Draw Grid
-                cCtx.strokeStyle = 'rgba(255,255,255,0.05)';
-                cCtx.lineWidth = 1;
-                cCtx.beginPath();
-                for(let i=0; i<5; i++) {
-                    const y = padding + i * ((h - padding*2) / 4);
-                    cCtx.moveTo(padding, y);
-                    cCtx.lineTo(w - padding, y);
-                }
-                cCtx.stroke();
-
-                // Draw Line
-                cCtx.beginPath();
-                cCtx.strokeStyle = '#10b981'; // Cyber green
-                cCtx.lineWidth = 3;
-                cCtx.lineJoin = 'round';
-                
-                let points = [];
-                for(let i=0; i<dataPoints.length; i++) {
-                    const x = padding + i * xStep;
-                    // Normalize Y
-                    const normalizedY = (dataPoints[i] - minVal) / (maxVal - minVal);
-                    const y = h - padding - (normalizedY * (h - padding*2));
-                    points.push({x, y});
-                    
-                    if(i === 0) cCtx.moveTo(x, y);
-                    else cCtx.lineTo(x, y);
-                }
-                cCtx.stroke();
-
-                // Draw Gradient Fill under line
-                cCtx.lineTo(points[points.length-1].x, h - padding);
-                cCtx.lineTo(points[0].x, h - padding);
-                cCtx.closePath();
-                
-                const gradient = cCtx.createLinearGradient(0, 0, 0, h);
-                gradient.addColorStop(0, 'rgba(16, 185, 129, 0.4)');
-                gradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
-                cCtx.fillStyle = gradient;
-                cCtx.fill();
-
-                // Draw Points
-                cCtx.fillStyle = '#050505';
-                cCtx.strokeStyle = '#10b981';
-                cCtx.lineWidth = 2;
-                points.forEach(p => {
-                    cCtx.beginPath();
-                    cCtx.arc(p.x, p.y, 4, 0, Math.PI*2);
-                    cCtx.fill();
-                    cCtx.stroke();
-                });
-            }
-            
-            // Draw initially and on resize
-            drawChart();
-            window.addEventListener('resize', drawChart);
         }
+
+        // Фильтрация товаров
+        function filterProducts(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if(category === 'all') {
+                renderProducts(products);
+            } else {
+                const filtered = products.filter(p => p.category === category);
+                renderProducts(filtered);
+            }
+        }
+
+        // Управление корзиной
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            cart.push(product);
+            updateCartUI();
+            toggleCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const countElem = document.getElementById('cart-count');
+            const itemsContainer = document.getElementById('cart-items-container');
+            const totalPriceElem = document.getElementById('cart-total-price');
+
+            countElem.innerText = cart.length;
+
+            if(cart.length === 0) {
+                itemsContainer.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">Корзина пуста</p>`;
+                totalPriceElem.innerText = `0 ₸`;
+                return;
+            }
+
+            itemsContainer.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `
+                    <div class="cart-item-details">
+                        <h4>${item.name}</h4>
+                        <span>${item.price.toLocaleString()} ₸</span>
+                    </div>
+                    <button class="remove-item" onclick="removeFromCart(${index})">Удалить</button>
+                `;
+                itemsContainer.appendChild(div);
+            });
+
+            totalPriceElem.innerText = total.toLocaleString() + ` ₸`;
+        }
+
+        // Оформление заказа в WhatsApp с использованием номера 87001688620
+        function checkoutWhatsApp() {
+            if(cart.length === 0) {
+                alert('Ваша корзина пуста!');
+                return;
+            }
+
+            let message = "Здравствуйте! Хочу оформить заказ:%0A";
+            let total = 0;
+
+            cart.forEach((item, i) => {
+                message += `${i + 1}. ${item.name} — ${item.price.toLocaleString()} ₸%0A`;
+                total += item.price;
+            });
+
+            message += `%0A*Общая сумма:* ${total.toLocaleString()} ₸`;
+
+            // Прямая ссылка на ваш WhatsApp
+            const phone = "787001688620";
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+        }
+
+        // Быстрый заказ одной кнопки
+        function quickWhatsAppOrder(productName, price) {
+            const message = `Здравствуйте! Хочу купить товар вне корзины:%0A*${productName}* — ${price.toLocaleString()} ₸`;
+            const phone = "787001688620";
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+        }
+
+        // Инициализация при загрузке
+        renderProducts(products);
     </script>
 </body>
 </html>
