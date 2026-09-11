@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URBAN VIBE // Streetwear & Y2K Store</title>
     
-    <!-- Подключение премиальных шрифтов -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
@@ -15,7 +14,7 @@
             --bg-color: #050505;
             --surface: #111111;
             --surface-hover: #1a1a1a;
-            --accent: #ccff00; /* Стильный Y2K неон */
+            --accent: #ccff00; 
             --text-main: #ffffff;
             --text-muted: #888888;
             --border: rgba(255, 255, 255, 0.1);
@@ -24,11 +23,7 @@
             --transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-color);
@@ -38,7 +33,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Кастомный скроллбар */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
         ::-webkit-scrollbar-thumb { background: #333; }
@@ -47,27 +41,20 @@
         /* HEADER */
         header {
             position: fixed;
-            top: 0;
-            width: 100%;
+            top: 0; width: 100%;
             padding: 1.5rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(5, 5, 5, 0.8);
-            backdrop-filter: blur(12px);
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(15px);
             z-index: 100;
             border-bottom: 1px solid var(--border);
             transition: var(--transition);
         }
-
         .logo {
             font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--text-main);
-            text-decoration: none;
+            font-size: 1.8rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase;
+            color: var(--text-main); text-decoration: none;
         }
         .logo span { color: var(--accent); }
 
@@ -76,367 +63,200 @@
             border: 1px solid var(--border);
             color: var(--text-main);
             font-family: var(--font-main);
-            font-size: 0.9rem;
-            font-weight: 600;
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size: 0.9rem; font-weight: 600;
+            padding: 0.6rem 1.5rem; border-radius: 50px;
+            cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
             transition: var(--transition);
         }
-        .cart-btn:hover {
-            background: var(--text-main);
-            color: var(--bg-color);
-        }
+        .cart-btn:hover { background: var(--text-main); color: var(--bg-color); }
         .cart-count {
-            background: var(--accent);
-            color: var(--bg-color);
-            padding: 0.1rem 0.5rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            background: var(--accent); color: var(--bg-color);
+            padding: 0.1rem 0.5rem; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 700;
         }
 
-        /* HERO & MARQUEE */
+        /* MARQUEE */
         .marquee-wrapper {
-            margin-top: 80px;
-            background: var(--accent);
-            padding: 10px 0;
-            overflow: hidden;
-            white-space: nowrap;
+            margin-top: 80px; background: var(--accent);
+            padding: 10px 0; overflow: hidden; white-space: nowrap;
         }
         .marquee {
-            display: inline-block;
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--bg-color);
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            display: inline-block; font-family: var(--font-display);
+            font-size: 1.2rem; font-weight: 700; color: var(--bg-color);
+            text-transform: uppercase; letter-spacing: 2px;
             animation: marquee 20s linear infinite;
         }
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
+        /* HERO */
         .hero {
-            height: 70vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 2rem;
+            height: 60vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 0 2rem;
             background: radial-gradient(circle at center, #1a1a24 0%, var(--bg-color) 70%);
         }
         .hero h1 {
             font-family: var(--font-display);
-            font-size: clamp(3rem, 8vw, 6rem);
-            line-height: 1.1;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            letter-spacing: -2px;
+            font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1.1;
+            text-transform: uppercase; margin-bottom: 1rem; letter-spacing: -1px;
         }
         .hero p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 500px;
-            margin-bottom: 2rem;
+            font-size: 1.1rem; color: var(--text-muted);
+            max-width: 550px; margin-bottom: 2rem;
         }
 
         /* FILTERS */
         .filters {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
-            padding: 0 1rem;
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem;
+            margin-bottom: 3rem; padding: 0 1rem;
         }
         .filter-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: var(--font-main);
-            font-weight: 500;
-            transition: var(--transition);
+            background: transparent; border: 1px solid var(--border);
+            color: var(--text-muted); padding: 0.6rem 1.5rem;
+            border-radius: 50px; cursor: pointer; font-family: var(--font-main);
+            font-weight: 500; transition: var(--transition);
         }
         .filter-btn:hover, .filter-btn.active {
-            border-color: var(--accent);
-            color: var(--accent);
+            border-color: var(--accent); color: var(--accent);
         }
 
         /* CATALOG */
-        .container {
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 2rem 3rem 6rem;
-        }
+        .container { max-width: 1440px; margin: 0 auto; padding: 2rem 3rem 6rem; }
         .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 3rem 2rem;
         }
 
-        .product-card {
-            group;
-            cursor: pointer;
-        }
+        .product-card { cursor: pointer; }
         .product-img-wrapper {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 4/5;
-            overflow: hidden;
-            background: var(--surface);
-            margin-bottom: 1rem;
+            position: relative; width: 100%; aspect-ratio: 3/4;
+            overflow: hidden; background: var(--surface); margin-bottom: 1.2rem;
         }
         .product-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 100%; height: 100%; object-fit: cover;
             transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .product-card:hover .product-img-wrapper img {
-            transform: scale(1.05);
-        }
+        .product-card:hover .product-img-wrapper img { transform: scale(1.06); }
         
         .tag {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: var(--accent);
-            color: var(--bg-color);
-            font-family: var(--font-display);
-            font-size: 0.8rem;
-            padding: 0.3rem 0.8rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            z-index: 2;
+            position: absolute; top: 1rem; left: 1rem;
+            background: var(--accent); color: var(--bg-color);
+            font-family: var(--font-display); font-size: 0.8rem;
+            padding: 0.3rem 0.8rem; text-transform: uppercase; font-weight: 700; z-index: 2;
+        }
+        .poizon-badge {
+            position: absolute; top: 1rem; right: 1rem;
+            background: #000; color: #fff; border: 1px solid #333;
+            font-size: 0.7rem; padding: 0.3rem 0.6rem;
+            text-transform: uppercase; font-weight: 600; letter-spacing: 1px; z-index: 2;
         }
 
         .quick-add {
-            position: absolute;
-            bottom: -50px;
-            left: 0;
-            width: 100%;
-            background: var(--text-main);
-            color: var(--bg-color);
-            border: none;
-            padding: 1rem;
-            font-family: var(--font-display);
-            font-size: 1rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            z-index: 2;
+            position: absolute; bottom: -60px; left: 0; width: 100%;
+            background: var(--text-main); color: var(--bg-color);
+            border: none; padding: 1.2rem; font-family: var(--font-display);
+            font-size: 1rem; text-transform: uppercase; font-weight: 700;
+            cursor: pointer; transition: var(--transition); z-index: 2;
         }
-        .product-card:hover .quick-add {
-            bottom: 0;
-        }
+        .product-card:hover .quick-add { bottom: 0; }
         .quick-add:hover { background: var(--accent); }
 
         .product-info { display: flex; justify-content: space-between; align-items: flex-start; }
-        .product-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 0.3rem;
-        }
-        .product-category {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .product-price {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            color: var(--text-main);
-        }
+        .product-title { font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.3rem; }
+        .product-category { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .product-price { font-family: var(--font-display); font-size: 1.3rem; color: var(--text-main); }
 
         /* CART SIDEBAR */
         .cart-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
+            z-index: 999; opacity: 0; visibility: hidden; transition: var(--transition);
         }
         .cart-overlay.active { opacity: 1; visibility: visible; }
 
         .cart-sidebar {
-            position: fixed;
-            top: 0; right: -500px;
-            width: 100%; max-width: 450px;
-            height: 100vh;
-            background: var(--surface);
-            z-index: 1000;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
+            position: fixed; top: 0; right: -550px;
+            width: 100%; max-width: 480px; height: 100vh;
+            background: var(--surface); z-index: 1000; padding: 2.5rem;
+            display: flex; flex-direction: column;
             transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1);
             border-left: 1px solid var(--border);
         }
         .cart-sidebar.open { right: 0; }
 
         .cart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            font-family: var(--font-display);
-            text-transform: uppercase;
-            font-size: 1.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 2rem; font-family: var(--font-display);
+            text-transform: uppercase; font-size: 1.5rem;
         }
         .close-cart {
-            background: none; border: none;
-            color: var(--text-main);
-            font-size: 2rem;
-            cursor: pointer;
-            transition: var(--transition);
+            background: none; border: none; color: var(--text-main);
+            font-size: 2.5rem; line-height: 1; cursor: pointer; transition: var(--transition);
         }
         .close-cart:hover { color: var(--accent); transform: rotate(90deg); }
 
-        .cart-items {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        .cart-item {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        .cart-item-img {
-            width: 70px; height: 90px;
-            object-fit: cover;
-            background: #222;
-        }
+        .cart-items { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; padding-right: 10px; }
+        .cart-item { display: flex; gap: 1.2rem; align-items: center; background: #151515; padding: 10px; border-radius: 8px; border: 1px solid #222; }
+        .cart-item-img { width: 80px; height: 100px; object-fit: cover; border-radius: 4px; }
         .cart-item-info { flex: 1; }
         .cart-item-title { font-weight: 600; font-size: 0.95rem; }
-        .cart-item-price { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.3rem; }
+        .cart-item-price { font-family: var(--font-display); color: var(--accent); font-size: 1.1rem; margin-top: 0.3rem; }
         .remove-btn {
-            background: none; border: none;
-            color: #ff3333;
-            font-size: 0.85rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            margin-top: 0.5rem;
+            background: none; border: none; color: var(--text-muted);
+            font-size: 0.85rem; cursor: pointer; text-decoration: underline; margin-top: 0.5rem;
         }
+        .remove-btn:hover { color: #ff3333; }
 
-        .cart-footer {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
+        /* ИНФО ОБ ОПЛАТЕ В КОРЗИНЕ */
+        .checkout-info {
+            background: #1a1a1a; border: 1px dashed #333; padding: 1.2rem;
+            border-radius: 8px; margin-top: 1.5rem;
         }
+        .checkout-info h4 { font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 0.5rem; text-transform: uppercase; }
+        .checkout-info p { font-size: 0.85rem; color: #aaa; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 8px; }
+        .bank-badge { background: #f04e23; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; }
+        .bank-badge.halyk { background: #007a53; }
+
+        .cart-footer { margin-top: 1.5rem; }
         .cart-total {
-            display: flex; justify-content: space-between;
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 1.5rem;
         }
         .btn-whatsapp {
-            display: flex; justify-content: center; align-items: center; gap: 0.5rem;
-            width: 100%;
-            background: #25D366;
-            color: #000;
-            padding: 1.2rem;
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            border: none;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
+            display: flex; justify-content: center; align-items: center; gap: 0.8rem;
+            width: 100%; background: #25D366; color: #000;
+            padding: 1.2rem; font-family: var(--font-display);
+            font-size: 1.2rem; text-transform: uppercase; border: none;
+            font-weight: 700; cursor: pointer; transition: var(--transition); border-radius: 8px;
         }
-        .btn-whatsapp:hover { background: #20ba5a; transform: translateY(-3px); }
+        .btn-whatsapp:hover { background: #20ba5a; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2); }
 
         /* TOAST NOTIFICATION */
         .toast {
-            position: fixed;
-            bottom: 2rem; right: 2rem;
-            background: var(--text-main);
-            color: var(--bg-color);
-            padding: 1rem 2rem;
-            font-weight: 600;
-            border-radius: 4px;
-            z-index: 1001;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: var(--transition);
+            position: fixed; bottom: 2rem; right: 2rem;
+            background: var(--text-main); color: var(--bg-color);
+            padding: 1rem 2rem; font-weight: 600; border-radius: 4px;
+            z-index: 1001; transform: translateY(100px); opacity: 0;
+            transition: var(--transition); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .toast.show { transform: translateY(0); opacity: 1; }
 
         /* FOOTER */
-        footer {
-            background: var(--surface);
-            padding: 5rem 3rem 2rem;
-            border-top: 1px solid var(--border);
-        }
-        .footer-content {
-            max-width: 1440px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 4rem;
-        }
-        .footer-col h3 {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-        }
+        footer { background: var(--surface); padding: 5rem 3rem 2rem; border-top: 1px solid var(--border); }
+        .footer-content { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 4rem; }
+        .footer-col h3 { font-family: var(--font-display); font-size: 1.5rem; text-transform: uppercase; margin-bottom: 1.5rem; }
         .footer-col p { color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem; }
-        .footer-col a {
-            color: var(--text-muted);
-            text-decoration: none;
-            display: block; margin-bottom: 0.8rem;
-            transition: var(--transition);
-        }
-        .footer-col a:hover { color: var(--accent); }
-        .contact-number {
-            font-family: var(--font-display);
-            font-size: 2rem;
-            color: var(--text-main);
-            margin: 1rem 0;
-            display: block;
-        }
-        .copyright {
-            text-align: center;
-            color: var(--text-muted);
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            font-size: 0.9rem;
-        }
+        .contact-number { font-family: var(--font-display); font-size: 1.8rem; color: var(--text-main); display: block; margin: 1rem 0; }
+        .copyright { text-align: center; color: var(--text-muted); margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); font-size: 0.9rem; }
 
-        /* Анимации при скролле (Intersection Observer) */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal { opacity: 0; transform: translateY(40px); transition: 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 768px) {
             header { padding: 1rem; }
             .container { padding: 1rem 1rem 4rem; }
-            .cart-sidebar { max-width: 100%; right: -100%; }
+            .cart-sidebar { max-width: 100%; right: -100%; padding: 1.5rem; }
+            .hero h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -445,31 +265,32 @@
     <header id="header">
         <a href="#" class="logo">Urban<span>Vibe</span></a>
         <button class="cart-btn" onclick="toggleCart()">
-            CART <span class="cart-count" id="cart-count">0</span>
+            🛒 <span id="cart-text">КОРЗИНА</span> <span class="cart-count" id="cart-count">0</span>
         </button>
     </header>
 
     <div class="marquee-wrapper">
         <div class="marquee">
-            <span>NEW DROP • Y2K ARCHIVE • OVERSIZE FIT • LIMITED EDITION • NEW DROP • Y2K ARCHIVE • OVERSIZE FIT • LIMITED EDITION • NEW DROP • Y2K ARCHIVE • OVERSIZE FIT • LIMITED EDITION •</span>
+            <span>NEW DROP • POIZON ARCHIVE • OVERSIZE FIT • KASPI GOLD • HALYK BANK • ДОСТАВКА ПО РК • NEW DROP • Y2K ARCHIVE • OVERSIZE FIT • LIMITED EDITION •</span>
         </div>
     </div>
 
     <section class="hero reveal">
-        <h1>Streetwear<br>& Y2K Archive</h1>
-        <p>Премиальный выбор оверсайз кроя, тёмного денима и культовых силуэтов уличной моды. Лимитированные коллекции.</p>
+        <h1>Стритвир<br>& Архивы Poizon</h1>
+        <p>Широкий крой, плотные ткани и культовые силуэты. Актуальные вещи с доставкой и удобной оплатой.</p>
     </section>
 
     <main class="container">
         <div class="filters reveal">
-            <button class="filter-btn active" onclick="filterProducts('all')">All Items</button>
-            <button class="filter-btn" onclick="filterProducts('hoodie')">Hoodies</button>
-            <button class="filter-btn" onclick="filterProducts('denim')">Denim & Cargo</button>
-            <button class="filter-btn" onclick="filterProducts('tee')">T-Shirts</button>
+            <button class="filter-btn active" onclick="filterProducts('all')">Все модели</button>
+            <button class="filter-btn" onclick="filterProducts('hoodie')">Худи & Зипки</button>
+            <button class="filter-btn" onclick="filterProducts('bottoms')">Брюки & Джинсы</button>
+            <button class="filter-btn" onclick="filterProducts('tee')">Футболки</button>
+            <button class="filter-btn" onclick="filterProducts('knit')">Свитеры (Knitwear)</button>
         </div>
 
         <div class="products-grid" id="product-grid">
-            <!-- Товары рендерятся через JS -->
+            <!-- Рендер через JS -->
         </div>
     </main>
 
@@ -477,106 +298,102 @@
     <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
     <div class="cart-sidebar" id="cart-sidebar">
         <div class="cart-header">
-            <span>Shopping Cart</span>
+            <span>Корзина</span>
             <button class="close-cart" onclick="toggleCart()">&times;</button>
         </div>
+        
         <div class="cart-items" id="cart-items-container">
             <p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">Ваша корзина пуста.</p>
         </div>
+
+        <div class="checkout-info">
+            <h4>💳 Оплата и Доставка</h4>
+            <p><span class="bank-badge">Kaspi</span> <span class="bank-badge halyk">Halyk</span> Перевод по номеру</p>
+            <p style="font-family: var(--font-mono); color: #fff;">+7 (700) 168-86-20 (Темирлан К.)</p>
+            <p style="margin-top: 10px;">📦 Доставка по Павлодару и всему Казахстану (СДЭК, Казпочта, Яндекс.Go).</p>
+        </div>
+
         <div class="cart-footer">
             <div class="cart-total">
-                <span>TOTAL:</span>
+                <span>ИТОГО:</span>
                 <span id="cart-total-price">0 ₸</span>
             </div>
             <button class="btn-whatsapp" onclick="checkoutWhatsApp()">
-                Оформить в WhatsApp
+                ОФОРМИТЬ ЗАКАЗ
             </button>
         </div>
     </div>
 
-    <div class="toast" id="toast">Товар добавлен в корзину</div>
+    <div class="toast" id="toast">Товар добавлен в корзину 🔥</div>
 
-    <!-- Футер -->
-    <footer class="reveal">
+    <footer>
         <div class="footer-content">
             <div class="footer-col">
                 <h3>Urban Vibe</h3>
-                <p>Эксклюзивный стритвир магазин. Мы привозим вещи, которые формируют уличную культуру сегодня. Премиум качество, плотный хлопок, идеальный фит.</p>
+                <p>Твой поставщик актуального стритвира. Привозим вещи, которые формируют уличную культуру прямо сейчас. Оверсайз фит, тяжелый хлопок, тренды Poizon.</p>
             </div>
             <div class="footer-col">
-                <h3>Навигация</h3>
-                <a href="#" onclick="window.scrollTo(0,0)">Главная</a>
-                <a href="#" onclick="filterProducts('all')">Каталог</a>
-                <a href="#">Доставка и оплата</a>
+                <h3>Сервис</h3>
+                <p>Оплата: Kaspi Gold, Halyk Bank.</p>
+                <p>Доставка: По всему Казахстану.</p>
             </div>
             <div class="footer-col">
-                <h3>Контакты</h3>
-                <p>Готовы сделать заказ или остались вопросы? Пишите напрямую менеджеру:</p>
+                <h3>Связь с нами</h3>
+                <p>По всем вопросам и заказам напрямую менеджеру:</p>
                 <span class="contact-number">+7 (700) 168-86-20</span>
-                <a href="https://wa.me/787001688620" target="_blank" style="color: #25D366; text-decoration: underline; font-weight: 600;">Написать в WhatsApp</a>
+                <a href="https://wa.me/787001688620" target="_blank" style="color: #25D366; text-decoration: underline; font-weight: 600; font-size: 1.1rem;">Написать в WhatsApp</a>
             </div>
         </div>
-        <div class="copyright">
-            &copy; 2026 URBAN VIBE // Все права защищены.
-        </div>
+        <div class="copyright">&copy; 2026 URBAN VIBE // Все права защищены.</div>
     </footer>
 
     <script>
-        // Премиальные фото в стиле Y2K и стритвир (Отобраны вручную)
+        // Обновленная база из 10 товаров с качественными Poizon-style фото
         const products = [
             {
-                id: 1,
-                name: "Dark Baggy Denim",
-                category: "denim",
-                price: 28500,
-                tag: "Bestseller",
-                image: "https://images.unsplash.com/photo-1542272201-b1ca555f8505?auto=format&fit=crop&w=800&q=80"
+                id: 1, name: "Poizon Oversized Hoodie Grey", category: "hoodie", price: 32000, tag: "Bestseller",
+                image: "[attachment_1](attachment)"
             },
             {
-                id: 2,
-                name: "Heavyweight Zip-Hoodie",
-                category: "hoodie",
-                price: 32000,
-                tag: "Trending",
-                image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80"
+                id: 2, name: "Balenciaga Style Baggy Jeans", category: "bottoms", price: 29900, tag: "Hot",
+                image: "[attachment_4](attachment)"
             },
             {
-                id: 3,
-                name: "Washed Graphic Tee",
-                category: "tee",
-                price: 18500,
-                tag: "New Drop",
-                image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=800&q=80"
+                id: 3, name: "Vintage Washed Oversized Tee", category: "tee", price: 16500, tag: "New Drop",
+                image: "[attachment_0](attachment)"
             },
             {
-                id: 4,
-                name: "Tech Parachute Pants",
-                category: "denim",
-                price: 29900,
-                tag: "Hot",
-                image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80"
+                id: 4, name: "Streetwear Parachute Pants", category: "bottoms", price: 27500, tag: "Trending",
+                image: "[attachment_9](attachment)"
             },
             {
-                id: 5,
-                name: "Vintage Acid Hoodie",
-                category: "hoodie",
-                price: 31000,
-                tag: "Limited",
-                image: "https://images.unsplash.com/photo-1509942774463-acf339cf87d5?auto=format&fit=crop&w=800&q=80"
+                id: 5, name: "Y2K Oversize Zip Hoodie", category: "hoodie", price: 34000, tag: "Archive",
+                image: "[attachment_3](attachment)"
             },
             {
-                id: 6,
-                name: "Boxy Blank Tee",
-                category: "tee",
-                price: 14500,
-                tag: "Essential",
-                image: "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?auto=format&fit=crop&w=800&q=80"
+                id: 6, name: "Graphic Boxy Fit Tee", category: "tee", price: 17000, tag: "Essential",
+                image: "[attachment_2](attachment)"
+            },
+            {
+                id: 7, name: "Tech Cargo Pants Black", category: "bottoms", price: 31000, tag: "Must Have",
+                image: "[attachment_5](attachment)"
+            },
+            {
+                id: 8, name: "Heavyweight Blank Hoodie", category: "hoodie", price: 28000, tag: "Basic",
+                image: "[attachment_6](attachment)"
+            },
+            {
+                id: 9, name: "Destroyed Y2K Knit Sweater", category: "knit", price: 26500, tag: "Limited",
+                image: "[attachment_7](attachment)"
+            },
+            {
+                id: 10, name: "Washed Grey Baggy Denim", category: "bottoms", price: 28900, tag: "Bestseller",
+                image: "[attachment_8](attachment)"
             }
         ];
 
         let cart = [];
 
-        // Рендер товаров с анимацией
         function renderProducts(items) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
@@ -584,14 +401,14 @@
             items.forEach((product, index) => {
                 const card = document.createElement('div');
                 card.className = 'product-card reveal';
-                // Задержка анимации для эффекта "каскада"
-                card.style.transitionDelay = `${index * 0.1}s`;
+                card.style.transitionDelay = `${index * 0.05}s`;
                 
                 card.innerHTML = `
                     <div class="product-img-wrapper">
                         <span class="tag">${product.tag}</span>
+                        <span class="poizon-badge">Dewu App</span>
                         <img src="${product.image}" alt="${product.name}" loading="lazy">
-                        <button class="quick-add" onclick="addToCart(${product.id}, event)">Add to Cart</button>
+                        <button class="quick-add" onclick="addToCart(${product.id}, event)">В Корзину</button>
                     </div>
                     <div class="product-info">
                         <div>
@@ -603,12 +420,9 @@
                 `;
                 grid.appendChild(card);
             });
-            
-            // Перезапуск обсервера для новых карточек
             initScrollReveal();
         }
 
-        // Фильтры
         function filterProducts(category) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
@@ -621,7 +435,6 @@
             }
         }
 
-        // Корзина
         function toggleCart() {
             document.getElementById('cart-sidebar').classList.toggle('open');
             document.getElementById('cart-overlay').classList.toggle('active');
@@ -674,53 +487,56 @@
             totalPriceElem.innerText = total.toLocaleString() + ` ₸`;
         }
 
-        // Уведомление о добавлении (Toast)
         function showToast() {
             const toast = document.getElementById('toast');
             toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2500);
+            setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
-        // Оформление в WhatsApp
+        // Генерация крутого счета в WhatsApp
         function checkoutWhatsApp() {
             if(cart.length === 0) {
                 alert('Сначала добавьте товары в корзину!');
                 return;
             }
 
-            let message = "🔥 *Новый заказ из URBAN VIBE* 🔥%0A%0A";
+            let message = "🔥 *НОВЫЙ ЗАКАЗ ИЗ URBAN VIBE* 🔥%0A%0A";
+            message += "🛒 *СОСТАВ ЗАКАЗА:*%0A";
+            
             let total = 0;
-
             cart.forEach((item, i) => {
                 message += `${i + 1}. ${item.name} — ${item.price.toLocaleString()} ₸%0A`;
                 total += item.price;
             });
 
-            message += `%0A💰 *Итого к оплате:* ${total.toLocaleString()} ₸%0A%0AЗдравствуйте, хочу оформить этот заказ!`;
+            message += `%0A💰 *ИТОГО К ОПЛАТЕ:* ${total.toLocaleString()} ₸%0A`;
+            message += `-----------------------------------%0A`;
+            message += `💳 *ОПЛАТА:*%0AБанки: Kaspi Gold / Halyk Bank%0AНомер: +7 (700) 168-86-20%0AПолучатель: Темирлан К.%0A`;
+            message += `-----------------------------------%0A`;
+            message += `📦 *ДАННЫЕ ДЛЯ ДОСТАВКИ (заполните ниже):*%0A`;
+            message += `ФИО: %0A`;
+            message += `Город: %0A`;
+            message += `Адрес (Улица, Дом, Квартира): %0A`;
+            message += `Контактный телефон: %0A`;
+            message += `Служба (СДЭК / Казпочта / Яндекс): %0A%0A`;
+            message += `Здравствуйте, направляю данные по заказу для оформления!`;
 
             const phone = "787001688620";
             window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
         }
 
-        // Scroll Animations (Intersection Observer)
         function initScrollReveal() {
             const reveals = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        // Опционально: можно отменить наблюдение после первого появления
-                        // observer.unobserve(entry.target); 
                     }
                 });
             }, { threshold: 0.1 });
-
             reveals.forEach(reveal => observer.observe(reveal));
         }
 
-        // Смена стиля хедера при скролле
         window.addEventListener('scroll', () => {
             const header = document.getElementById('header');
             if (window.scrollY > 50) {
@@ -728,13 +544,11 @@
                 header.style.background = 'rgba(5, 5, 5, 0.95)';
             } else {
                 header.style.padding = '1.5rem 3rem';
-                header.style.background = 'rgba(5, 5, 5, 0.8)';
+                header.style.background = 'rgba(5, 5, 5, 0.85)';
             }
         });
 
-        // Инициализация при старте
         renderProducts(products);
-        // Небольшая задержка для анимации первого экрана при загрузке
         setTimeout(initScrollReveal, 100);
     </script>
 </body>
